@@ -1,0 +1,8 @@
+server:
+  shutdown: graceful
+  port: 8080
+
+spring:
+  config:
+    import:
+      - security/application-db.yml
