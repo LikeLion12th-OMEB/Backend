@@ -11,10 +11,12 @@ jobs:
       contents: read
     steps:
       - name: Checkout repository including submodules
-        uses: actions/checkout@v4
+        uses: actions/checkout@v1
         with:
-          submodules: true
+          token: ${{ secrets.ACTION_SCRET_TOKEN }}  # Personal Access Token
+          submodules: true  # Enable submodule checkout
 
+      # Additional steps for Java and Gradle setup
       - name: Set up JDK 21
         uses: actions/setup-java@v4
         with:
