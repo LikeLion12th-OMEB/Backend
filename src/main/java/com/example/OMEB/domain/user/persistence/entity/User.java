@@ -1,5 +1,8 @@
 package com.example.OMEB.domain.user.persistence.entity;
 
+import com.example.OMEB.domain.book.persistence.entity.ApplicationBook;
+import com.example.OMEB.domain.review.persistence.entity.Like;
+import com.example.OMEB.domain.review.persistence.entity.Review;
 import com.example.OMEB.global.base.domain.BaseEntity;
 import com.example.OMEB.global.oauth.user.OAuth2Provider;
 import jakarta.persistence.*;
@@ -7,6 +10,9 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -27,5 +33,24 @@ public class User extends BaseEntity {
 
     @ColumnDefault("0")
     private Integer exp;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+    private List<Profile> profiles = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+    private List<Review> reviews = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+    private List<Like> likes = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+    private List<History> histories = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+    private List<ExpLog> expLogs = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+    private List<ApplicationBook> applicationBooks = new ArrayList<>();
+
 
 }

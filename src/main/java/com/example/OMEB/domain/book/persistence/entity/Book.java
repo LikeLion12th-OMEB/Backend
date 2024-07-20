@@ -1,5 +1,6 @@
 package com.example.OMEB.domain.book.persistence.entity;
 
+import com.example.OMEB.domain.review.persistence.entity.Review;
 import com.example.OMEB.domain.user.persistence.entity.BookMark;
 import com.example.OMEB.domain.user.persistence.entity.User;
 import com.example.OMEB.global.base.domain.BaseEntity;
@@ -50,5 +51,8 @@ public class Book extends BaseEntity {
 
     @OneToMany(mappedBy = "book", fetch = FetchType.LAZY,cascade = CascadeType.PERSIST)
     private List<BookMark> bookMarks = new ArrayList<>();
+
+    @OneToMany(mappedBy = "book", fetch = FetchType.LAZY,cascade = CascadeType.PERSIST)
+    private List<Review> reviews = new ArrayList<>();
 
 }
