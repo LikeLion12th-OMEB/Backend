@@ -89,6 +89,7 @@ public class ReviewService {
     }
 
 
+    @Transactional(readOnly = true)
     public ReviewPageResponse getReviews(Long bookId, int page, int size, String sortDirection, String sortBy) {
         Book book = bookRepository.findById(bookId)
                 .orElseThrow(() -> new ServiceException(ErrorCode.NOT_FOUND_BOOK));
@@ -97,6 +98,7 @@ public class ReviewService {
 
     }
 
+    @Transactional
     public void likeReview(Long userId,Long reviewId) {
         if(likeRepository.existsByReviewIdAndUserId(reviewId, userId)){
            throw new ServiceException(ErrorCode.ALREADY_LIKE_REVIEW);
