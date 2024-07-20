@@ -7,13 +7,19 @@ import com.example.OMEB.domain.book.persistence.repository.TagRepository;
 import com.example.OMEB.domain.review.persistence.entity.Review;
 import com.example.OMEB.domain.review.persistence.repository.ReviewRepository;
 import com.example.OMEB.domain.review.presentation.dto.request.ReviewCreateRequest;
+import com.example.OMEB.domain.review.presentation.dto.request.ReviewPagingFormRequest;
 import com.example.OMEB.domain.review.presentation.dto.request.ReviewUpdateRequest;
 import com.example.OMEB.domain.review.presentation.dto.response.ReviewInfoResponse;
+import com.example.OMEB.domain.review.presentation.dto.response.ReviewPageResponse;
 import com.example.OMEB.domain.user.persistence.entity.User;
 import com.example.OMEB.domain.user.persistence.repository.UserRepository;
 import com.example.OMEB.global.base.exception.ErrorCode;
 import com.example.OMEB.global.base.exception.ServiceException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -41,11 +47,11 @@ public class ReviewService {
                 .reviewId(review.getId())
                 .userNickname(user.getNickname())
                 .content(review.getContent())
-                .tag(review.getTag().toString())
+                .tag(review.getTag().getTagName())
                 .likeCount(0L)
                 .level(user.getLevel())
-                .createdAt(review.getCreatedAt().toString())
-                .updatedAt(review.getUpdatedAt().toString())
+                .createdAt(review.getCreatedAt())
+                .updatedAt(review.getUpdatedAt())
                 .build();
     }
 
@@ -72,11 +78,24 @@ public class ReviewService {
                 .reviewId(review.getId())
                 .userNickname(user.getNickname())
                 .content(review.getContent())
-                .tag(review.getTag().toString())
+                .tag(review.getTag().getTagName())
                 .likeCount(0L)
                 .level(user.getLevel())
-                .createdAt(review.getCreatedAt().toString())
-                .updatedAt(review.getUpdatedAt().toString())
+                .createdAt(review.getCreatedAt())
+                .updatedAt(review.getUpdatedAt())
                 .build();
+    }
+
+
+    public ReviewPageResponse getReviews(Long bookId, int page, int size, String sortDirection, String sortBy) {
+        Book book = bookRepository.findById(bookId)
+                .orElseThrow(() -> new ServiceException(ErrorCode.NOT_FOUND_BOOK));
+        Pageable pageable = PageRequest.of(page, size, Sort.Direction.fromString(sortDirection), sortBy);
+        return new ReviewPageResponse(reviewRepository.findAllByBookId(bookId, pageable));
+
+    }
+
+    public void likeReview(Long userId,Long reviewId) {
+
     }
 }

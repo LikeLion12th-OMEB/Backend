@@ -6,16 +6,14 @@ import com.example.OMEB.domain.review.persistence.entity.Review;
 import com.example.OMEB.global.base.domain.BaseEntity;
 import com.example.OMEB.global.oauth.user.OAuth2Provider;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
 @Getter
 public class User extends BaseEntity {
     @Id
@@ -52,5 +50,10 @@ public class User extends BaseEntity {
     @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     private List<ApplicationBook> applicationBooks = new ArrayList<>();
 
-
+    @Builder
+    public User(String nickname, OAuth2Provider provider, Integer level) {
+        this.nickname = nickname;
+        this.provider = provider;
+        this.level = level;
+    }
 }

@@ -5,16 +5,14 @@ import com.example.OMEB.domain.user.persistence.entity.BookMark;
 import com.example.OMEB.domain.user.persistence.entity.User;
 import com.example.OMEB.global.base.domain.BaseEntity;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name = "book")
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
 @Getter
 public class Book extends BaseEntity {
     @Id
@@ -34,16 +32,16 @@ public class Book extends BaseEntity {
     private String publisher;
 
     @Column(nullable = false)
-    private String publication_date;
+    private String publicationDate;
 
     @Column(nullable = false)
-    private String book_image;
+    private String bookImage;
 
     @Column(nullable = false)
     private String price;
 
     @Column(nullable = false)
-    private String sell_link;
+    private String sellLink;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name ="tag_id", nullable = false)
@@ -55,4 +53,16 @@ public class Book extends BaseEntity {
     @OneToMany(mappedBy = "book", fetch = FetchType.LAZY,cascade = CascadeType.PERSIST)
     private List<Review> reviews = new ArrayList<>();
 
+    @Builder
+    public Book(String title, String description, String author, String publisher, String publicationDate, String bookImage, String price, String sellLink, Tag tag) {
+        this.title = title;
+        this.description = description;
+        this.author = author;
+        this.publisher = publisher;
+        this.publicationDate = publicationDate;
+        this.bookImage = bookImage;
+        this.price = price;
+        this.sellLink = sellLink;
+        this.tag = tag;
+    }
 }
