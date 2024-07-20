@@ -2,21 +2,23 @@ name: Java CI with Gradle
 
 on:
   pull_request:
-    branches: [ "main" ]
+    branches:
+      - main
 
 jobs:
   build:
     runs-on: ubuntu-latest
     permissions:
       contents: read
+
     steps:
       - name: Checkout repository including submodules
-        uses: actions/checkout@v1
+        uses: actions/checkout@v3
         with:
-          token: ${{ secrets.ACTION_SCRET_TOKEN }}  # Personal Access Token
+          token: ${{ secrets.ACTION_SECRET_TOKEN }}  # Personal Access Token
           submodules: true  # Enable submodule checkout
+          submodule_recursive: true  # Recursively update submodules
 
-      # Additional steps for Java and Gradle setup
       - name: Set up JDK 21
         uses: actions/setup-java@v4
         with:
@@ -24,7 +26,7 @@ jobs:
           distribution: 'temurin'
 
       - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@417ae3ccd767c252f5661f1ace9f835f9654f2b5
+        uses: gradle/gradle-build-action@v2
 
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
