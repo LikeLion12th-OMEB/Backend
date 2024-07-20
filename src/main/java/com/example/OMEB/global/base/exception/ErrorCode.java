@@ -28,9 +28,17 @@ public enum ErrorCode {
 
     // Review
     NOT_FOUND_REVIEW(HttpStatus.NOT_FOUND, "REVIEW_0001", "리뷰를 찾을 수 없습니다."),
-    REVIEW_NOT_MATCH_USER(HttpStatus.CONFLICT, "REVIEW_002","해당 사용자는 해당 리뷰에 대한 권한이 없습니다." )
+    REVIEW_NOT_MATCH_USER(HttpStatus.CONFLICT, "REVIEW_002","해당 사용자는 해당 리뷰에 대한 권한이 없습니다." ),
+    ALREADY_LIKE_REVIEW(HttpStatus.CONFLICT, "REVIEW_003", "이미 좋아요를 누른 리뷰입니다."),
 
-    
+
+
+
+
+
+
+
+
     ;
     private final HttpStatus status;
     private final String code;

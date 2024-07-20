@@ -4,7 +4,9 @@ import com.example.OMEB.domain.book.persistence.entity.Book;
 import com.example.OMEB.domain.book.persistence.entity.Tag;
 import com.example.OMEB.domain.book.persistence.repository.BookRepository;
 import com.example.OMEB.domain.book.persistence.repository.TagRepository;
+import com.example.OMEB.domain.review.persistence.entity.Like;
 import com.example.OMEB.domain.review.persistence.entity.Review;
+import com.example.OMEB.domain.review.persistence.repository.LikeRepository;
 import com.example.OMEB.domain.review.persistence.repository.ReviewRepository;
 import com.example.OMEB.domain.review.presentation.dto.request.ReviewCreateRequest;
 import com.example.OMEB.domain.review.presentation.dto.request.ReviewPagingFormRequest;
@@ -30,7 +32,7 @@ public class ReviewService {
     private final UserRepository userRepository;
     private final BookRepository bookRepository;
     private final TagRepository tagRepository;
-
+    private final LikeRepository likeRepository;
 
     @Transactional
     public ReviewInfoResponse createReview(Long userId, Long bookId, ReviewCreateRequest reviewCreateRequest) {
@@ -96,6 +98,14 @@ public class ReviewService {
     }
 
     public void likeReview(Long userId,Long reviewId) {
-
+        if(likeRepository.existsByBookIdAndUserId(reviewId, userId)){
+           throw new ServiceException(ErrorCode.ALREADY_LIKE_REVIEW);
+        }
+        Review review = reviewRepository.findById(reviewId)
+                .orElseThrow(() -> new ServiceException(ErrorCode.NOT_FOUND_REVIEW));
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new ServiceException(ErrorCode.NOT_FOUND_USER));
+        Like like = new Like(user,review);
+        likeRepository.save(like);
     }
 }

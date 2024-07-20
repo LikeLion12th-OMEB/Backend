@@ -19,4 +19,6 @@ public interface ReviewRepository extends JpaRepository<Review,Long> {
             "WHERE r.book.id = :bookId " +
             "GROUP BY r.id, r.book.id, r.user.nickname, r.content, r.tag.tagName, r.user.level, r.createdAt, r.updatedAt")
     Page<ReviewInfoResponse> findAllByBookId(@Param("bookId") Long bookId, Pageable pageable);
+
+
 }

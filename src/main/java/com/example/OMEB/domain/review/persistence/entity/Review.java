@@ -11,6 +11,9 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name = "review")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -34,6 +37,9 @@ public class Review extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name ="tag_id", nullable = false)
     private Tag tag;
+
+    @OneToMany(mappedBy = "review", fetch = FetchType.LAZY,cascade = CascadeType.PERSIST)
+    private List<Like> likes = new ArrayList<>();
 
     @Builder
     public Review(User user, Book book, String content, Tag tag) {
