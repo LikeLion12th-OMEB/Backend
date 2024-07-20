@@ -1,11 +1,15 @@
 package com.example.OMEB.domain.book.persistence.entity;
 
+import com.example.OMEB.domain.user.persistence.entity.BookMark;
 import com.example.OMEB.domain.user.persistence.entity.User;
 import com.example.OMEB.global.base.domain.BaseEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "book")
@@ -43,4 +47,8 @@ public class Book extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name ="tag_id", nullable = false)
     private Tag tag;
+
+    @OneToMany(mappedBy = "book", fetch = FetchType.LAZY,cascade = CascadeType.PERSIST)
+    private List<BookMark> bookMarks = new ArrayList<>();
+
 }
