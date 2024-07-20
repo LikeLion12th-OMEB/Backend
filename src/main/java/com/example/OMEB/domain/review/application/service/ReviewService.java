@@ -7,6 +7,7 @@ import com.example.OMEB.domain.book.persistence.repository.TagRepository;
 import com.example.OMEB.domain.review.persistence.entity.Review;
 import com.example.OMEB.domain.review.persistence.repository.ReviewRepository;
 import com.example.OMEB.domain.review.presentation.dto.request.ReviewCreateRequest;
+import com.example.OMEB.domain.review.presentation.dto.request.ReviewUpdateRequest;
 import com.example.OMEB.domain.review.presentation.dto.response.ReviewInfoResponse;
 import com.example.OMEB.domain.user.persistence.entity.User;
 import com.example.OMEB.domain.user.persistence.repository.UserRepository;
@@ -37,6 +38,37 @@ public class ReviewService {
         reviewRepository.save(review);
         return ReviewInfoResponse.builder()
                 .bookId(bookId)
+                .reviewId(review.getId())
+                .userNickname(user.getNickname())
+                .content(review.getContent())
+                .tag(review.getTag().toString())
+                .likeCount(0L)
+                .level(user.getLevel())
+                .createdAt(review.getCreatedAt().toString())
+                .updatedAt(review.getUpdatedAt().toString())
+                .build();
+    }
+
+    @Transactional
+    public ReviewInfoResponse updateReview(Long userId, Long reviewId, ReviewUpdateRequest reviewUpdateRequest) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new ServiceException(ErrorCode.NOT_FOUND_USER));
+        Review review = reviewRepository.findById(reviewId)
+                .orElseThrow(() -> new ServiceException(ErrorCode.NOT_FOUND_REVIEW));
+        if(review.getUser().getId().equals(userId)) {
+            throw new ServiceException(ErrorCode.REVIEW_NOT_MATCH_USER);
+        }
+        Tag preTag = review.getTag();
+
+        if(!preTag.toString().equals(reviewUpdateRequest.getTag())) {
+            Tag newTag = tagRepository.findByTagName(reviewUpdateRequest.getTag().toString())
+                    .orElseThrow(() -> new ServiceException(ErrorCode.NOT_FOUND_TAG));
+            preTag.getReviews().remove(review);
+            preTag = newTag;
+        }
+        review.updateReview(reviewUpdateRequest.getContent(),preTag);
+        return ReviewInfoResponse.builder()
+                .bookId(review.getBook().getId())
                 .reviewId(review.getId())
                 .userNickname(user.getNickname())
                 .content(review.getContent())

@@ -26,7 +26,11 @@ public enum ErrorCode {
     NOT_FOUND_TAG(HttpStatus.NOT_FOUND, "TAG_0001", "태그를 찾을 수 없습니다."),
 
 
+    // Review
+    NOT_FOUND_REVIEW(HttpStatus.NOT_FOUND, "REVIEW_0001", "리뷰를 찾을 수 없습니다."),
+    REVIEW_NOT_MATCH_USER(HttpStatus.CONFLICT, "REVIEW_002","해당 사용자는 해당 리뷰에 대한 권한이 없습니다." )
 
+    
     ;
     private final HttpStatus status;
     private final String code;

@@ -56,4 +56,10 @@ public class Review extends BaseEntity {
 
         return review;
     }
+
+    public void updateReview(String content,Tag tag) {
+        this.content = content;
+        tag.getReviews().add(this);
+        this.tag = tag;
+    }
 }
