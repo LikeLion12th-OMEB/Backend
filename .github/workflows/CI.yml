@@ -13,7 +13,7 @@ jobs:
 
     steps:
       - name: Checkout repository including submodules
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           token: ${{ secrets.ACTION_SECRET_TOKEN }}  # Personal Access Token
           submodules: true  # Enable submodule checkout
