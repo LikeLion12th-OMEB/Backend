@@ -1,5 +1,6 @@
 package com.example.OMEB.global.base.exception;
 
+import com.example.OMEB.global.base.dto.FailedResponseBody;
 import com.example.OMEB.global.base.dto.ResponseBody;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.ResponseEntity;

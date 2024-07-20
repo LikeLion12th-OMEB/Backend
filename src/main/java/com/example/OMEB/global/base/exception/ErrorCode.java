@@ -15,6 +15,18 @@ public enum ErrorCode {
     METHOD_NOT_ALLOWED(HttpStatus.METHOD_NOT_ALLOWED, "COMMON_0005", "사용할 수 없는 메서드입니다."),
     INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "COMMON_0006", "서버 에러입니다."),
     INVALID_JSON(HttpStatus.BAD_REQUEST, "COMMON_0007", "JSON 파싱 오류입니다."),
+    INVALID_INPUT_TAG(HttpStatus.BAD_REQUEST, "COMMON_0008", "감정 태그 입력이 잘못되었습니다."),
+
+
+    // User
+    NOT_FOUND_USER(HttpStatus.NOT_FOUND, "USER_0001", "사용자를 찾을 수 없습니다."),
+
+    // Book
+    NOT_FOUND_BOOK(HttpStatus.NOT_FOUND, "BOOK_0001", "책을 찾을 수 없습니다."),
+    NOT_FOUND_TAG(HttpStatus.NOT_FOUND, "TAG_0001", "태그를 찾을 수 없습니다."),
+
+
+
     ;
     private final HttpStatus status;
     private final String code;
