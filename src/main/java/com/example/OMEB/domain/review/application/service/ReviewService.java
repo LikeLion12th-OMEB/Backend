@@ -98,7 +98,7 @@ public class ReviewService {
     }
 
     public void likeReview(Long userId,Long reviewId) {
-        if(likeRepository.existsByBookIdAndUserId(reviewId, userId)){
+        if(likeRepository.existsByReviewIdAndUserId(reviewId, userId)){
            throw new ServiceException(ErrorCode.ALREADY_LIKE_REVIEW);
         }
         Review review = reviewRepository.findById(reviewId)
