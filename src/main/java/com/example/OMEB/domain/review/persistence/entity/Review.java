@@ -38,7 +38,7 @@ public class Review extends BaseEntity {
     @JoinColumn(name ="tag_id", nullable = false)
     private Tag tag;
 
-    @OneToMany(mappedBy = "review", fetch = FetchType.LAZY,cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "review", fetch = FetchType.LAZY,cascade = CascadeType.ALL,orphanRemoval = true)
     private List<Like> likes = new ArrayList<>();
 
     @Builder

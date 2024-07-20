@@ -49,4 +49,11 @@ public class ReviewController {
         reviewService.likeReview(userId,reviewId);
         return ResponseEntity.ok(createSuccessResponse());
     }
+
+    @AssignUserId
+    @DeleteMapping("/v1/review/{reviewId}")
+    public ResponseEntity<ResponseBody<Void>> deleteReview(Long userId,@PathVariable Long reviewId) {
+        reviewService.deleteReview(userId,reviewId);
+        return ResponseEntity.ok(createSuccessResponse());
+    }
 }
