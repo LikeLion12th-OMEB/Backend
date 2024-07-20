@@ -17,6 +17,7 @@ jobs:
         with:
           token: ${{ secrets.ACTION_SECRET_TOKEN }}  # Personal Access Token
           submodules: true  # Enable submodule checkout
+          clean: true  # Ensure the repository is cleaned before checking out
 
       - name: Set up JDK 21
         uses: actions/setup-java@v4
