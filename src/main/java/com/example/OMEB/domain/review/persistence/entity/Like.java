@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "reviewLike")
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
 @Getter
 public class Like extends BaseEntity {
     @Id
@@ -24,4 +24,11 @@ public class Like extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name ="review_id", nullable = false)
     private Review review;
+
+    public Like(User user, Review review) {
+        review.getLikes().add(this);
+        user.getLikes().add(this);
+        this.user = user;
+        this.review = review;
+    }
 }

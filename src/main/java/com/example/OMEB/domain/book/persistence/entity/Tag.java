@@ -5,17 +5,16 @@ import com.example.OMEB.domain.review.persistence.vo.TagName;
 import com.example.OMEB.domain.user.persistence.entity.User;
 import com.example.OMEB.global.base.domain.BaseEntity;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name = "tag")
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
 @Getter
+@Setter
 public class Tag extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,6 +30,7 @@ public class Tag extends BaseEntity {
     @OneToMany(mappedBy = "tag", fetch = FetchType.LAZY,cascade = CascadeType.PERSIST)
     private List<Review> reviews = new ArrayList<>();
 
+    @Builder
     public Tag(TagName tag_name,Book book , Review review) {
         this.tagName = tag_name;
         this.reviews.add(review);

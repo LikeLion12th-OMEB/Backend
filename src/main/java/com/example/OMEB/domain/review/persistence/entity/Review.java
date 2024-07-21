@@ -11,6 +11,9 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name = "review")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -35,6 +38,9 @@ public class Review extends BaseEntity {
     @JoinColumn(name ="tag_id", nullable = false)
     private Tag tag;
 
+    @OneToMany(mappedBy = "review", fetch = FetchType.LAZY,cascade = CascadeType.ALL,orphanRemoval = true)
+    private List<Like> likes = new ArrayList<>();
+
     @Builder
     public Review(User user, Book book, String content, Tag tag) {
         this.user = user;
@@ -55,5 +61,11 @@ public class Review extends BaseEntity {
         user.getReviews().add(review);
 
         return review;
+    }
+
+    public void updateReview(String content,Tag tag) {
+        this.content = content;
+        tag.getReviews().add(this);
+        this.tag = tag;
     }
 }
