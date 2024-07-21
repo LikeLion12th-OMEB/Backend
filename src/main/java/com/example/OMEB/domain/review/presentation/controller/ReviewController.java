@@ -36,11 +36,11 @@ public class ReviewController {
 
     @GetMapping("/v1/reviews/{bookId}")
     public ResponseEntity<ResponseBody<ReviewPageResponse>> getReviews(@PathVariable Long bookId,
-                                                                       @RequestParam(defaultValue = "0") int page,
+                                                                       @RequestParam(defaultValue = "1") int page,
                                                                        @RequestParam(defaultValue = "10") int size,
                                                                        @RequestParam(defaultValue = "DESC") String sortDirection,
                                                                        @RequestParam(defaultValue = "createdAt") String sortBy) {
-        return ResponseEntity.ok(createSuccessResponse(reviewService.getReviews(bookId, page, size, sortDirection, sortBy)));
+        return ResponseEntity.ok(createSuccessResponse(reviewService.getReviews(bookId, page-1, size, sortDirection, sortBy)));
     }
 
     @AssignUserId
