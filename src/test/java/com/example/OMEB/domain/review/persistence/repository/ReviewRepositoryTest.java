@@ -1,5 +1,6 @@
 package com.example.OMEB.domain.review.persistence.repository;
 
+import com.example.OMEB.domain.book.application.service.NaverBookSearchClient;
 import com.example.OMEB.domain.book.persistence.entity.Book;
 import com.example.OMEB.domain.book.persistence.entity.Tag;
 import com.example.OMEB.domain.review.persistence.entity.Like;
@@ -21,6 +22,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.reactive.function.client.WebClient;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -120,5 +122,7 @@ class ReviewRepositoryTest {
 
 
     }
+
+
 
 }
