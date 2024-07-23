@@ -1,17 +1,18 @@
 package com.example.OMEB.domain.book.application.service;
 
-import jakarta.persistence.Column;
+import com.example.OMEB.domain.book.presentation.dto.NaverBookDTO;
+import com.example.OMEB.global.base.exception.ErrorCode;
+import com.example.OMEB.global.base.exception.ServiceException;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import reactor.core.publisher.Mono;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -31,7 +32,9 @@ public class NaverBookSearchClient {
     private final String clientSecret;
     private final String baseUrl;
 
+    private static final int DISPLAY_BOOKS_SIZE = 10;
 
+    @Autowired
     public NaverBookSearchClient(WebClient.Builder webClientBuilder,
                                  @Value("${openapi.security.naver.client-id}") String clientId,
                                  @Value("${openapi.security.naver.client-secret}") String clientSecret,
@@ -46,24 +49,27 @@ public class NaverBookSearchClient {
         log.info("NaverBookSearchClient created with clientId: {}, clientSecret: {}, baseUrl: {}", clientId, clientSecret, baseUrl);
     }
 
-    public String searchBooks(String title, String isbn) {
-        Mono<String> response = this.webClient.get()
+    public List<NaverBookDTO> searchBooks(String title, String isbn) {
+        String response = this.webClient.get()
                 .uri(uriBuilder -> uriBuilder
                         .path("/book_adv.xml")
                         .queryParam("d_titl", title != null ? title : "")
                         .queryParam("d_isbn", isbn != null ? isbn : "")
-                        .queryParam("display", 100)
+                        .queryParam("display", DISPLAY_BOOKS_SIZE)
                         .queryParam("start", 1)
                         .queryParam("sort", "date")
                         .build())
                 .retrieve()
-                .bodyToMono(String.class);
-
-        return response.block();
+                .bodyToMono(String.class).block();
+        if (response == null) {
+            throw new ServiceException(ErrorCode.INTERNAL_SERVER_ERROR);
+        }
+        List<NaverBookDTO> naverBookDTOS = parseBooks(response);
+        return parseBooks(response);
     }
 
-    public List<Book> parseBooks(String xmlResponse) {
-        List<Book> books = new ArrayList<>();
+    private List<NaverBookDTO> parseBooks(String xmlResponse) {
+        List<NaverBookDTO> naverBookDTOS = new ArrayList<>();
 
         try {
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -88,15 +94,15 @@ public class NaverBookSearchClient {
                     String description = getTagValue("description", element);
                     String pubdate = getTagValue("pubdate", element);
 
-                    Book book = new Book(title, link, image, author, discount, publisher, isbn, description, pubdate);
-                    books.add(book);
+                    NaverBookDTO naverBookDTO = new NaverBookDTO(title, link, image, author, discount, publisher, isbn, description, pubdate);
+                    naverBookDTOS.add(naverBookDTO);
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        return books;
+        return naverBookDTOS;
     }
 
     private String getTagValue(String tag, Element element) {

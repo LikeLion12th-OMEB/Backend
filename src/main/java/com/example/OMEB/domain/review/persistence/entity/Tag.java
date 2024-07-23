@@ -1,4 +1,4 @@
-package com.example.OMEB.domain.book.persistence.entity;
+package com.example.OMEB.domain.review.persistence.entity;
 
 import com.example.OMEB.domain.review.persistence.entity.Review;
 import com.example.OMEB.domain.review.persistence.vo.TagName;
@@ -24,16 +24,13 @@ public class Tag extends BaseEntity {
     @Column(nullable = false)
     private TagName tagName;
 
-    @OneToMany(mappedBy = "tag", fetch = FetchType.LAZY,cascade = CascadeType.PERSIST)
-    private List<Book> books = new ArrayList<>();
 
     @OneToMany(mappedBy = "tag", fetch = FetchType.LAZY,cascade = CascadeType.PERSIST)
     private List<Review> reviews = new ArrayList<>();
 
     @Builder
-    public Tag(TagName tag_name,Book book , Review review) {
+    public Tag(TagName tag_name, Review review) {
         this.tagName = tag_name;
         this.reviews.add(review);
-        this.books.add(book);
     }
 }

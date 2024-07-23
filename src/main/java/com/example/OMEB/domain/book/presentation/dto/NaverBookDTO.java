@@ -1,6 +1,9 @@
-package com.example.OMEB.domain.book.application.service;
+package com.example.OMEB.domain.book.presentation.dto;
 
-public class Book {
+import lombok.Getter;
+
+@Getter
+public class NaverBookDTO {
     private String title;
     private String link;
     private String image;
@@ -11,7 +14,7 @@ public class Book {
     private String description;
     private String pubdate;
 
-    public Book(String title, String link, String image, String author, String discount, String publisher, String isbn, String description, String pubdate) {
+    public NaverBookDTO(String title, String link, String image, String author, String discount, String publisher, String isbn, String description, String pubdate) {
         this.title = title;
         this.link = link;
         this.image = image;
