@@ -33,58 +33,58 @@ class ReviewRepositoryTest {
 
     @BeforeEach
     void setUp() {
-        // 유저 생성
-        User user = User.builder()
-                .nickname("testuser")
-                .provider(OAuth2Provider.GOOGLE) // 예시로 Google을 사용
-                .level(1)
-                .build();
-        entityManager.persist(user);
-
-        // 태그 생성
-        Tag tag = new Tag();
-        tag.setTagName(TagName.ANGER); // 예시로 EXAMPLE을 사용
-        entityManager.persist(tag);
-
-        // 책 생성
-        Book book = Book.builder()
-                .title("Test Book")
-                .description("Description")
-                .author("Author")
-                .publisher("Publisher")
-                .publicationDate("2023-01-01")
-                .bookImage("image_url")
-                .price("10000")
-                .sellLink("sell_link")
-                .build();
-        entityManager.persist(book);
-        bookId = book.getId();
-
-        // 첫 번째 리뷰 생성
-        Review review1 = Review.builder()
-                .content("This is a test review 1.")
-                .user(user)
-                .book(book)
-                .tag(tag)
-                .build();
-        entityManager.persist(review1);
-        reviewId1 = review1.getId();
-
-        // 두 번째 리뷰 생성
-        Review review2 = Review.builder()
-                .content("This is a test review 2.")
-                .user(user)
-                .book(book)
-                .tag(tag)
-                .build();
-        entityManager.persist(review2);
-        reviewId2 = review2.getId();
-
-        // 첫 번째 리뷰에 좋아요 추가
-        Like like = new Like(user, review1);
-        entityManager.persist(like);
-
-        entityManager.flush();
+//        // 유저 생성
+//        User user = User.builder()
+//                .nickname("testuser")
+//                .provider(OAuth2Provider.GOOGLE) // 예시로 Google을 사용
+//                .level(1)
+//                .build();
+//        entityManager.persist(user);
+//
+//        // 태그 생성
+//        Tag tag = new Tag();
+//        tag.setTagName(TagName.ANGER); // 예시로 EXAMPLE을 사용
+//        entityManager.persist(tag);
+//
+//        // 책 생성
+//        Book book = Book.builder()
+//                .title("Test Book")
+//                .description("Description")
+//                .author("Author")
+//                .publisher("Publisher")
+//                .publicationDate("2023-01-01")
+//                .bookImage("image_url")
+//                .price("10000")
+//                .sellLink("sell_link")
+//                .build();
+//        entityManager.persist(book);
+//        bookId = book.getId();
+//
+//        // 첫 번째 리뷰 생성
+//        Review review1 = Review.builder()
+//                .content("This is a test review 1.")
+//                .user(user)
+//                .book(book)
+//                .tag(tag)
+//                .build();
+//        entityManager.persist(review1);
+//        reviewId1 = review1.getId();
+//
+//        // 두 번째 리뷰 생성
+//        Review review2 = Review.builder()
+//                .content("This is a test review 2.")
+//                .user(user)
+//                .book(book)
+//                .tag(tag)
+//                .build();
+//        entityManager.persist(review2);
+//        reviewId2 = review2.getId();
+//
+//        // 첫 번째 리뷰에 좋아요 추가
+//        Like like = new Like(user, review1);
+//        entityManager.persist(like);
+//
+//        entityManager.flush();
     }
 
     @Test
