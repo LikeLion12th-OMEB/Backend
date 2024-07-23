@@ -16,18 +16,18 @@ public class NaverClientTest {
 
     @Test
     void 웹_클라이언트_테스트() {
-        Emotion.values();
-        for (Emotion emotion : Emotion.values()) {
-            List<NaverBookDTO> naverBookDTOS = client.searchBooks(emotion.getDescription(), null);
-            System.out.println("emotion.getDescription() = " + emotion.getDescription());
-            System.out.println("bookDTOS.size() = " + naverBookDTOS.size());
-        }
+//        Emotion.values();
+//        for (Emotion emotion : Emotion.values()) {
+//            List<NaverBookDTO> naverBookDTOS = client.searchBooks(emotion.getDescription(), null);
+//            System.out.println("emotion.getDescription() = " + emotion.getDescription());
+//            System.out.println("bookDTOS.size() = " + naverBookDTOS.size());
+//        }
     }
 
     @Test
     void 책_클라이언트_에러() {
-        List<NaverBookDTO> naverBookDTOS = client.searchBooks("qnpfr", null);
-        System.out.println("bookDTOS.size() = " + naverBookDTOS.size());
+//        List<NaverBookDTO> naverBookDTOS = client.searchBooks("qnpfr", null);
+//        System.out.println("bookDTOS.size() = " + naverBookDTOS.size());
     }
 
 }

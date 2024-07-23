@@ -32,7 +32,7 @@ public class NaverBookSearchClient {
     private final String clientSecret;
     private final String baseUrl;
 
-    private static final int DISPLAY_BOOKS_SIZE = 10;
+    private static final int DISPLAY_BOOKS_SIZE = 100;
 
     @Autowired
     public NaverBookSearchClient(WebClient.Builder webClientBuilder,
