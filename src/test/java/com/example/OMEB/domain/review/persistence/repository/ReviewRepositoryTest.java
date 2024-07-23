@@ -1,11 +1,10 @@
 package com.example.OMEB.domain.review.persistence.repository;
 
 import com.example.OMEB.domain.book.persistence.entity.Book;
-import com.example.OMEB.domain.book.persistence.entity.Tag;
+import com.example.OMEB.domain.review.persistence.entity.Tag;
 import com.example.OMEB.domain.review.persistence.entity.Like;
 import com.example.OMEB.domain.review.persistence.entity.Review;
 import com.example.OMEB.domain.review.persistence.vo.TagName;
-import com.example.OMEB.domain.review.presentation.dto.response.ReviewInfoResponse;
 import com.example.OMEB.domain.user.persistence.entity.User;
 import com.example.OMEB.global.oauth.user.OAuth2Provider;
 import jakarta.persistence.EntityManager;
@@ -15,17 +14,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.context.annotation.Import;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
 @DataJpaTest
 @Transactional
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
@@ -66,7 +56,6 @@ class ReviewRepositoryTest {
                 .bookImage("image_url")
                 .price("10000")
                 .sellLink("sell_link")
-                .tag(tag)
                 .build();
         entityManager.persist(book);
         bookId = book.getId();
@@ -120,5 +109,7 @@ class ReviewRepositoryTest {
 
 
     }
+
+
 
 }

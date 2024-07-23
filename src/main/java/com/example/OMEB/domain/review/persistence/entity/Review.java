@@ -1,7 +1,6 @@
 package com.example.OMEB.domain.review.persistence.entity;
 
 import com.example.OMEB.domain.book.persistence.entity.Book;
-import com.example.OMEB.domain.book.persistence.entity.Tag;
 import com.example.OMEB.domain.review.presentation.dto.request.ReviewCreateRequest;
 import com.example.OMEB.domain.user.persistence.entity.User;
 import com.example.OMEB.global.base.domain.BaseEntity;

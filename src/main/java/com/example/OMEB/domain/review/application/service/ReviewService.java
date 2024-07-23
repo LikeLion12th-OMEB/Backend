@@ -1,7 +1,7 @@
 package com.example.OMEB.domain.review.application.service;
 
 import com.example.OMEB.domain.book.persistence.entity.Book;
-import com.example.OMEB.domain.book.persistence.entity.Tag;
+import com.example.OMEB.domain.review.persistence.entity.Tag;
 import com.example.OMEB.domain.book.persistence.repository.BookRepository;
 import com.example.OMEB.domain.book.persistence.repository.TagRepository;
 import com.example.OMEB.domain.review.persistence.entity.Like;
@@ -9,7 +9,6 @@ import com.example.OMEB.domain.review.persistence.entity.Review;
 import com.example.OMEB.domain.review.persistence.repository.LikeRepository;
 import com.example.OMEB.domain.review.persistence.repository.ReviewRepository;
 import com.example.OMEB.domain.review.presentation.dto.request.ReviewCreateRequest;
-import com.example.OMEB.domain.review.presentation.dto.request.ReviewPagingFormRequest;
 import com.example.OMEB.domain.review.presentation.dto.request.ReviewUpdateRequest;
 import com.example.OMEB.domain.review.presentation.dto.response.ReviewInfoResponse;
 import com.example.OMEB.domain.review.presentation.dto.response.ReviewPageResponse;
@@ -18,7 +17,6 @@ import com.example.OMEB.domain.user.persistence.repository.UserRepository;
 import com.example.OMEB.global.base.exception.ErrorCode;
 import com.example.OMEB.global.base.exception.ServiceException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;

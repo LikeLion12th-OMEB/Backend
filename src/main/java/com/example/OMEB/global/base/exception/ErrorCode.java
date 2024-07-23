@@ -23,20 +23,17 @@ public enum ErrorCode {
 
     // Book
     NOT_FOUND_BOOK(HttpStatus.NOT_FOUND, "BOOK_0001", "책을 찾을 수 없습니다."),
-    NOT_FOUND_TAG(HttpStatus.NOT_FOUND, "TAG_0001", "태그를 찾을 수 없습니다."),
+    APPLICATION_NOT_FOUND_BOOK(HttpStatus.NOT_FOUND, "BOOK_002", "해당 책 제목에 대한 검색 결과가 없습니다."),
+    APPLICATION_TOO_MANY_BOOKS(HttpStatus.BAD_REQUEST,"BOOK_003" , "검색 결과가 너무 많습니다. 검색어를 더 구체적으로 입력해주세요."),
+    APPLICATION_ALREADY_EXIST_BOOK(HttpStatus.CONFLICT, "BOOK_004", "이미 등록된 책입니다."),
 
+    // Tag
+    NOT_FOUND_TAG(HttpStatus.NOT_FOUND, "TAG_0001", "태그를 찾을 수 없습니다."),
 
     // Review
     NOT_FOUND_REVIEW(HttpStatus.NOT_FOUND, "REVIEW_0001", "리뷰를 찾을 수 없습니다."),
     REVIEW_NOT_MATCH_USER(HttpStatus.CONFLICT, "REVIEW_002","해당 사용자는 해당 리뷰에 대한 권한이 없습니다." ),
     ALREADY_LIKE_REVIEW(HttpStatus.CONFLICT, "REVIEW_003", "이미 좋아요를 누른 리뷰입니다."),
-
-
-
-
-
-
-
 
 
     ;

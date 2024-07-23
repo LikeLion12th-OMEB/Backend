@@ -6,3 +6,4 @@ spring:
   config:
     import:
       - security/application-db.yml
+      - security/application-naver.yml
