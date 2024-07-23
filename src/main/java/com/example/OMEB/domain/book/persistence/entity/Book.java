@@ -3,7 +3,6 @@ package com.example.OMEB.domain.book.persistence.entity;
 import com.example.OMEB.domain.book.presentation.dto.NaverBookDTO;
 import com.example.OMEB.domain.book.presentation.dto.response.BookInfoResponse;
 import com.example.OMEB.domain.review.persistence.entity.Review;
-import com.example.OMEB.domain.user.persistence.entity.BookMark;
 import com.example.OMEB.global.base.domain.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -83,7 +82,7 @@ public class Book extends BaseEntity {
                 .build();
     }
 
-    public static BookInfoResponse toBookInfoResponse(Book book) {
+    public static BookInfoResponse toBookInfoResponse(Book book,Boolean isBookMarked) {
         return BookInfoResponse.builder()
                 .bookId(book.getId())
                 .title(book.getTitle())
@@ -95,6 +94,7 @@ public class Book extends BaseEntity {
                 .bookImage(book.getBookImage())
                 .price(book.getPrice())
                 .sellLink(book.getSellLink())
+                .isBookMarked(isBookMarked)
                 .build();
     }
 }

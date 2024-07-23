@@ -21,9 +21,9 @@ public class BookInfoResponse {
     private String bookImage;
     private String price;
     private String sellLink;
-
+    private Boolean isBookMarked;
     @Builder
-    public BookInfoResponse(Long bookId, String title, String isbn, String description, String author, String publisher, String publicationDate, String bookImage, String price, String sellLink) {
+    public BookInfoResponse(Long bookId, String title, String isbn, String description, String author, String publisher, String publicationDate, String bookImage, String price, String sellLink, Boolean isBookMarked) {
         this.bookId = bookId;
         this.title = title;
         this.isbn = isbn;
@@ -34,5 +34,6 @@ public class BookInfoResponse {
         this.bookImage = bookImage;
         this.price = price;
         this.sellLink = sellLink;
+        this.isBookMarked = isBookMarked;
     }
 }
