@@ -29,6 +29,7 @@ public class User extends BaseEntity {
     private String nickname;
 
     @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private OAuth2Provider provider;
 
     @Column(nullable = false)

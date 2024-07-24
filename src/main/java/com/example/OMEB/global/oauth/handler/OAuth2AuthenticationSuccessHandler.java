@@ -37,10 +37,6 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
         // 액세스 토큰 및 리프레시 토큰 제작 후 save
         // 쿠키 가지고 리다이렉트 uri 설정 -> 액세스, 리프레시 토큰, 최초로그인 여부를 가지고 리다이렉트 요청 보내기
 
-//        OAuth2UserPrincipal principal =
-//                (authentication.getPrincipal() instanceof OAuth2UserPrincipal)
-//                ? (OAuth2UserPrincipal) authentication.getPrincipal()
-//                : null;
         OAuth2UserPrincipal principal;
         Object temp = authentication.getPrincipal();
 
@@ -64,9 +60,6 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
         // TODO : Redis에 refreshToken save
 
         Cookie redirectCookie = CookieUtils.getCookie(request, redirectUriCookieName);
-        if (redirectCookie == null){
-            throw new ServiceException(ErrorCode.NOT_FOUND_COOKIE);
-        }
         String redirectUri = UriComponentsBuilder.fromUriString(redirectCookie.getValue())
                 .queryParam("isLogin", isLogin)
                 .queryParam("accessToken", accessToken)
