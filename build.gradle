@@ -52,6 +52,11 @@ dependencies {
 	implementation 'io.awspring.cloud:spring-cloud-starter-aws:2.4.4'
 	implementation 'io.awspring.cloud:spring-cloud-starter-aws-secrets-manager-config:2.4.4'
 
+	implementation 'io.jsonwebtoken:jjwt-api:0.12.2'
+	implementation 'io.jsonwebtoken:jjwt-impl:0.12.2'
+	implementation 'io.jsonwebtoken:jjwt-jackson:0.12.2'
+	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+	implementation 'io.netty:netty-resolver-dns-native-macos:4.1.68.Final:osx-aarch_64'
 }
 
 tasks.named('test') {
