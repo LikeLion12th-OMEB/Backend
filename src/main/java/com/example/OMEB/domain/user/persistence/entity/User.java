@@ -1,6 +1,7 @@
 package com.example.OMEB.domain.user.persistence.entity;
 
 import com.example.OMEB.domain.book.persistence.entity.BookMark;
+import com.example.OMEB.domain.profile.persistence.Profile;
 import com.example.OMEB.domain.review.persistence.entity.Like;
 import com.example.OMEB.domain.review.persistence.entity.Review;
 import com.example.OMEB.global.base.domain.BaseEntity;

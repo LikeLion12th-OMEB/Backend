@@ -1,5 +1,6 @@
-package com.example.OMEB.domain.user.persistence.entity;
+package com.example.OMEB.domain.profile.persistence;
 
+import com.example.OMEB.domain.user.persistence.entity.User;
 import com.example.OMEB.global.base.domain.BaseEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -15,14 +16,8 @@ public class Profile extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
-    private String origin_name;
-
-    @Column(nullable = false)
-    private String stored_name;
-
-    @Column(nullable = false)
-    private String url;
+    @Column(name = "profile_image_url", nullable = false)
+    private String profileImageUrl;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name ="user_id", nullable = false)
