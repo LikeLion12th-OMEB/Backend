@@ -7,3 +7,4 @@ spring:
     import:
       - security/application-db.yml
       - security/application-naver.yml
+      - security/application-s3.yml
