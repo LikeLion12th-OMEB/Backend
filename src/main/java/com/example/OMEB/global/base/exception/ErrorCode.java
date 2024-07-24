@@ -17,6 +17,8 @@ public enum ErrorCode {
     INVALID_JSON(HttpStatus.BAD_REQUEST, "COMMON_0007", "JSON 파싱 오류입니다."),
     INVALID_INPUT_TAG(HttpStatus.BAD_REQUEST, "COMMON_0008", "감정 태그 입력이 잘못되었습니다."),
 
+    // OAuth
+    NOT_FOUND_COOKIE(HttpStatus.NOT_FOUND, "OAUTH_0001", "쿠키를 찾을 수 없습니다"),
 
     // User
     NOT_FOUND_USER(HttpStatus.NOT_FOUND, "USER_0001", "사용자를 찾을 수 없습니다."),
