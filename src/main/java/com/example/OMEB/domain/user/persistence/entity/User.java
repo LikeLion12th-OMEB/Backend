@@ -7,6 +7,10 @@ import com.example.OMEB.global.base.domain.BaseEntity;
 import com.example.OMEB.global.oauth.user.OAuth2Provider;
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
 
 import java.util.ArrayList;
@@ -24,7 +28,11 @@ public class User extends BaseEntity {
     private String nickname;
 
     @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private OAuth2Provider provider;
+
+    @Column(nullable = false)
+    private String providerId;
 
     @ColumnDefault("1")
     private Integer level;
@@ -56,5 +64,10 @@ public class User extends BaseEntity {
         this.nickname = nickname;
         this.provider = provider;
         this.level = level;
+    }
+
+    public User(OAuth2Provider provider, String providerId) {
+        this.provider = provider;
+        this.providerId = providerId;
     }
 }
