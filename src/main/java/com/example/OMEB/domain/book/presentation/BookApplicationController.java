@@ -5,6 +5,7 @@ import com.example.OMEB.domain.book.application.usecase.BookUseCase;
 import com.example.OMEB.domain.book.presentation.dto.request.BookApplicationRequest;
 import com.example.OMEB.domain.book.presentation.dto.request.BookSearchRequest;
 import com.example.OMEB.domain.book.presentation.dto.response.BookInfoResponse;
+import com.example.OMEB.global.aop.AssignUserId;
 import com.example.OMEB.global.base.dto.ResponseBody;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -34,8 +35,8 @@ public class BookApplicationController {
     }
 
     @GetMapping("/v1/book/{bookId}")
-    public ResponseEntity<ResponseBody<BookInfoResponse>> getBook(@PathVariable Long bookId) {
-        return ResponseEntity.ok(createSuccessResponse(bookUseCase.getBook(bookId)));
+    @AssignUserId
+    public ResponseEntity<ResponseBody<BookInfoResponse>> getBook(Long userId,@PathVariable Long bookId) {
+        return ResponseEntity.ok(createSuccessResponse(bookUseCase.getBook(userId,bookId)));
     }
-
 }

@@ -1,6 +1,6 @@
 package com.example.OMEB.domain.user.persistence.entity;
 
-import com.example.OMEB.domain.book.persistence.entity.ApplicationBook;
+import com.example.OMEB.domain.book.persistence.entity.BookMark;
 import com.example.OMEB.domain.review.persistence.entity.Like;
 import com.example.OMEB.domain.review.persistence.entity.Review;
 import com.example.OMEB.global.base.domain.BaseEntity;
@@ -55,7 +55,8 @@ public class User extends BaseEntity {
     private List<ExpLog> expLogs = new ArrayList<>();
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
-    private List<ApplicationBook> applicationBooks = new ArrayList<>();
+    private List<BookMark> bookMarks = new ArrayList<>();
+
 
     @Builder
     public User(String nickname, OAuth2Provider provider, Integer level) {

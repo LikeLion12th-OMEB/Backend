@@ -43,7 +43,7 @@ public class BookUseCase {
         bookCommandService.saveBook(naverBookDTO);
     }
 
-    public BookInfoResponse getBook(Long bookId) {
-        return bookQueryService.findByBookId(bookId);
+    public BookInfoResponse getBook(Long userId,Long bookId) {
+        return bookQueryService.findByBookId(userId,bookId);
     }
 }
