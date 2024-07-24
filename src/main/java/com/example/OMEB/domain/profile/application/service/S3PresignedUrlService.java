@@ -1,4 +1,4 @@
-package com.example.OMEB.domain.profile.application;
+package com.example.OMEB.domain.profile.application.service;
 
 import com.amazonaws.HttpMethod;
 import com.amazonaws.services.s3.AmazonS3;
@@ -17,10 +17,14 @@ import java.util.UUID;
 @Service
 @RequiredArgsConstructor
 public class S3PresignedUrlService {
+
     @Value("${cloud.s3.bucket}")
     private String bucket;
 
     private final AmazonS3 amazonS3;
+
+    private static final Integer EXPIRATION_TIME = 1000 * 60 * 2;
+
 
     public Map<String, String> getPresignedUrl(String prefix, String fileName) {
         if (!prefix.isEmpty()) {
@@ -49,7 +53,7 @@ public class S3PresignedUrlService {
     private Date getPresignedUrlExpiration() {
         Date expiration = new Date();
         long expTimeMillis = expiration.getTime();
-        expTimeMillis += 1000 * 60 * 2;
+        expTimeMillis += EXPIRATION_TIME;
         expiration.setTime(expTimeMillis);
 
         return expiration;

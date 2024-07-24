@@ -1,7 +1,6 @@
 package com.example.OMEB.domain.user.persistence.entity;
 
 import com.example.OMEB.domain.book.persistence.entity.BookMark;
-import com.example.OMEB.domain.profile.persistence.Profile;
 import com.example.OMEB.domain.review.persistence.entity.Like;
 import com.example.OMEB.domain.review.persistence.entity.Review;
 import com.example.OMEB.global.base.domain.BaseEntity;
@@ -33,8 +32,8 @@ public class User extends BaseEntity {
     @ColumnDefault("0")
     private Integer exp;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
-    private List<Profile> profiles = new ArrayList<>();
+    @Column(name = "profile_image_url", nullable = false)
+    private String profileImageUrl;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     private List<Review> reviews = new ArrayList<>();
@@ -57,5 +56,9 @@ public class User extends BaseEntity {
         this.nickname = nickname;
         this.provider = provider;
         this.level = level;
+    }
+
+    public void updateProfileImageUrl(String profileImageUrl) {
+        this.profileImageUrl = profileImageUrl;
     }
 }
