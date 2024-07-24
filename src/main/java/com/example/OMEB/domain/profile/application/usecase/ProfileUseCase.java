@@ -8,6 +8,7 @@ import com.example.OMEB.global.base.exception.ErrorCode;
 import com.example.OMEB.global.base.exception.ServiceException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Map;
 
@@ -21,7 +22,14 @@ public class ProfileUseCase {
         return s3PresignedUrlService.getPresignedUrl(user.getNickname(), fileName);
     }
 
+    @Transactional
     public Void createProfile(Long userId, String url) {
         return profileService.saveProfile(userId, url);
     }
+
+    @Transactional
+    public Void updateDefaultProfile(Long userId) {
+        return profileService.updateDefaultProfile(userId);
+    }
+
 }

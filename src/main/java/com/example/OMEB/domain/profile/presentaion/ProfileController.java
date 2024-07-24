@@ -25,10 +25,16 @@ public class ProfileController {
         return ResponseEntity.ok(createSuccessResponse(profileUseCase.getPresignedUrl(userId, fileName)));
     }
 
-    @PostMapping("/v1/profile")
+    @PatchMapping("/v1/profile")
     @AssignUserId
     public ResponseEntity<ResponseBody<Void>> createProfile(Long userId, @RequestParam("url") String url) { //TODO : Validation 검사를 위해 한번 생각해봐야 함
         return ResponseEntity.ok(createSuccessResponse(profileUseCase.createProfile(userId, url)));
+    }
+
+    @PatchMapping("/v1/profile/default")
+    @AssignUserId
+    public ResponseEntity<ResponseBody<Void>> updateDefaultProfile(Long userId) {
+        return ResponseEntity.ok(createSuccessResponse(profileUseCase.updateDefaultProfile(userId)));
     }
 
 }

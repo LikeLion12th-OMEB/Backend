@@ -38,6 +38,11 @@ public enum ErrorCode {
     REVIEW_NOT_MATCH_USER(HttpStatus.CONFLICT, "REVIEW_002","해당 사용자는 해당 리뷰에 대한 권한이 없습니다." ),
     ALREADY_LIKE_REVIEW(HttpStatus.CONFLICT, "REVIEW_003", "이미 좋아요를 누른 리뷰입니다."),
 
+    // File
+    NOT_FILE_EXTENSION(HttpStatus.BAD_REQUEST, "FILE_001", "파일 확장자가 존재하지 않습니다."),
+    NOT_IMAGE_FILE(HttpStatus.BAD_REQUEST, "FILE_002", "이미지 파일이 아닙니다."),
+    INVALID_S3_URL(HttpStatus.BAD_REQUEST, "FILE_003", "S3 URL이 올바르지 않습니다."),
+    INVALID_FILE_USER(HttpStatus.UNAUTHORIZED, "FILE_004", "해당 파일은 사용자의 파일이 아닙니다."),
 
 
 

@@ -5,6 +5,7 @@ import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.Headers;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.GeneratePresignedUrlRequest;
+import com.example.OMEB.domain.profile.application.ProfileUrlUtill;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -28,7 +29,7 @@ public class S3PresignedUrlService {
 
     public Map<String, String> getPresignedUrl(String prefix, String fileName) {
         if (!prefix.isEmpty()) {
-            fileName = createPath(prefix, fileName);
+            fileName = ProfileUrlUtill.createProfilePath(prefix, fileName);
         }
 
         GeneratePresignedUrlRequest generatePresignedUrlRequest = getGeneratePresignedUrlRequest(bucket, fileName);
@@ -57,14 +58,5 @@ public class S3PresignedUrlService {
         expiration.setTime(expTimeMillis);
 
         return expiration;
-    }
-
-    private String createFileId() {
-        return UUID.randomUUID().toString();
-    }
-
-    private String createPath(String prefix, String fileName) {
-        String fileId = createFileId();
-        return String.format("%s/%s", prefix, fileId + "-" + fileName);
     }
 }

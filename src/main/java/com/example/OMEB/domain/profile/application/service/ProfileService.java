@@ -1,5 +1,6 @@
 package com.example.OMEB.domain.profile.application.service;
 
+import com.example.OMEB.domain.profile.application.ProfileUrlUtill;
 import com.example.OMEB.domain.user.persistence.entity.User;
 import com.example.OMEB.domain.user.persistence.repository.UserRepository;
 import com.example.OMEB.global.base.exception.ErrorCode;
@@ -22,7 +23,14 @@ public class ProfileService {
     @Transactional
     public Void saveProfile(Long userId, String url) {
         User user = validateUser(userId);
-        user.updateProfileImageUrl(url);
+        user.updateProfileImageUrl(ProfileUrlUtill.validateUrl(url,user.getNickname()));
+        return null;
+    }
+
+    @Transactional
+    public Void updateDefaultProfile(Long userId) {
+        User user = validateUser(userId);
+        user.updateProfileImageUrl(ProfileUrlUtill.getDefaultUrl());
         return null;
     }
 }

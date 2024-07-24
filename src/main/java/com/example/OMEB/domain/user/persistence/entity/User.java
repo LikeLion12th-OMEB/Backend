@@ -1,6 +1,7 @@
 package com.example.OMEB.domain.user.persistence.entity;
 
 import com.example.OMEB.domain.book.persistence.entity.BookMark;
+import com.example.OMEB.domain.profile.application.ProfileUrlUtill;
 import com.example.OMEB.domain.review.persistence.entity.Like;
 import com.example.OMEB.domain.review.persistence.entity.Review;
 import com.example.OMEB.global.base.domain.BaseEntity;
@@ -56,6 +57,7 @@ public class User extends BaseEntity {
         this.nickname = nickname;
         this.provider = provider;
         this.level = level;
+        this.profileImageUrl = ProfileUrlUtill.getDefaultUrl();
     }
 
     public void updateProfileImageUrl(String profileImageUrl) {
