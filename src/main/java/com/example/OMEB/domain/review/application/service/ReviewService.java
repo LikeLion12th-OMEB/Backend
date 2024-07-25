@@ -116,6 +116,8 @@ public class ReviewService {
         if(!review.getUser().getId().equals(userId)) {
             throw new ServiceException(ErrorCode.REVIEW_NOT_MATCH_USER);
         }
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new ServiceException(ErrorCode.NOT_FOUND_USER));
         review.getUser().getReviews().remove(review);
         reviewRepository.delete(review);
     }

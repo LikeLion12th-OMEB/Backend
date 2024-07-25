@@ -25,11 +25,11 @@ public enum ErrorCode {
 
     // Book
     NOT_FOUND_BOOK(HttpStatus.NOT_FOUND, "BOOK_0001", "책을 찾을 수 없습니다."),
-    APPLICATION_NOT_FOUND_BOOK(HttpStatus.NOT_FOUND, "BOOK_002", "해당 책 제목에 대한 검색 결과가 없습니다."),
-    APPLICATION_TOO_MANY_BOOKS(HttpStatus.BAD_REQUEST,"BOOK_003" , "검색 결과가 너무 많습니다. 검색어를 더 구체적으로 입력해주세요."),
-    APPLICATION_ALREADY_EXIST_BOOK(HttpStatus.CONFLICT, "BOOK_004", "이미 등록된 책입니다."),
-    APPLICATION_ALREADY_EXIST_BOOKMARK(HttpStatus.CONFLICT, "BOOK_005", "해당 책은 이미 북마크 되어있습니다."),
-    NOT_FOUND_BOOKMARK(HttpStatus.NOT_FOUND, "Book_006", "해당 책은 북마크 되어있지 않습니다."),
+    APPLICATION_NOT_FOUND_BOOK(HttpStatus.NOT_FOUND, "BOOK_0002", "해당 책 제목에 대한 검색 결과가 없습니다."),
+    APPLICATION_TOO_MANY_BOOKS(HttpStatus.BAD_REQUEST,"BOOK_0003" , "검색 결과가 너무 많습니다. 검색어를 더 구체적으로 입력해주세요."),
+    APPLICATION_ALREADY_EXIST_BOOK(HttpStatus.CONFLICT, "BOOK_0004", "이미 등록된 책입니다."),
+    APPLICATION_ALREADY_EXIST_BOOKMARK(HttpStatus.CONFLICT, "BOOK_0005", "해당 책은 이미 북마크 되어있습니다."),
+    NOT_FOUND_BOOKMARK(HttpStatus.NOT_FOUND, "Book_0006", "해당 책은 북마크 되어있지 않습니다."),
 
 
     // Tag
@@ -37,14 +37,14 @@ public enum ErrorCode {
 
     // Review
     NOT_FOUND_REVIEW(HttpStatus.NOT_FOUND, "REVIEW_0001", "리뷰를 찾을 수 없습니다."),
-    REVIEW_NOT_MATCH_USER(HttpStatus.CONFLICT, "REVIEW_002","해당 사용자는 해당 리뷰에 대한 권한이 없습니다." ),
-    ALREADY_LIKE_REVIEW(HttpStatus.CONFLICT, "REVIEW_003", "이미 좋아요를 누른 리뷰입니다."),
+    REVIEW_NOT_MATCH_USER(HttpStatus.CONFLICT, "REVIEW_0002","해당 사용자는 해당 리뷰에 대한 권한이 없습니다." ),
+    ALREADY_LIKE_REVIEW(HttpStatus.CONFLICT, "REVIEW_0003", "이미 좋아요를 누른 리뷰입니다."),
 
     // File
-    NOT_FILE_EXTENSION(HttpStatus.BAD_REQUEST, "FILE_001", "파일 확장자가 존재하지 않습니다."),
-    NOT_IMAGE_FILE(HttpStatus.BAD_REQUEST, "FILE_002", "이미지 파일이 아닙니다."),
-    INVALID_S3_URL(HttpStatus.BAD_REQUEST, "FILE_003", "S3 URL이 올바르지 않습니다."),
-    INVALID_FILE_USER(HttpStatus.UNAUTHORIZED, "FILE_004", "해당 파일은 사용자의 파일이 아닙니다."),
+    NOT_FILE_EXTENSION(HttpStatus.BAD_REQUEST, "FILE_0001", "파일 확장자가 존재하지 않습니다."),
+    NOT_IMAGE_FILE(HttpStatus.BAD_REQUEST, "FILE_0002", "이미지 파일이 아닙니다."),
+    INVALID_S3_URL(HttpStatus.BAD_REQUEST, "FILE_0003", "S3 URL이 올바르지 않습니다."),
+    INVALID_FILE_USER(HttpStatus.UNAUTHORIZED, "FILE_0004", "해당 파일은 사용자의 파일이 아닙니다."),
 
 
 
