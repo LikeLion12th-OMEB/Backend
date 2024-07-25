@@ -24,9 +24,9 @@ import org.springframework.web.bind.annotation.*;
 
 import static com.example.OMEB.global.base.dto.SuccessResponseBody.createSuccessResponse;
 
+@Tag(name = "Review API", description = "리뷰 관련 API 입니다.")
 @RestController
 @RequiredArgsConstructor
-@Tag(name = "Review API", description = "리뷰 관련 API 입니다.")
 @RequestMapping("/api")
 public class ReviewController {
     private final ReviewService reviewService;

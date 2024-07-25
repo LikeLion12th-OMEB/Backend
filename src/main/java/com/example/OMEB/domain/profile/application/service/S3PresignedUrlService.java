@@ -6,6 +6,7 @@ import com.amazonaws.services.s3.Headers;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.GeneratePresignedUrlRequest;
 import com.example.OMEB.domain.profile.application.ProfileUrlUtill;
+import com.example.OMEB.domain.profile.presentaion.dto.PresignedUrlResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -27,7 +28,7 @@ public class S3PresignedUrlService {
     private static final Integer EXPIRATION_TIME = 1000 * 60 * 2;
 
 
-    public Map<String, String> getPresignedUrl(String prefix, String fileName) {
+    public PresignedUrlResponse getPresignedUrl(String prefix, String fileName) {
         if (!prefix.isEmpty()) {
             fileName = ProfileUrlUtill.createProfilePath(prefix, fileName);
         }
@@ -35,7 +36,7 @@ public class S3PresignedUrlService {
         GeneratePresignedUrlRequest generatePresignedUrlRequest = getGeneratePresignedUrlRequest(bucket, fileName);
         URL url = amazonS3.generatePresignedUrl(generatePresignedUrlRequest);
 
-        return Map.of("url", url.toString());
+        return new PresignedUrlResponse(url.toString());
     }
 
     private GeneratePresignedUrlRequest getGeneratePresignedUrlRequest(String bucket, String fileName) {
