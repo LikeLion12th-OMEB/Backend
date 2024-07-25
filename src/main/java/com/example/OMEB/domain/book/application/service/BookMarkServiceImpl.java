@@ -5,6 +5,7 @@ import com.example.OMEB.domain.book.persistence.entity.BookMark;
 import com.example.OMEB.domain.book.persistence.repository.BookMarkRepository;
 import com.example.OMEB.domain.book.persistence.repository.BookRepository;
 import com.example.OMEB.domain.book.presentation.dto.response.BookTitleInfoResponse;
+import com.example.OMEB.domain.book.presentation.dto.response.BookTitleListResponse;
 import com.example.OMEB.domain.user.persistence.entity.User;
 import com.example.OMEB.domain.user.persistence.repository.UserRepository;
 import com.example.OMEB.global.base.exception.ErrorCode;
@@ -31,9 +32,9 @@ public class BookMarkServiceImpl {
         bookMarkRepository.save(bookMark);
     }
 
-    public List<BookTitleInfoResponse> findUserBookMark(Long userId) {
+    public BookTitleListResponse findUserBookMark(Long userId) {
         User user = userRepository.findById(userId).orElseThrow(() -> new ServiceException(ErrorCode.NOT_FOUND_USER));
-        return bookMarkRepository.findBookTitleInfoResponseByUserId(user.getId());
+        return new BookTitleListResponse(bookMarkRepository.findBookTitleInfoResponseByUserId(user.getId()));
     }
 
     public void deleteBookMark(Long userId, Long bookId) {

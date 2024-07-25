@@ -1,4 +1,4 @@
-package com.example.OMEB.domain.book.presentation;
+package com.example.OMEB.domain.book.presentation.controller;
 
 import com.example.OMEB.domain.book.application.service.BookMarkServiceImpl;
 import com.example.OMEB.domain.book.presentation.dto.response.BookTitleInfoResponse;
@@ -20,7 +20,7 @@ import java.util.List;
 
 import static com.example.OMEB.global.base.dto.SuccessResponseBody.createSuccessResponse;
 
-@Tag(name = " BookMark API", description = "북마크 관련 API 입니다.")
+@Tag(name = " BookMark API", description = "북마크 관련 API")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api")
@@ -51,7 +51,7 @@ public class BookMarkController {
     @GetMapping("/v1/bookmark")
     @AssignUserId
     public ResponseEntity<ResponseBody<BookTitleListResponse>> getBookMark(Long userId) { // TODO : 페이징 필요한지 확인
-        return ResponseEntity.ok(createSuccessResponse(new BookTitleListResponse(bookMarkService.findUserBookMark(userId))));
+        return ResponseEntity.ok(createSuccessResponse(bookMarkService.findUserBookMark(userId)));
     }
 
     @Operation(summary = "북마크 해제 API", description = "북마크를 해제하는 API.")
