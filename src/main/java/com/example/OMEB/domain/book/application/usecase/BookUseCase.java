@@ -7,6 +7,7 @@ import com.example.OMEB.domain.book.application.service.NaverBookSearchClient;
 import com.example.OMEB.domain.book.presentation.dto.request.BookApplicationRequest;
 import com.example.OMEB.domain.book.presentation.dto.request.BookSearchRequest;
 import com.example.OMEB.domain.book.presentation.dto.response.BookInfoResponse;
+import com.example.OMEB.domain.book.presentation.dto.response.NaverBookListResponse;
 import com.example.OMEB.global.base.exception.ErrorCode;
 import com.example.OMEB.global.base.exception.ServiceException;
 import lombok.RequiredArgsConstructor;
@@ -22,14 +23,14 @@ public class BookUseCase {
     private final BookQueryService bookQueryService;
     private final BookCommandService bookCommandService;
 
-    public List<NaverBookDTO> searchTitleBooks(BookSearchRequest bookSearchRequest) {
+    public NaverBookListResponse searchTitleBooks(BookSearchRequest bookSearchRequest) {
         List<NaverBookDTO> naverBookDTOS = naverBookSearchClient.searchBooks(bookSearchRequest.getTitle(), null);
         if(naverBookDTOS.size() == 0) {
             throw new ServiceException(ErrorCode.APPLICATION_NOT_FOUND_BOOK);
         }else if(naverBookDTOS.size() >= 10) {
             throw new ServiceException(ErrorCode.APPLICATION_TOO_MANY_BOOKS);
         }
-        return naverBookDTOS;
+        return new NaverBookListResponse(naverBookDTOS);
     }
 
     @Transactional
