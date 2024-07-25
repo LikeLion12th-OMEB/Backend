@@ -41,7 +41,7 @@ public class ReviewController {
     })
     @AssignUserId
     @PostMapping("/v1/review/{bookId}")
-    public ResponseEntity<ResponseBody<ReviewInfoResponse>> createReview(Long userId,
+    public ResponseEntity<ResponseBody<ReviewInfoResponse>> createReview(@Schema(hidden = true) Long userId,
                                                                          @PathVariable @Schema(description = "책 id", example = "1") Long bookId,
                                                                          @RequestBody ReviewCreateRequest reviewCreateRequest) {
         return ResponseEntity.ok(createSuccessResponse(reviewService.createReview(userId, bookId, reviewCreateRequest)));
@@ -57,7 +57,7 @@ public class ReviewController {
     })
     @AssignUserId
     @PatchMapping("/v1/review/{reviewId}")
-    public ResponseEntity<ResponseBody<ReviewInfoResponse>> updateReview(Long userId,
+    public ResponseEntity<ResponseBody<ReviewInfoResponse>> updateReview(@Schema(hidden = true) Long userId,
                                                                          @PathVariable @Schema(description = "리뷰 id", example = "1")Long reviewId,
                                                                          @RequestBody ReviewUpdateRequest reviewUpdateRequest) {
         return ResponseEntity.ok(createSuccessResponse(reviewService.updateReview(userId, reviewId, reviewUpdateRequest)));
@@ -90,7 +90,7 @@ public class ReviewController {
     })
     @AssignUserId
     @PostMapping("/v1/review/{reviewId}/like")
-    public ResponseEntity<ResponseBody<Void>> likeReview(Long userId,
+    public ResponseEntity<ResponseBody<Void>> likeReview(@Schema(hidden = true) Long userId,
                                                          @PathVariable @Schema(description = "리뷰 id", example = "1")Long reviewId) {
         reviewService.likeReview(userId,reviewId);
         return ResponseEntity.ok(createSuccessResponse());
@@ -106,7 +106,7 @@ public class ReviewController {
     })
     @AssignUserId
     @DeleteMapping("/v1/review/{reviewId}")
-    public ResponseEntity<ResponseBody<Void>> deleteReview(Long userId,
+    public ResponseEntity<ResponseBody<Void>> deleteReview(@Schema(hidden = true) Long userId,
                                                            @PathVariable @Schema(description = "리뷰 id", example = "1")Long reviewId) {
         reviewService.deleteReview(userId,reviewId);
         return ResponseEntity.ok(createSuccessResponse());

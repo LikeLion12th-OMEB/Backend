@@ -35,7 +35,7 @@ public class BookInfoController {
     })
     @GetMapping("/v1/book/{bookId}")
     @AssignUserId
-    public ResponseEntity<ResponseBody<BookInfoResponse>> getBook(Long userId, @PathVariable @Schema(description = "책 id" , example = "1") Long bookId) {
+    public ResponseEntity<ResponseBody<BookInfoResponse>> getBook(@Schema(hidden = true) Long userId, @PathVariable @Schema(description = "책 id" , example = "1") Long bookId) {
         return ResponseEntity.ok(createSuccessResponse(bookUseCase.getBook(userId,bookId)));
     }
 }

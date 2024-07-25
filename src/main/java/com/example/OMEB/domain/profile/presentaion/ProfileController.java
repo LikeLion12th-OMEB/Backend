@@ -35,7 +35,7 @@ public class ProfileController {
     })
     @GetMapping("/v1/presigned-url")
     @AssignUserId
-    public ResponseEntity<ResponseBody<PresignedUrlResponse>> getPresignedUrl(Long userId,
+    public ResponseEntity<ResponseBody<PresignedUrlResponse>> getPresignedUrl(@Schema(hidden = true) Long userId,
                                                                               @RequestParam("fileName") @Schema(description = "파일 이름", example = "example.jpg") String fileName) { // TODO: Validation 검사를 위해 한번 생각해봐야 함
         return ResponseEntity.ok(createSuccessResponse(profileUseCase.getPresignedUrl(userId, fileName)));
     }
@@ -48,7 +48,7 @@ public class ProfileController {
     })
     @PatchMapping("/v1/profile")
     @AssignUserId
-    public ResponseEntity<ResponseBody<Void>> createProfile(Long userId,
+    public ResponseEntity<ResponseBody<Void>> createProfile(@Schema(hidden = true) Long userId,
                                                             @RequestParam("url")  @Schema(description = "이미지 접근 URL", example = "https://bucket.s3.ap-northeast-2.amazonaws.com/prefix/fileId") String url) { //TODO : Validation 검사를 위해 한번 생각해봐야 함
         return ResponseEntity.ok(createSuccessResponse(profileUseCase.createProfile(userId, url)));
     }
@@ -61,7 +61,7 @@ public class ProfileController {
     })
     @PatchMapping("/v1/profile/default")
     @AssignUserId
-    public ResponseEntity<ResponseBody<Void>> updateDefaultProfile(Long userId) {
+    public ResponseEntity<ResponseBody<Void>> updateDefaultProfile(@Schema(hidden = true) Long userId) {
         return ResponseEntity.ok(createSuccessResponse(profileUseCase.updateDefaultProfile(userId)));
     }
 

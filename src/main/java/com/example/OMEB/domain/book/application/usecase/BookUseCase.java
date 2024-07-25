@@ -11,18 +11,21 @@ import com.example.OMEB.domain.book.presentation.dto.response.NaverBookListRespo
 import com.example.OMEB.global.base.exception.ErrorCode;
 import com.example.OMEB.global.base.exception.ServiceException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class BookUseCase {
     private final NaverBookSearchClient naverBookSearchClient;
     private final BookQueryService bookQueryService;
     private final BookCommandService bookCommandService;
 
+    //TODO : 검색 title 할 때 띄어쓰기 아예 없어야 검색 결과가 좋아짐!!
     public NaverBookListResponse searchTitleBooks(BookSearchRequest bookSearchRequest) {
         List<NaverBookDTO> naverBookDTOS = naverBookSearchClient.searchBooks(bookSearchRequest.getTitle(), null);
         if(naverBookDTOS.size() == 0) {
@@ -30,6 +33,7 @@ public class BookUseCase {
         }else if(naverBookDTOS.size() >= 10) {
             throw new ServiceException(ErrorCode.APPLICATION_TOO_MANY_BOOKS);
         }
+        log.info("[BookUseCase] (searchTitleBooks) success searched books: {}", naverBookDTOS.size());
         return new NaverBookListResponse(naverBookDTOS);
     }
 

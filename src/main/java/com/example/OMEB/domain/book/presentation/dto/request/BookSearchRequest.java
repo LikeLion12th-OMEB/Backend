@@ -3,13 +3,11 @@ package com.example.OMEB.domain.book.presentation.dto.request;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NonNull;
-import lombok.Setter;
+import lombok.*;
+
 @Getter
 @Setter
-@AllArgsConstructor
+@NoArgsConstructor
 @Schema(name = "BookSearchRequest", description = "책 검색 요청")
 public class BookSearchRequest {
 
