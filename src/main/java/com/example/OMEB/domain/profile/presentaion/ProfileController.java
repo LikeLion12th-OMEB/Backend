@@ -20,7 +20,7 @@ import java.util.Map;
 
 import static com.example.OMEB.global.base.dto.SuccessResponseBody.createSuccessResponse;
 
-@Tag(name = " Profile API", description = "프로필 관련 API 입니다.")
+@Tag(name = " Profile API", description = "프로필 관련 API")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api")

@@ -1,4 +1,4 @@
-package com.example.OMEB.domain.book.presentation;
+package com.example.OMEB.domain.book.presentation.controller;
 
 import com.example.OMEB.domain.book.presentation.dto.NaverBookDTO;
 import com.example.OMEB.domain.book.application.usecase.BookUseCase;
@@ -23,7 +23,7 @@ import java.util.List;
 
 import static com.example.OMEB.global.base.dto.SuccessResponseBody.createSuccessResponse;
 
-@Tag(name = " Book Application API", description = "책 신청 관련 API 입니다.")
+@Tag(name = " Book Application API", description = "책 신청 관련 API")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api")
@@ -52,21 +52,11 @@ public class BookApplicationController {
             @ApiResponse(responseCode = "BOOK_0002", description = "해당 책 제목에 대한 검색 결과가 없습니다.", content = @Content(mediaType = "application/json")),
             @ApiResponse(responseCode = "COMMON_0006", description = "서버 에러입니다.", content = @Content(mediaType = "application/json"))
     })
-    @PostMapping("/v1/book")
+    @PostMapping("/v1/book/application")
     public ResponseEntity<ResponseBody<Void>> applicationBook(@RequestBody @Valid BookApplicationRequest bookApplicationRequest) {
         bookUseCase.applicationBook(bookApplicationRequest);
         return ResponseEntity.ok(createSuccessResponse());
     }
 
-    @Operation(summary = "책 상세 조회 API", description = "책의 상세 정보를 조회하는 API.")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "요청에 성공하였습니다.",
-                    content = {@Content(schema = @Schema(implementation = BookInfoResponse.class),mediaType = "application/json")}),
-            @ApiResponse(responseCode = "BOOK_0001", description = "책을 찾을 수 없습니다.", content = @Content(mediaType = "application/json"))
-    })
-    @GetMapping("/v1/book/{bookId}")
-    @AssignUserId
-    public ResponseEntity<ResponseBody<BookInfoResponse>> getBook(Long userId,@PathVariable @Schema(description = "책 id" , example = "1") Long bookId) {
-        return ResponseEntity.ok(createSuccessResponse(bookUseCase.getBook(userId,bookId)));
-    }
+
 }
