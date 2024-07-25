@@ -76,9 +76,4 @@ public class User extends BaseEntity {
         this.provider = provider;
         this.providerId = providerId;
     }
-
-    public User(OAuth2Provider provider, String providerId) {
-        this.provider = provider;
-        this.providerId = providerId;
-    }
 }
