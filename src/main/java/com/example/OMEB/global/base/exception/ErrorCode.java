@@ -17,8 +17,11 @@ public enum ErrorCode {
     INVALID_JSON(HttpStatus.BAD_REQUEST, "COMMON_0007", "JSON 파싱 오류입니다."),
     INVALID_INPUT_TAG(HttpStatus.BAD_REQUEST, "COMMON_0008", "감정 태그 입력이 잘못되었습니다."),
 
-    // OAuth
-    NOT_FOUND_COOKIE(HttpStatus.NOT_FOUND, "OAUTH_0001", "쿠키를 찾을 수 없습니다"),
+    // Auth
+    NOT_FOUND_COOKIE(HttpStatus.NOT_FOUND, "AUTH_0001", "쿠키를 찾을 수 없습니다."),
+    JWT_EXPIRED_TOKEN(HttpStatus.BAD_REQUEST, "AUTH_0002", "만료된 Jwt 토큰입니다."),
+    JWT_AUTHENTICATION_FAILED(HttpStatus.BAD_REQUEST, "AUTH_0003", "Jwt 토큰 인증이 실패했습니다."),
+    JWT_NOT_EXIST(HttpStatus.BAD_REQUEST, "AUTH_0004", "Jwt 토큰이 존재하지 않습니다."),
 
     // User
     NOT_FOUND_USER(HttpStatus.NOT_FOUND, "USER_0001", "사용자를 찾을 수 없습니다."),

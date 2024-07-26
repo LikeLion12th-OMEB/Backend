@@ -1,6 +1,5 @@
 package com.example.OMEB.global.base.exception;
 
-import com.example.OMEB.global.base.dto.FailedResponseBody;
 import com.example.OMEB.global.base.dto.ResponseBody;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.ResponseEntity;
@@ -25,5 +24,11 @@ public class GlobalExceptionHandler {
 
         return ResponseEntity.badRequest()
                 .body(createFailureResponse(ErrorCode.INVALID_INPUT_VALUE, errorMessage));
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ResponseBody<Void>> handleException(HttpServletRequest request, Exception e) {
+        return ResponseEntity.internalServerError()
+                .body(createFailureResponse(ErrorCode.INTERNAL_SERVER_ERROR));
     }
 }
