@@ -6,7 +6,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.oauth2.client.web.AuthorizationRequestRepository;
 import org.springframework.security.oauth2.core.endpoint.OAuth2AuthorizationRequest;
 import org.springframework.stereotype.Component;
-import org.springframework.util.Assert;
 
 @Component
 public class HttpCookiesOAuth2AuthorizationRequestRepository implements AuthorizationRequestRepository<OAuth2AuthorizationRequest> {
@@ -17,14 +16,11 @@ public class HttpCookiesOAuth2AuthorizationRequestRepository implements Authoriz
     public final int COOKIE_EXPIRE_SECONDS = 180;
     @Override
     public OAuth2AuthorizationRequest loadAuthorizationRequest(HttpServletRequest request) {
-        Assert.notNull(request, "request cannot be null");
         return getAuthorizationRequest(request);
     }
 
     @Override
     public void saveAuthorizationRequest(OAuth2AuthorizationRequest authorizationRequest, HttpServletRequest request, HttpServletResponse response) {
-        Assert.notNull(request, "request cannot be null");
-        Assert.notNull(response, "response cannot be null");
         if (authorizationRequest == null) {
             this.removeAuthorizationRequest(request, response);
         } else {
@@ -41,7 +37,6 @@ public class HttpCookiesOAuth2AuthorizationRequestRepository implements Authoriz
 
     @Override
     public OAuth2AuthorizationRequest removeAuthorizationRequest(HttpServletRequest request, HttpServletResponse response) {
-        Assert.notNull(response, "response cannot be null");
         OAuth2AuthorizationRequest authorizationRequest = this.loadAuthorizationRequest(request);
 
         return authorizationRequest;
