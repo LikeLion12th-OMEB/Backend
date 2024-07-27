@@ -8,7 +8,6 @@ import com.example.OMEB.global.base.domain.BaseEntity;
 import com.example.OMEB.global.oauth.user.OAuth2Provider;
 import jakarta.persistence.*;
 import lombok.*;
-import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,6 +25,7 @@ public class User extends BaseEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Setter
     @Column(nullable = false)
     private String nickname;
 
