@@ -8,8 +8,11 @@ import com.example.OMEB.domain.review.presentation.dto.request.ReviewUpdateReque
 import com.example.OMEB.domain.review.presentation.dto.response.ReviewInfoResponse;
 import com.example.OMEB.domain.review.presentation.dto.response.ReviewPageResponse;
 import com.example.OMEB.global.aop.AssignUserId;
+import com.example.OMEB.global.aop.UserPrincipal;
 import com.example.OMEB.global.base.dto.ResponseBody;
 import com.example.OMEB.global.base.dto.SuccessResponseBody;
+import com.example.OMEB.global.jwt.CustomUserPrincipal;
+
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
@@ -21,6 +24,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import static com.example.OMEB.global.base.dto.SuccessResponseBody.createSuccessResponse;
@@ -43,10 +47,10 @@ public class ReviewController implements ReviewControllerApi {
 
     @AssignUserId
     @PatchMapping("/v1/review/{reviewId}")
-    public ResponseEntity<ResponseBody<ReviewInfoResponse>> updateReview(@Schema(hidden = true) Long userId,
+    public ResponseEntity<ResponseBody<ReviewInfoResponse>> updateReview(@UserPrincipal CustomUserPrincipal userPrincipal,
                                                                          @PathVariable @Schema(description = "리뷰 id", example = "1")Long reviewId,
                                                                          @RequestBody ReviewUpdateRequest reviewUpdateRequest) {
-        return ResponseEntity.ok(createSuccessResponse(reviewService.updateReview(userId, reviewId, reviewUpdateRequest)));
+        return ResponseEntity.ok(createSuccessResponse(reviewService.updateReview(userPrincipal.userId(), reviewId, reviewUpdateRequest)));
     }
 
 

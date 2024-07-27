@@ -18,7 +18,9 @@ import com.example.OMEB.domain.review.presentation.dto.request.ReviewUpdateReque
 import com.example.OMEB.domain.review.presentation.dto.response.ReviewInfoResponse;
 import com.example.OMEB.domain.review.presentation.dto.response.ReviewPageResponse;
 import com.example.OMEB.global.aop.AssignUserId;
+import com.example.OMEB.global.aop.UserPrincipal;
 import com.example.OMEB.global.base.dto.ResponseBody;
+import com.example.OMEB.global.jwt.CustomUserPrincipal;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -52,7 +54,7 @@ public interface ReviewControllerApi {
 		@ApiResponse(responseCode = "REVIEW_0001", description = "리뷰를 찾을 수 없습니다.", content = @Content(mediaType = "application/json")),
 		@ApiResponse(responseCode = "REVIEW_0002", description = "해당 사용자는 해당 리뷰에 대한 권한이 없습니다.", content = @Content(mediaType = "application/json"))
 	})
-	ResponseEntity<ResponseBody<ReviewInfoResponse>> updateReview(@Schema(hidden = true) Long userId,
+	ResponseEntity<ResponseBody<ReviewInfoResponse>> updateReview(@UserPrincipal CustomUserPrincipal userPrincipal,
 		@PathVariable @Schema(description = "리뷰 id", example = "1")Long reviewId,
 		@RequestBody ReviewUpdateRequest reviewUpdateRequest) ;
 
