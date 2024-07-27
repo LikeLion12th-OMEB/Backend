@@ -10,7 +10,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import com.example.OMEB.domain.book.presentation.dto.response.BookTitleListResponse;
 import com.example.OMEB.global.aop.AssignUserId;
+import com.example.OMEB.global.aop.UserPrincipal;
 import com.example.OMEB.global.base.dto.ResponseBody;
+import com.example.OMEB.global.jwt.CustomUserPrincipal;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -30,7 +32,7 @@ public interface BookMarkControllerApi {
 		@ApiResponse(responseCode = "USER_0001", description = "사용자를 찾을 수 없습니다.", content = @Content(mediaType = "application/json")),
 		@ApiResponse(responseCode = "BOOK_0001", description = "책을 찾을 수 없습니다.", content = @Content(mediaType = "application/json"))
 	})
-	ResponseEntity<ResponseBody<Void>> saveBookMark(@Schema(hidden = true) Long userId , @PathVariable @Schema(description = "책 id",example = "1") Long bookId);
+	ResponseEntity<ResponseBody<Void>> saveBookMark(@UserPrincipal CustomUserPrincipal userPrincipal , @PathVariable @Schema(description = "책 id",example = "1") Long bookId);
 
 	@Operation(summary = "특정 회원의 북마크 리스트 조회 API", description = "특정 회원의 북마크 리스트를 조회하는 API.")
 	@ApiResponses(value = {
@@ -38,7 +40,7 @@ public interface BookMarkControllerApi {
 			content = {@Content(schema = @Schema(implementation = BookTitleListResponse.class),mediaType = "application/json")}),
 		@ApiResponse(responseCode = "USER_0001", description = "사용자를 찾을 수 없습니다.", content = @Content(mediaType = "application/json"))
 	})
-	ResponseEntity<ResponseBody<BookTitleListResponse>> getBookMark(@Schema(hidden = true) Long userId);
+	ResponseEntity<ResponseBody<BookTitleListResponse>> getBookMark(@UserPrincipal CustomUserPrincipal userPrincipal);
 
 	@Operation(summary = "북마크 해제 API", description = "북마크를 해제하는 API.")
 	@ApiResponses(value = {
@@ -46,6 +48,6 @@ public interface BookMarkControllerApi {
 			content = {@Content(schema = @Schema(implementation = Void.class),mediaType = "application/json")}),
 		@ApiResponse(responseCode = "Book_0006", description = "해당 책은 북마크 되어있지 않습니다.", content = @Content(mediaType = "application/json"))
 	})
-	ResponseEntity<ResponseBody<Void>> deleteBookMark(@Schema(hidden = true) Long userId,
+	ResponseEntity<ResponseBody<Void>> deleteBookMark(@UserPrincipal CustomUserPrincipal userPrincipal,
 		@PathVariable @Schema(description = "책 id",example = "1") Long bookId);
 }

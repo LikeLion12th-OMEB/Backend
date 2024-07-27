@@ -8,7 +8,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import com.example.OMEB.domain.book.presentation.dto.response.BookInfoResponse;
 import com.example.OMEB.global.aop.AssignUserId;
+import com.example.OMEB.global.aop.UserPrincipal;
 import com.example.OMEB.global.base.dto.ResponseBody;
+import com.example.OMEB.global.jwt.CustomUserPrincipal;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -25,5 +27,5 @@ public interface BookInfoControllerApi {
 			content = {@Content(schema = @Schema(implementation = BookInfoResponse.class),mediaType = "application/json")}),
 		@ApiResponse(responseCode = "BOOK_0001", description = "책을 찾을 수 없습니다.", content = @Content(mediaType = "application/json"))
 	})
-	public ResponseEntity<ResponseBody<BookInfoResponse>> getBook(@Schema(hidden = true) Long userId, @PathVariable @Schema(description = "책 id" , example = "1") Long bookId);
+	public ResponseEntity<ResponseBody<BookInfoResponse>> getBook(@UserPrincipal CustomUserPrincipal userPrincipal, @PathVariable @Schema(description = "책 id" , example = "1") Long bookId);
 }

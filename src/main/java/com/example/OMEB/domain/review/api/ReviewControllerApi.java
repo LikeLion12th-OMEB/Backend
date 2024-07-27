@@ -41,7 +41,7 @@ public interface ReviewControllerApi {
 		@ApiResponse(responseCode = "BOOK_0001", description = "책을 찾을 수 없습니다.", content = @Content(mediaType = "application/json")),
 		@ApiResponse(responseCode = "TAG_0001", description = "태그를 찾을 수 없습니다.", content = @Content(mediaType = "application/json"))
 	})
-	ResponseEntity<ResponseBody<ReviewInfoResponse>> createReview(@Schema(hidden = true) Long userId,
+	ResponseEntity<ResponseBody<ReviewInfoResponse>> createReview(@UserPrincipal CustomUserPrincipal userPrincipal,
 		@PathVariable @Schema(description = "책 id", example = "1") Long bookId,
 		@RequestBody ReviewCreateRequest reviewCreateRequest);
 
@@ -82,7 +82,7 @@ public interface ReviewControllerApi {
 		@ApiResponse(responseCode = "REVIEW_0001", description = "리뷰를 찾을 수 없습니다.", content = @Content(mediaType = "application/json")),
 		@ApiResponse(responseCode = "REVIEW_0003", description = "이미 좋아요를 누른 리뷰입니다.", content = @Content(mediaType = "application/json"))
 	})
-	ResponseEntity<ResponseBody<Void>> likeReview(@Schema(hidden = true) Long userId, @PathVariable @Schema(description = "리뷰 id", example = "1")Long reviewId);
+	ResponseEntity<ResponseBody<Void>> likeReview(@UserPrincipal CustomUserPrincipal userPrincipal, @PathVariable @Schema(description = "리뷰 id", example = "1")Long reviewId);
 
 
 	@Operation(summary = "리뷰 삭제", description = "리뷰를 삭제하는 API.")
@@ -93,5 +93,5 @@ public interface ReviewControllerApi {
 		@ApiResponse(responseCode = "REVIEW_0001", description = "리뷰를 찾을 수 없습니다.", content = @Content(mediaType = "application/json")),
 		@ApiResponse(responseCode = "REVIEW_0002", description = "해당 사용자는 해당 리뷰에 대한 권한이 없습니다.", content = @Content(mediaType = "application/json"))
 	})
-	ResponseEntity<ResponseBody<Void>> deleteReview(@Schema(hidden = true) Long userId, @PathVariable @Schema(description = "리뷰 id", example = "1")Long reviewId);
+	ResponseEntity<ResponseBody<Void>> deleteReview(@UserPrincipal CustomUserPrincipal userPrincipal, @PathVariable @Schema(description = "리뷰 id", example = "1")Long reviewId);
 }

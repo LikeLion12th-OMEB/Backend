@@ -4,7 +4,10 @@ import com.example.OMEB.domain.book.api.BookInfoControllerApi;
 import com.example.OMEB.domain.book.application.usecase.BookUseCase;
 import com.example.OMEB.domain.book.presentation.dto.response.BookInfoResponse;
 import com.example.OMEB.global.aop.AssignUserId;
+import com.example.OMEB.global.aop.UserPrincipal;
 import com.example.OMEB.global.base.dto.ResponseBody;
+import com.example.OMEB.global.jwt.CustomUserPrincipal;
+
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -28,8 +31,7 @@ public class BookInfoController implements BookInfoControllerApi {
     private final BookUseCase bookUseCase;
 
     @GetMapping("/v1/book/{bookId}")
-    @AssignUserId
-    public ResponseEntity<ResponseBody<BookInfoResponse>> getBook(@Schema(hidden = true) Long userId, @PathVariable @Schema(description = "책 id" , example = "1") Long bookId) {
-        return ResponseEntity.ok(createSuccessResponse(bookUseCase.getBook(userId,bookId)));
+    public ResponseEntity<ResponseBody<BookInfoResponse>> getBook(@UserPrincipal CustomUserPrincipal userPrincipal, @PathVariable @Schema(description = "책 id" , example = "1") Long bookId) {
+        return ResponseEntity.ok(createSuccessResponse(bookUseCase.getBook(userPrincipal.userId(),bookId)));
     }
 }

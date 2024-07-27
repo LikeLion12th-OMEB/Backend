@@ -9,7 +9,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.OMEB.domain.profile.presentaion.dto.PresignedUrlResponse;
 import com.example.OMEB.global.aop.AssignUserId;
+import com.example.OMEB.global.aop.UserPrincipal;
 import com.example.OMEB.global.base.dto.ResponseBody;
+import com.example.OMEB.global.jwt.CustomUserPrincipal;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -27,7 +29,7 @@ public interface ProfileControllerApi {
 			content = {@Content(schema = @Schema(implementation = PresignedUrlResponse.class),mediaType = "application/json")}),
 		@ApiResponse(responseCode = "USER_0001", description = "사용자를 찾을 수 없습니다.", content = @Content(mediaType = "application/json"))
 	})
-	ResponseEntity<ResponseBody<PresignedUrlResponse>> getPresignedUrl(@Schema(hidden = true) Long userId,
+	ResponseEntity<ResponseBody<PresignedUrlResponse>> getPresignedUrl(@UserPrincipal CustomUserPrincipal userPrincipal,
 		@RequestParam("fileName") @Schema(description = "파일 이름", example = "example.jpg") String fileName);
 
 
@@ -37,7 +39,7 @@ public interface ProfileControllerApi {
 			content = {@Content(schema = @Schema(implementation = Void.class),mediaType = "application/json")}),
 		@ApiResponse(responseCode = "USER_0001", description = "사용자를 찾을 수 없습니다.", content = @Content(mediaType = "application/json"))
 	})
-	ResponseEntity<ResponseBody<Void>> createProfile(@Schema(hidden = true) Long userId,
+	ResponseEntity<ResponseBody<Void>> createProfile(@UserPrincipal CustomUserPrincipal userPrincipal,
 		@RequestParam("url")  @Schema(description = "이미지 접근 URL", example = "https://bucket.s3.ap-northeast-2.amazonaws.com/prefix/fileId") String url);
 
 
@@ -47,5 +49,5 @@ public interface ProfileControllerApi {
 			content = {@Content(schema = @Schema(implementation = Void.class),mediaType = "application/json")}),
 		@ApiResponse(responseCode = "USER_0001", description = "사용자를 찾을 수 없습니다.", content = @Content(mediaType = "application/json"))
 	})
-	ResponseEntity<ResponseBody<Void>> updateDefaultProfile(@Schema(hidden = true) Long userId);
+	ResponseEntity<ResponseBody<Void>> updateDefaultProfile(@UserPrincipal CustomUserPrincipal userPrincipal);
 }
