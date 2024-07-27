@@ -101,7 +101,5 @@ jobs:
             sudo docker run -d --log-driver=syslog --name redis --net mybridge -p 6379:6379 redis --requirepass "omeb4417"
             aws s3 cp s3://${{ secrets.S3_BUCKET_NAME }}/likelion.tar likelion.tar
             sudo docker load -i likelion.tar
-            sudo docker stop $(sudo docker ps -a -q) || true
-            sudo docker rm $(sudo docker ps -a -q) || true
             sudo docker run -d --log-driver=syslog --net mybridge -p 8080:8080 likelion
             sudo docker image prune -a -f
