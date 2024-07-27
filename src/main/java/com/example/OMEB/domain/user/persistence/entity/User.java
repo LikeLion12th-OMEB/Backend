@@ -75,5 +75,6 @@ public class User extends BaseEntity {
     public User(OAuth2Provider provider, String providerId) {
         this.provider = provider;
         this.providerId = providerId;
+        this.profileImageUrl = ProfileUrlUtill.getDefaultUrl();
     }
 }

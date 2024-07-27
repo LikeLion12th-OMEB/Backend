@@ -67,6 +67,22 @@ jobs:
           AWS_REGION: ${{ secrets.AWS_REGION }}
         run: aws s3 cp likelion.tar s3://${{ secrets.S3_BUCKET_NAME }}/likelion.tar
 
+      - name: Pull Redis Docker image
+        run: docker pull redis
+
+      - name: Save Docker image as tar
+        run: docker save redis -o redis.tar
+
+      - name : add permision to redis.tar
+        run : sudo chmod 777 redis.tar
+
+      - name: Upload to S3
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_S3_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_S3_SECRET_KEY_ID }}
+          AWS_REGION: ${{ secrets.AWS_REGION }}
+        run: aws s3 cp redis.tar s3://${{ secrets.S3_BUCKET_NAME }}/redis.tar
+
   deploy:
     runs-on: ubuntu-latest
     needs: delivery
@@ -78,9 +94,14 @@ jobs:
           username: ec2-user
           key: ${{ secrets.AWS_PRIVATE_KEY }}
           script: |
+            aws s3 cp s3://${{ secrets.S3_BUCKET_NAME }}/redis.tar redis.tar
+            sudo docker load -i redis.tar
+            sudo docker stop $(sudo docker ps -a -q) || true
+            sudo docker rm $(sudo docker ps -a -q) || true
+            sudo docker run -d --log-driver=syslog --name redis --net mybridge -p 6379:6379 redis --requirepass "omeb4417"
             aws s3 cp s3://${{ secrets.S3_BUCKET_NAME }}/likelion.tar likelion.tar
             sudo docker load -i likelion.tar
             sudo docker stop $(sudo docker ps -a -q) || true
             sudo docker rm $(sudo docker ps -a -q) || true
-            sudo docker run -d --log-driver=syslog -p 8080:8080 likelion
+            sudo docker run -d --log-driver=syslog --net mybridge -p 8080:8080 likelion
             sudo docker image prune -a -f

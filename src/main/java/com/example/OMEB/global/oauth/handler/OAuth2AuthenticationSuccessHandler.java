@@ -2,8 +2,6 @@ package com.example.OMEB.global.oauth.handler;
 
 import com.example.OMEB.domain.user.persistence.entity.User;
 import com.example.OMEB.domain.user.persistence.repository.UserRepository;
-import com.example.OMEB.global.base.exception.ErrorCode;
-import com.example.OMEB.global.base.exception.ServiceException;
 import com.example.OMEB.global.jwt.JwtUtils;
 import com.example.OMEB.global.oauth.HttpCookiesOAuth2AuthorizationRequestRepository;
 import com.example.OMEB.global.oauth.user.OAuth2Provider;
@@ -46,18 +44,14 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
             principal = null;
         }
 
-
         String providerId = principal.getUserInfo().getProviderId();
 
         isLogin = true;
         User user = userRepository.findByProviderId(providerId)
-                .orElseGet(() -> {
-                    return signUp(providerId, principal.getUserInfo().getProvider());
-                });
+                .orElseGet(() -> signUp(providerId, principal.getUserInfo().getProvider()));
 
         String accessToken = jwtUtils.createAccessToken(user.getId());
         String refreshToken = jwtUtils.createRefreshToken(user.getId());
-        // TODO : Redis에 refreshToken save
 
         Cookie redirectCookie = CookieUtils.getCookie(request, redirectUriCookieName);
         String redirectUri = UriComponentsBuilder.fromUriString(redirectCookie.getValue())
@@ -72,8 +66,9 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
     }
     public User signUp(String providerId, OAuth2Provider provider){
         User user = new User(provider, providerId);
+        //TODO : 수정
+        user.updateProfileImageUrl("https://omeb-image.s3.ap-northeast-2.amazonaws.com/default_profile.png");
         isLogin = false;
         return userRepository.save(user);
-        // TODO : Redis repository
     }
 }

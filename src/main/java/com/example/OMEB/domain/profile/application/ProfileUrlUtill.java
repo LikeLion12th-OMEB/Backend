@@ -3,6 +3,7 @@ package com.example.OMEB.domain.profile.application;
 import com.example.OMEB.global.base.exception.ErrorCode;
 import com.example.OMEB.global.base.exception.ServiceException;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
@@ -10,12 +11,13 @@ import java.util.Map;
 import java.util.UUID;
 
 @Component
+@PropertySource("classpath:/security/application-s3.yml")
 public class ProfileUrlUtill {
-    @Value("${profile.s3.deafult.url}")
+    @Value("${cloud.profile.s3.default.url}")
     private static String defaultUrl;
     @Value("${cloud.s3.bucket}")
     private static String bucket;
-    public static String  getDefaultUrl() {
+    public static String getDefaultUrl() {
         return defaultUrl;
     }
 
