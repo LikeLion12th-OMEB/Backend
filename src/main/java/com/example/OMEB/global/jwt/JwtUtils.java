@@ -58,9 +58,6 @@ public class JwtUtils {
                 .signWith(secretKey)
                 .compact();
 
-        // TODO : refresh 토큰 저장
-        refreshTokenRepository.save(new RefreshToken(userId, refreshToken));
-
         return refreshToken;
     }
     public boolean validateToken(String jwtToken){

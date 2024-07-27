@@ -3,6 +3,8 @@ package com.example.OMEB.global.oauth.handler;
 import com.example.OMEB.domain.user.persistence.entity.User;
 import com.example.OMEB.domain.user.persistence.repository.UserRepository;
 import com.example.OMEB.global.jwt.JwtUtils;
+import com.example.OMEB.global.jwt.refreshToken.RefreshToken;
+import com.example.OMEB.global.jwt.refreshToken.RefreshTokenRepository;
 import com.example.OMEB.global.oauth.HttpCookiesOAuth2AuthorizationRequestRepository;
 import com.example.OMEB.global.oauth.user.OAuth2Provider;
 import com.example.OMEB.global.oauth.user.OAuth2UserPrincipal;
@@ -27,7 +29,10 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
     private final UserRepository userRepository;
     private final JwtUtils jwtUtils;
     private final HttpCookiesOAuth2AuthorizationRequestRepository httpCookiesOAuth2AuthorizationRequestRepository;
+    private final RefreshTokenRepository refreshTokenRepository;
     private boolean isLogin;
+    public final static String USER_COOKIE_NAME = "user";
+    public final int COOKIE_EXPIRE_SECONDS = 300;
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
                                         Authentication authentication) throws IOException, ServletException {
@@ -45,30 +50,41 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
         }
 
         String providerId = principal.getUserInfo().getProviderId();
+        Cookie redirectCookie = CookieUtils.getCookie(request, redirectUriCookieName);
 
         isLogin = true;
-        User user = userRepository.findByProviderId(providerId)
-                .orElseGet(() -> signUp(providerId, principal.getUserInfo().getProvider()));
+        User user = userRepository.findByProviderId(providerId);
+        String redirectUri;
+        if (user != null){
+            String accessToken = jwtUtils.createAccessToken(user.getId());
+            String refreshToken = jwtUtils.createRefreshToken(user.getId());
+            refreshTokenRepository.save(new RefreshToken(refreshToken, user.getId()));
 
-        String accessToken = jwtUtils.createAccessToken(user.getId());
-        String refreshToken = jwtUtils.createRefreshToken(user.getId());
-
-        Cookie redirectCookie = CookieUtils.getCookie(request, redirectUriCookieName);
-        String redirectUri = UriComponentsBuilder.fromUriString(redirectCookie.getValue())
-                .queryParam("isLogin", isLogin)
-                .queryParam("accessToken", accessToken)
-                .queryParam("refreshToken", refreshToken)
-                .build().toUriString();
-
+            redirectUri = UriComponentsBuilder.fromUriString(redirectCookie.getValue())
+                    .queryParam("isLogin", isLogin)
+                    .queryParam("accessToken", accessToken)
+                    .queryParam("refreshToken", refreshToken)
+                    .build().toUriString();
+        } else{
+            signUp(providerId, principal.getUserInfo().getProvider(), response);
+            redirectUri = UriComponentsBuilder.fromUriString(redirectCookie.getValue())
+                    .queryParam("isLogin", isLogin)
+                    .build().toUriString();
+        }
         super.clearAuthenticationAttributes(request);
         httpCookiesOAuth2AuthorizationRequestRepository.removeCookies(request, response);
         getRedirectStrategy().sendRedirect(request, response, redirectUri);
     }
-    public User signUp(String providerId, OAuth2Provider provider){
+    public void signUp(String providerId, OAuth2Provider provider,
+                       HttpServletResponse response){
         User user = new User(provider, providerId);
         //TODO : 수정
         user.updateProfileImageUrl("https://omeb-image.s3.ap-northeast-2.amazonaws.com/default_profile.png");
         isLogin = false;
-        return userRepository.save(user);
+
+        CookieUtils.createCookie(response,
+                USER_COOKIE_NAME,
+                CookieUtils.ObjectToString(user),
+                COOKIE_EXPIRE_SECONDS);
     }
 }

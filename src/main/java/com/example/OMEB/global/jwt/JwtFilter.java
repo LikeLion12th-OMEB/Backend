@@ -27,29 +27,32 @@ public class JwtFilter extends OncePerRequestFilter {
     private final JwtUtils jwtUtils;
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        try{
-            String jwtToken = resolveToken(request).orElseThrow(() ->
-                    new JwtNotExistException(ErrorCode.JWT_NOT_EXIST));
-            if (jwtUtils.validateToken(jwtToken)){
-                Authentication authentication = jwtUtils.getAuthentication(jwtToken);
-                SecurityContextHolder.getContext().setAuthentication(authentication);
-            }
+        String jwtToken = resolveToken(request);
+        if (jwtToken == null)
             filterChain.doFilter(request, response);
-        } catch (CustomJwtException e){
-            response.setStatus(e.getErrorCode().getStatus().value());
-            response.setContentType(MediaType.APPLICATION_JSON_VALUE+ ";charset=UTF-8");
-            response.setCharacterEncoding("UTF-8");
-            response.getWriter().write(objectMapper.writeValueAsString(
-                    FailedResponseBody.createFailureResponse(e.getErrorCode())));
+        else{
+            try{
+                if (jwtUtils.validateToken(jwtToken)){
+                    Authentication authentication = jwtUtils.getAuthentication(jwtToken);
+                    SecurityContextHolder.getContext().setAuthentication(authentication);
+                }
+                filterChain.doFilter(request, response);
+            } catch (CustomJwtException e){
+                response.setStatus(e.getErrorCode().getStatus().value());
+                response.setContentType(MediaType.APPLICATION_JSON_VALUE+ ";charset=UTF-8");
+                response.setCharacterEncoding("UTF-8");
+                response.getWriter().write(objectMapper.writeValueAsString(
+                        FailedResponseBody.createFailureResponse(e.getErrorCode())));
+            }
         }
     }
 
-    public Optional<String> resolveToken(HttpServletRequest request){
+    public String resolveToken(HttpServletRequest request){
         // jwt 토큰 파싱
         String bearerToken = request.getHeader(HTTP_AUTHORIZATION_HEADER);
         if (StringUtils.hasText(bearerToken) && bearerToken.startsWith(TOKEN_TYPE))
-            return Optional.of(bearerToken.substring(7));
+            return bearerToken.substring(7);
 
-        return Optional.empty();
+        return null;
     }
 }
