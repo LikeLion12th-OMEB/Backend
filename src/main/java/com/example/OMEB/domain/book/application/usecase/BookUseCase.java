@@ -42,6 +42,7 @@ public class BookUseCase {
 
     @Transactional
     public void applicationBook(BookApplicationRequest bookApplicationRequest) {
+        log.info("[BookUseCase] (applicationBook) application book request: {}", bookApplicationRequest);
         bookQueryService.findByISBN(bookApplicationRequest.getIsbn()).ifPresent(book -> {
             throw new ServiceException(ErrorCode.APPLICATION_ALREADY_EXIST_BOOK);
         });

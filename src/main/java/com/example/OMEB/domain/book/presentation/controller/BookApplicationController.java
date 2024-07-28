@@ -41,6 +41,7 @@ public class BookApplicationController implements BookApplicationControllerApi {
 
     @PostMapping("/v1/book/application")
     public ResponseEntity<ResponseBody<Void>> applicationBook(@RequestBody @Valid BookApplicationRequest bookApplicationRequest) {
+        log.info("[BookApplicationController] (applicationBook) application book request: {}", bookApplicationRequest);
         bookUseCase.applicationBook(bookApplicationRequest);
         return ResponseEntity.ok(createSuccessResponse());
     }
