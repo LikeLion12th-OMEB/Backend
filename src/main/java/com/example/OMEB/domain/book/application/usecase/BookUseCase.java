@@ -7,6 +7,7 @@ import com.example.OMEB.domain.book.application.service.NaverBookSearchClient;
 import com.example.OMEB.domain.book.presentation.dto.request.BookApplicationRequest;
 import com.example.OMEB.domain.book.presentation.dto.request.BookSearchRequest;
 import com.example.OMEB.domain.book.presentation.dto.response.BookInfoResponse;
+import com.example.OMEB.domain.book.presentation.dto.response.BookTitleListResponse;
 import com.example.OMEB.domain.book.presentation.dto.response.NaverBookListResponse;
 import com.example.OMEB.global.aop.UserPrincipal;
 import com.example.OMEB.global.base.exception.ErrorCode;
@@ -55,5 +56,11 @@ public class BookUseCase {
     public BookInfoResponse getBook(CustomUserPrincipal userPrincipal,Long bookId) {
         log.info("[BookUseCase] (getBook) get book request: {}", bookId);
         return bookQueryService.findByBookId(userPrincipal,bookId);
+    }
+
+    @Transactional(readOnly = true)
+    public BookTitleListResponse getBookReviewRank() {
+        log.info("[BookUseCase] (getBookReviewRank) get book review rank request");
+        return bookQueryService.findBookListOrderByReviewRank();
     }
 }

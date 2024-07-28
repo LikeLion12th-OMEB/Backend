@@ -1,5 +1,7 @@
 package com.example.OMEB.domain.book.presentation.dto.response;
 
+import com.example.OMEB.domain.book.persistence.entity.Book;
+
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
@@ -25,5 +27,13 @@ public class BookTitleInfoResponse {
         this.author = author;
         this.bookImage = bookImage;
         this.price = price;
+    }
+
+    public BookTitleInfoResponse(Book book) {
+        this.bookId = book.getId();
+        this.title = book.getTitle();
+        this.author = book.getAuthor();
+        this.bookImage = book.getBookImage();
+        this.price = book.getPrice();
     }
 }
