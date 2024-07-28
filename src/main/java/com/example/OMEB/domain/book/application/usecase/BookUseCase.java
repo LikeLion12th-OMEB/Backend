@@ -8,8 +8,11 @@ import com.example.OMEB.domain.book.presentation.dto.request.BookApplicationRequ
 import com.example.OMEB.domain.book.presentation.dto.request.BookSearchRequest;
 import com.example.OMEB.domain.book.presentation.dto.response.BookInfoResponse;
 import com.example.OMEB.domain.book.presentation.dto.response.NaverBookListResponse;
+import com.example.OMEB.global.aop.UserPrincipal;
 import com.example.OMEB.global.base.exception.ErrorCode;
 import com.example.OMEB.global.base.exception.ServiceException;
+import com.example.OMEB.global.jwt.CustomUserPrincipal;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -48,7 +51,8 @@ public class BookUseCase {
         bookCommandService.saveBook(naverBookDTO);
     }
 
-    public BookInfoResponse getBook(Long userId,Long bookId) {
-        return bookQueryService.findByBookId(userId,bookId);
+    public BookInfoResponse getBook(CustomUserPrincipal userPrincipal,Long bookId) {
+        log.info("[BookUseCase] (getBook) get book request: {}", bookId);
+        return bookQueryService.findByBookId(userPrincipal,bookId);
     }
 }
