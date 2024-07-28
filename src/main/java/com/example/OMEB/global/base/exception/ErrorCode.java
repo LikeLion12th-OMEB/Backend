@@ -22,6 +22,7 @@ public enum ErrorCode {
     JWT_EXPIRED_TOKEN(HttpStatus.BAD_REQUEST, "AUTH_0002", "만료된 Jwt 토큰입니다."),
     JWT_AUTHENTICATION_FAILED(HttpStatus.BAD_REQUEST, "AUTH_0003", "Jwt 토큰 인증이 실패했습니다."),
     JWT_NOT_EXIST(HttpStatus.BAD_REQUEST, "AUTH_0004", "Jwt 토큰이 존재하지 않습니다."),
+    INVALID_ACCESS(HttpStatus.BAD_REQUEST, "AUTH_0005", "잘못된 접근입니다."),
 
     // User
     NOT_FOUND_USER(HttpStatus.NOT_FOUND, "USER_0001", "사용자를 찾을 수 없습니다."),
