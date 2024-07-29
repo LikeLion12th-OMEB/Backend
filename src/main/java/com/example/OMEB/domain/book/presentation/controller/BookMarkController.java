@@ -19,6 +19,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -31,17 +32,22 @@ import static com.example.OMEB.global.base.dto.SuccessResponseBody.createSuccess
 public class BookMarkController implements BookMarkControllerApi {
     private final BookMarkServiceImpl bookMarkService;
 
+    @PreAuthorize("isAuthenticated()")
     @PostMapping("/v1/bookmark/{bookId}")
     public ResponseEntity<ResponseBody<Void>> saveBookMark(@UserPrincipal CustomUserPrincipal userPrincipal , @PathVariable @Schema(description = "책 id",example = "1") Long bookId) {
         bookMarkService.saveBookMark(userPrincipal.userId(), bookId);
         return ResponseEntity.ok(createSuccessResponse());
     }
 
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/v1/bookmark")
     public ResponseEntity<ResponseBody<BookTitleListResponse>> getBookMark(@UserPrincipal CustomUserPrincipal userPrincipal) { // TODO : 페이징 필요한지 확인
+        if(userPrincipal==null)
+            System.out.println("userPrincipal is null" );
         return ResponseEntity.ok(createSuccessResponse(bookMarkService.findUserBookMark(userPrincipal.userId())));
     }
 
+    @PreAuthorize("isAuthenticated()")
     @DeleteMapping("/v1/bookmark/{bookId}")
     public ResponseEntity<ResponseBody<Void>> deleteBookMark(@UserPrincipal CustomUserPrincipal userPrincipal,
                                                              @PathVariable @Schema(description = "책 id",example = "1") Long bookId) {

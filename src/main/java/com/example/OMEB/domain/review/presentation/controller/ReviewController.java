@@ -24,6 +24,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,6 +37,7 @@ public class ReviewController implements ReviewControllerApi {
     private final ReviewService reviewService;
 
 
+    @PreAuthorize("isAuthenticated()")
     @PostMapping("/v1/review/{bookId}")
     public ResponseEntity<ResponseBody<ReviewInfoResponse>> createReview(@UserPrincipal CustomUserPrincipal userPrincipal,
                                                                          @PathVariable @Schema(description = "책 id", example = "1") Long bookId,
@@ -43,6 +45,7 @@ public class ReviewController implements ReviewControllerApi {
         return ResponseEntity.ok(createSuccessResponse(reviewService.createReview(userPrincipal.userId(), bookId, reviewCreateRequest)));
     }
 
+    @PreAuthorize("isAuthenticated()")
     @PatchMapping("/v1/review/{reviewId}")
     public ResponseEntity<ResponseBody<ReviewInfoResponse>> updateReview(@UserPrincipal CustomUserPrincipal userPrincipal,
                                                                          @PathVariable @Schema(description = "리뷰 id", example = "1")Long reviewId,
@@ -50,6 +53,7 @@ public class ReviewController implements ReviewControllerApi {
         return ResponseEntity.ok(createSuccessResponse(reviewService.updateReview(userPrincipal.userId(), reviewId, reviewUpdateRequest)));
     }
 
+    @PreAuthorize("permitAll()")
     @GetMapping("/v1/reviews/{bookId}")
     public ResponseEntity<ResponseBody<ReviewPageResponse>> getReviews(@PathVariable @Schema(description = "책 id", example = "1") Long bookId,
                                                                        @RequestParam(defaultValue = "1") @Schema(description = "조회할 페이지 넘버(가장 작은 수 1)", example = "1") int page,
@@ -59,6 +63,7 @@ public class ReviewController implements ReviewControllerApi {
         return ResponseEntity.ok(createSuccessResponse(reviewService.getReviews(bookId, page-1, size, sortDirection, sortBy)));
     }
 
+    @PreAuthorize("isAuthenticated()")
     @PostMapping("/v1/review/{reviewId}/like")
     public ResponseEntity<ResponseBody<Void>> likeReview(@UserPrincipal CustomUserPrincipal userPrincipal,
                                                          @PathVariable @Schema(description = "리뷰 id", example = "1")Long reviewId) {
@@ -66,6 +71,7 @@ public class ReviewController implements ReviewControllerApi {
         return ResponseEntity.ok(createSuccessResponse());
     }
 
+    @PreAuthorize("isAuthenticated()")
     @DeleteMapping("/v1/review/{reviewId}")
     public ResponseEntity<ResponseBody<Void>> deleteReview(@UserPrincipal CustomUserPrincipal userPrincipal,
                                                            @PathVariable @Schema(description = "리뷰 id", example = "1")Long reviewId) {

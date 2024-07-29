@@ -15,7 +15,6 @@ public enum TagName {
     LETHARGY,
     LOVE,
     ACCOMPLISHMENT,
-    OTHER
     ;
 
     @JsonCreator

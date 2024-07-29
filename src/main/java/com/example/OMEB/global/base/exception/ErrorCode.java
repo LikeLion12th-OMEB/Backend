@@ -21,8 +21,9 @@ public enum ErrorCode {
     NOT_FOUND_COOKIE(HttpStatus.NOT_FOUND, "AUTH_0001", "쿠키를 찾을 수 없습니다."),
     JWT_EXPIRED_TOKEN(HttpStatus.BAD_REQUEST, "AUTH_0002", "만료된 Jwt 토큰입니다."),
     JWT_AUTHENTICATION_FAILED(HttpStatus.BAD_REQUEST, "AUTH_0003", "Jwt 토큰 인증이 실패했습니다."),
-    JWT_NOT_EXIST(HttpStatus.BAD_REQUEST, "AUTH_0004", "Jwt 토큰이 존재하지 않습니다."),
+    ACCESS_DENIED(HttpStatus.UNAUTHORIZED, "AUTH_0004", "인증되지 않은 사용자입니다."),
     INVALID_ACCESS(HttpStatus.BAD_REQUEST, "AUTH_0005", "잘못된 접근입니다."),
+
 
     // User
     NOT_FOUND_USER(HttpStatus.NOT_FOUND, "USER_0001", "사용자를 찾을 수 없습니다."),
@@ -49,7 +50,6 @@ public enum ErrorCode {
     NOT_IMAGE_FILE(HttpStatus.BAD_REQUEST, "FILE_0002", "이미지 파일이 아닙니다."),
     INVALID_S3_URL(HttpStatus.BAD_REQUEST, "FILE_0003", "S3 URL이 올바르지 않습니다."),
     INVALID_FILE_USER(HttpStatus.UNAUTHORIZED, "FILE_0004", "해당 파일은 사용자의 파일이 아닙니다."),
-
 
 
     ;

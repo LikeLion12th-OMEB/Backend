@@ -19,6 +19,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -33,12 +34,14 @@ public class BookApplicationController implements BookApplicationControllerApi {
 
     private final BookUseCase bookUseCase;
 
+    @PreAuthorize("permitAll()")
     @PutMapping("/v1/books/application")
     public ResponseEntity<ResponseBody<NaverBookListResponse>> serachBooks(@RequestBody @Valid BookSearchRequest bookSearchRequest) { // TODO : 인증 필요 없는지 확인 필요
         log.info("[BookApplicationController] (serachBooks) search books request: {}", bookSearchRequest);
         return ResponseEntity.ok(createSuccessResponse(bookUseCase.searchTitleBooks(bookSearchRequest)));
     }
 
+    @PreAuthorize("permitAll()")
     @PostMapping("/v1/book/application")
     public ResponseEntity<ResponseBody<Void>> applicationBook(@RequestBody @Valid BookApplicationRequest bookApplicationRequest) {
         log.info("[BookApplicationController] (applicationBook) application book request: {}", bookApplicationRequest);
