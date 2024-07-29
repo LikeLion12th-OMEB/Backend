@@ -20,6 +20,7 @@ import java.util.List;
 @Entity
 @NoArgsConstructor
 @Getter
+@Table(name = "users")
 public class User extends BaseEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

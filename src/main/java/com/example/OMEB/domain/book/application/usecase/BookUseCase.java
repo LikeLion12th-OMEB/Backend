@@ -7,6 +7,7 @@ import com.example.OMEB.domain.book.application.service.NaverBookSearchClient;
 import com.example.OMEB.domain.book.presentation.dto.request.BookApplicationRequest;
 import com.example.OMEB.domain.book.presentation.dto.request.BookSearchRequest;
 import com.example.OMEB.domain.book.presentation.dto.response.BookInfoResponse;
+import com.example.OMEB.domain.book.presentation.dto.response.BookTitleListResponse;
 import com.example.OMEB.domain.book.presentation.dto.response.NaverBookListResponse;
 import com.example.OMEB.global.aop.UserPrincipal;
 import com.example.OMEB.global.base.exception.ErrorCode;
@@ -30,7 +31,7 @@ public class BookUseCase {
 
     //TODO : 검색 title 할 때 띄어쓰기 아예 없어야 검색 결과가 좋아짐!!
     public NaverBookListResponse searchTitleBooks(BookSearchRequest bookSearchRequest) {
-        List<NaverBookDTO> naverBookDTOS = naverBookSearchClient.searchBooks(bookSearchRequest.getTitle(), null);
+        List<NaverBookDTO> naverBookDTOS = naverBookSearchClient.searchBooks(bookSearchRequest.getTitle().replace(" ", ""), null);
         if(naverBookDTOS.size() == 0) {
             throw new ServiceException(ErrorCode.APPLICATION_NOT_FOUND_BOOK);
         }else if(naverBookDTOS.size() >= 10) {
@@ -42,6 +43,7 @@ public class BookUseCase {
 
     @Transactional
     public void applicationBook(BookApplicationRequest bookApplicationRequest) {
+        log.info("[BookUseCase] (applicationBook) application book request: {}", bookApplicationRequest);
         bookQueryService.findByISBN(bookApplicationRequest.getIsbn()).ifPresent(book -> {
             throw new ServiceException(ErrorCode.APPLICATION_ALREADY_EXIST_BOOK);
         });
@@ -54,5 +56,11 @@ public class BookUseCase {
     public BookInfoResponse getBook(CustomUserPrincipal userPrincipal,Long bookId) {
         log.info("[BookUseCase] (getBook) get book request: {}", bookId);
         return bookQueryService.findByBookId(userPrincipal,bookId);
+    }
+
+    @Transactional(readOnly = true)
+    public BookTitleListResponse getBookReviewRank() {
+        log.info("[BookUseCase] (getBookReviewRank) get book review rank request");
+        return bookQueryService.findBookListOrderByReviewRank();
     }
 }
