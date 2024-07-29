@@ -21,6 +21,7 @@ import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Tag(name = "Auth API", description = "인증/인가 관련 API")
 public interface AuthControllerAPI {
@@ -55,4 +56,13 @@ public interface AuthControllerAPI {
     })
     public ResponseEntity<ResponseBody<Void>> logout(
             @RequestBody @Valid LogoutRequest logoutRequest);
+
+    @Operation(summary = "중복 닉네임 확인 API", description = "중복 닉네임 확인 요청 API")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "요청에 성공하였습니다.",
+                    content = {@Content(schema = @Schema(implementation = Void.class), mediaType = "application/json")}),
+            @ApiResponse(responseCode = "USER_0002", description = "중복된 닉네임입니다.", content = @Content(mediaType = "application/json"))
+    })
+    public ResponseEntity<ResponseBody<Void>> check(
+            @RequestParam @Schema(description = "닉네임", example = "멋쟁이사자") String nickname);
 }

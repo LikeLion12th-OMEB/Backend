@@ -27,6 +27,7 @@ public enum ErrorCode {
 
     // User
     NOT_FOUND_USER(HttpStatus.NOT_FOUND, "USER_0001", "사용자를 찾을 수 없습니다."),
+    DUPLICATE_INFO(HttpStatus.BAD_REQUEST, "USER_0002", "중복된 유저 정보입니다."),
 
     // Book
     NOT_FOUND_BOOK(HttpStatus.NOT_FOUND, "BOOK_0001", "책을 찾을 수 없습니다."),
