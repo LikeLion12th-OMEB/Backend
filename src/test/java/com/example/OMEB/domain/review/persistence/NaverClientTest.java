@@ -1,7 +1,6 @@
 package com.example.OMEB.domain.review.persistence;
 
 import com.example.OMEB.domain.book.presentation.dto.NaverBookDTO;
-import com.example.OMEB.domain.book.application.service.Emotion;
 import com.example.OMEB.domain.book.application.service.NaverBookSearchClient;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
