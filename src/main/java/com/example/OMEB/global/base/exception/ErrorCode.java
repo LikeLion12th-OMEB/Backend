@@ -21,9 +21,8 @@ public enum ErrorCode {
     NOT_FOUND_COOKIE(HttpStatus.NOT_FOUND, "AUTH_0001", "쿠키를 찾을 수 없습니다."),
     JWT_EXPIRED_TOKEN(HttpStatus.BAD_REQUEST, "AUTH_0002", "만료된 Jwt 토큰입니다."),
     JWT_AUTHENTICATION_FAILED(HttpStatus.BAD_REQUEST, "AUTH_0003", "Jwt 토큰 인증이 실패했습니다."),
-    JWT_NOT_EXIST(HttpStatus.BAD_REQUEST, "AUTH_0004", "Jwt 토큰이 존재하지 않습니다."),
+    ACCESS_DENIED(HttpStatus.UNAUTHORIZED, "AUTH_0004", "인증되지 않은 사용자입니다."),
     INVALID_ACCESS(HttpStatus.BAD_REQUEST, "AUTH_0005", "잘못된 접근입니다."),
-    ACCESS_DENIED(HttpStatus.UNAUTHORIZED, "AUTH_006", "인증되지 않은 사용자입니다."),
 
 
     // User
