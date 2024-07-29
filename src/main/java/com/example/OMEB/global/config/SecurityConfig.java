@@ -9,6 +9,7 @@ import com.example.OMEB.global.oauth.service.CustomOAuth2UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -25,6 +26,10 @@ import java.util.Arrays;
 @EnableWebSecurity
 @Configuration
 @RequiredArgsConstructor
+@EnableGlobalMethodSecurity(
+    securedEnabled = true, // @Secured 활성화
+    prePostEnabled = true // @PreAuthorized 활성화, @PostAuthroized 활성화
+)
 public class SecurityConfig {
     private final HttpCookiesOAuth2AuthorizationRequestRepository httpCookiesOAuth2AuthorizationRequestRepository;
     private final CustomOAuth2UserService customOAuth2UserService;
