@@ -12,7 +12,11 @@ import com.example.OMEB.domain.review.presentation.dto.request.ReviewCreateReque
 import com.example.OMEB.domain.review.presentation.dto.request.ReviewUpdateRequest;
 import com.example.OMEB.domain.review.presentation.dto.response.ReviewInfoResponse;
 import com.example.OMEB.domain.review.presentation.dto.response.ReviewPageResponse;
+import com.example.OMEB.domain.user.application.IncreaseExpType;
+import com.example.OMEB.domain.user.application.service.UserService;
+import com.example.OMEB.domain.user.persistence.entity.ExpLog;
 import com.example.OMEB.domain.user.persistence.entity.User;
+import com.example.OMEB.domain.user.persistence.repository.ExpLogRepository;
 import com.example.OMEB.domain.user.persistence.repository.UserRepository;
 import com.example.OMEB.global.base.exception.ErrorCode;
 import com.example.OMEB.global.base.exception.ServiceException;
@@ -31,6 +35,9 @@ public class ReviewService {
     private final BookRepository bookRepository;
     private final TagRepository tagRepository;
     private final LikeRepository likeRepository;
+    private final ExpLogRepository expLogRepository;
+
+    private final UserService userService;
 
     @Transactional
     public ReviewInfoResponse createReview(Long userId, Long bookId, ReviewCreateRequest reviewCreateRequest) {
@@ -42,6 +49,9 @@ public class ReviewService {
                 .orElseThrow(() -> new ServiceException(ErrorCode.NOT_FOUND_TAG));
         Review review = Review.fromReviewRequest(user, book, reviewCreateRequest,tag);
         reviewRepository.save(review);
+
+        ExpLog explog = userService.increaseExp(user, IncreaseExpType.WRITE_REVIEW);
+        expLogRepository.save(explog);
         return ReviewInfoResponse.builder()
                 .bookId(bookId)
                 .reviewId(review.getId())
@@ -107,6 +117,14 @@ public class ReviewService {
                 .orElseThrow(() -> new ServiceException(ErrorCode.NOT_FOUND_USER));
         Like like = new Like(user,review);
         likeRepository.save(like);
+
+        ExpLog createLikeExplog = userService.increaseExp(user, IncreaseExpType.CREATE_LIKE);
+        expLogRepository.save(createLikeExplog);
+
+        User reviewUser = userRepository.findById(review.getUser().getId())
+                .orElseThrow(() -> new ServiceException(ErrorCode.NOT_FOUND_USER));
+        ExpLog getLikeExplog = userService.increaseExp(reviewUser, IncreaseExpType.GET_LIKE);
+        expLogRepository.save(getLikeExplog);
     }
 
     @Transactional
