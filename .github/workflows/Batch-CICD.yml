@@ -80,9 +80,29 @@ jobs:
           username: ec2-user
           key: ${{ secrets.AWS_PRIVATE_KEY }}
           script: |
-            sudo docker stop $(sudo docker ps -a -q) || true
-            sudo docker rm $(sudo docker ps -a -q) || true
+            # Ensure Docker is installed and running
+            sudo systemctl start docker || true
+            
+            # Check if the 'likelion-batch' container is running
+            CONTAINER_ID=$(sudo docker ps -q -f name=likelion-batch)
+            
+            # Stop and remove 'likelion-batch' container if it is running
+            if [ -n "$CONTAINER_ID" ]; then
+            echo "Stopping and removing 'likelion-batch' container..."
+            sudo docker stop $CONTAINER_ID || true
+            sudo docker rm $CONTAINER_ID || true
+            else
+            echo "'likelion-batch' container is not running."
+            fi
+  
+            # Download the Docker image tar file from S3
             aws s3 cp s3://${{ secrets.S3_BUCKET_NAME }}/likelion-batch.tar likelion-batch.tar
+  
+            # Load Docker image from the tar file
             sudo docker load -i likelion-batch.tar
-            sudo docker run -d --log-driver=syslog --net mybridge -p 8080:8080 likelion-batch
+  
+            # Run the Docker container with the default bridge network
+            sudo docker run -d --name likelion-batch --log-driver=syslog --net bridge -p 8080:8080 likelion-batch
+  
+            # Clean up Docker images
             sudo docker image prune -a -f
