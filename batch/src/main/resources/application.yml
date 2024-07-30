@@ -1,0 +1,8 @@
+server:
+  shutdown: graceful
+  port: 8080
+
+spring:
+  config:
+    import:
+      - file:///C:/Spring_Study/LikeLion12th_OMEB/Backend/src/main/resources/security/application-batch.yml
