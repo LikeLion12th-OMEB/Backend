@@ -73,5 +73,4 @@ public class Book {
 		this.createdAt = createdAt;
 		this.updatedAt = updatedAt;
 	}
-
 }
