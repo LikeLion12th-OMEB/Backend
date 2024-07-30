@@ -54,7 +54,10 @@ jobs:
 
       - name: Build with Gradle Wrapper
         run: ./batch/gradlew build
-
+        
+      - name : Debug jar file
+        run: ls batch/build/libs
+        
       - name: Build Docker image
         run: docker build -t likelion-batch batch
 
