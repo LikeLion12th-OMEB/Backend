@@ -2,9 +2,7 @@ package com.example.OMEB.global.oauth.handler;
 
 import com.example.OMEB.domain.user.application.IncreaseExpType;
 import com.example.OMEB.domain.user.application.service.UserService;
-import com.example.OMEB.domain.user.persistence.entity.ExpLog;
 import com.example.OMEB.domain.user.persistence.entity.User;
-import com.example.OMEB.domain.user.persistence.repository.ExpLogRepository;
 import com.example.OMEB.domain.user.persistence.repository.UserRepository;
 import com.example.OMEB.global.jwt.JwtUtils;
 import com.example.OMEB.global.jwt.refreshToken.RefreshToken;
@@ -26,7 +24,6 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import java.io.IOException;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 import static com.example.OMEB.global.oauth.HttpCookiesOAuth2AuthorizationRequestRepository.redirectUriCookieName;
 
@@ -37,7 +34,6 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
     private final JwtUtils jwtUtils;
     private final HttpCookiesOAuth2AuthorizationRequestRepository httpCookiesOAuth2AuthorizationRequestRepository;
     private final RefreshTokenRepository refreshTokenRepository;
-    private final ExpLogRepository expLogRepository;
 
     private final UserService userService;
     private boolean isLogin;
@@ -80,8 +76,7 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
             LocalDate lastLoginDate = user.getLastLoginAt();
             user.updateLastLoginAt();
             if(lastLoginDate.isBefore(LocalDate.now())){
-                ExpLog expLog = userService.increaseExp(user, IncreaseExpType.DAY_LOGIN);
-                expLogRepository.save(expLog);
+                userService.increaseExp(user, IncreaseExpType.DAY_LOGIN);
             }
         } else{
             signUp(providerId, principal.getUserInfo().getProvider(), response);

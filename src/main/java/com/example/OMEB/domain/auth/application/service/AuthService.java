@@ -44,10 +44,9 @@ public class AuthService {
         User user = CookieUtils.StringToObject(cookie.getValue(), User.class);
         user.setNickname(nickname);
         user.updateLastLoginAt();
-        ExpLog explog = userService.increaseExp(user, IncreaseExpType.DAY_LOGIN);
-
         userRepository.save(user);
-        expLogRepository.save(explog);
+        userRepository.flush();
+        userService.increaseExp(user, IncreaseExpType.DAY_LOGIN);
 
         CookieUtils.deleteCookie(request, response, USER_COOKIE_NAME);
         String accessToken = jwtUtils.createAccessToken(user.getId());
