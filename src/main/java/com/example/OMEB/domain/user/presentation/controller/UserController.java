@@ -3,10 +3,8 @@ package com.example.OMEB.domain.user.presentation.controller;
 import com.example.OMEB.domain.user.application.service.UserService;
 import com.example.OMEB.domain.user.presentation.api.UserApi;
 import com.example.OMEB.domain.user.presentation.dto.request.UpdateUserInfoRequest;
-import com.example.OMEB.domain.user.presentation.dto.response.UserBookMarkResponse;
 import com.example.OMEB.domain.user.presentation.dto.response.UserExpLogResponse;
 import com.example.OMEB.domain.user.presentation.dto.response.UserInfoResponse;
-import com.example.OMEB.domain.user.presentation.dto.response.UserReviewResponse;
 import com.example.OMEB.domain.user.presentation.dto.response.rank.UserRankPageResponse;
 import com.example.OMEB.global.aop.UserPrincipal;
 import com.example.OMEB.global.base.dto.ResponseBody;
@@ -33,22 +31,12 @@ public class UserController implements UserApi {
         return ResponseEntity.ok(createSuccessResponse(userService.getUserInfo(userPrincipal.userId())));
     }
 
-    @GetMapping("/my-reviews")
-    @PreAuthorize("isAuthenticated()")
-    public ResponseEntity<ResponseBody<List<UserReviewResponse>>> getUserReviews(@UserPrincipal CustomUserPrincipal userPrincipal){
-        return ResponseEntity.ok(createSuccessResponse(userService.getUserReviews(userPrincipal.userId())));
-    }
+
 
     @GetMapping("/my-explogs")
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity<ResponseBody<List<UserExpLogResponse>>> getUserExpLogs(@UserPrincipal CustomUserPrincipal userPrincipal){
         return ResponseEntity.ok(createSuccessResponse(userService.getUserExpLogs(userPrincipal.userId())));
-    }
-
-    @GetMapping("/my-bookmarks")
-    @PreAuthorize("isAuthenticated()")
-    public ResponseEntity<ResponseBody<List<UserBookMarkResponse>>> getUserBookMarks(@UserPrincipal CustomUserPrincipal userPrincipal){
-        return ResponseEntity.ok(createSuccessResponse(userService.getUserBookMarks(userPrincipal.userId())));
     }
 
     @PatchMapping()

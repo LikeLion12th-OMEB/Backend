@@ -1,10 +1,8 @@
 package com.example.OMEB.domain.user.presentation.api;
 
 import com.example.OMEB.domain.user.presentation.dto.request.UpdateUserInfoRequest;
-import com.example.OMEB.domain.user.presentation.dto.response.UserBookMarkResponse;
 import com.example.OMEB.domain.user.presentation.dto.response.UserExpLogResponse;
 import com.example.OMEB.domain.user.presentation.dto.response.UserInfoResponse;
-import com.example.OMEB.domain.user.presentation.dto.response.UserReviewResponse;
 import com.example.OMEB.domain.user.presentation.dto.response.rank.UserRankPageResponse;
 import com.example.OMEB.global.aop.UserPrincipal;
 import com.example.OMEB.global.base.dto.ResponseBody;
@@ -32,26 +30,12 @@ public interface UserApi {
     })
     public ResponseEntity<ResponseBody<UserInfoResponse>> getUserInfo(@UserPrincipal CustomUserPrincipal userPrincipal);
 
-    @Operation(summary = "유저 리뷰 리스트 조회 API", description = "유저가 작성한 리뷰 리스트 조회 요청 API")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "요청에 성공하였습니다.",
-                    content = {@Content(schema = @Schema(implementation = UserReviewResponse.class),mediaType = "application/json")})
-    })
-    public ResponseEntity<ResponseBody<List<UserReviewResponse>>> getUserReviews(@UserPrincipal CustomUserPrincipal userPrincipal);
-
     @Operation(summary = "유저 경험치 획득 리스트 조회 API", description = "유저의 경험치 획득 리스트 조회 요청 API")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "요청에 성공하였습니다.",
                     content = {@Content(schema = @Schema(implementation = UserExpLogResponse.class),mediaType = "application/json")})
     })
     public ResponseEntity<ResponseBody<List<UserExpLogResponse>>> getUserExpLogs(@UserPrincipal CustomUserPrincipal userPrincipal);
-
-    @Operation(summary = "유저 북마크 리스트 조회 API", description = "유저의 북마크 리스트 조회 요청 API")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "요청에 성공하였습니다.",
-                    content = {@Content(schema = @Schema(implementation = UserBookMarkResponse.class),mediaType = "application/json")})
-    })
-    public ResponseEntity<ResponseBody<List<UserBookMarkResponse>>> getUserBookMarks(@UserPrincipal CustomUserPrincipal userPrincipal);
 
     @Operation(summary = "유저 정보 변경 API", description = "유저의 정보를 변경하는 API")
     @ApiResponses(value = {

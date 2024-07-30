@@ -1,4 +1,4 @@
-package com.example.OMEB.domain.user.presentation.dto.response;
+package com.example.OMEB.domain.review.presentation.dto.response;
 
 import com.example.OMEB.domain.review.persistence.entity.Review;
 import com.example.OMEB.domain.review.persistence.entity.Tag;

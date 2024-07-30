@@ -21,11 +21,4 @@ public interface BookMarkRepository extends JpaRepository<BookMark, Long> {
 
     @Query("SELECT EXITSTS(b) FROM BookMark b WHERE b.user.id = :userId AND b.book.id = :bookId")
     Boolean existsUserIdAndBookId(Long userId, Long bookId);
-
-
-    @Query("SELECT b from BookMark b " +
-            "LEFT JOIN FETCH b.user " +
-            "LEFT JOIN FETCH b.book " +
-            "WHERE b.user.id = :userId")
-    List<BookMark> findByUser_id(Long userId);
 }
