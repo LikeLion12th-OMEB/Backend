@@ -1,23 +1,15 @@
 package com.example.OMEB.domain.review.api;
 
-import static com.example.OMEB.global.base.dto.SuccessResponseBody.*;
-
+import com.example.OMEB.domain.review.presentation.dto.response.UserReviewResponse;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 
 import com.example.OMEB.domain.review.presentation.dto.request.ReviewCreateRequest;
 import com.example.OMEB.domain.review.presentation.dto.request.ReviewUpdateRequest;
 import com.example.OMEB.domain.review.presentation.dto.response.ReviewInfoResponse;
 import com.example.OMEB.domain.review.presentation.dto.response.ReviewPageResponse;
-import com.example.OMEB.global.aop.AssignUserId;
 import com.example.OMEB.global.aop.UserPrincipal;
 import com.example.OMEB.global.base.dto.ResponseBody;
 import com.example.OMEB.global.jwt.CustomUserPrincipal;
@@ -28,7 +20,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import lombok.RequiredArgsConstructor;
+
+import java.util.List;
 
 @Tag(name = "Review API", description = "리뷰 관련 API")
 public interface ReviewControllerApi {
@@ -94,4 +87,12 @@ public interface ReviewControllerApi {
 		@ApiResponse(responseCode = "REVIEW_0002", description = "해당 사용자는 해당 리뷰에 대한 권한이 없습니다.", content = @Content(mediaType = "application/json"))
 	})
 	ResponseEntity<ResponseBody<Void>> deleteReview(@UserPrincipal CustomUserPrincipal userPrincipal, @PathVariable @Schema(description = "리뷰 id", example = "1")Long reviewId);
+
+	@Operation(summary = "유저 리뷰 리스트 조회 API", description = "유저가 작성한 리뷰 리스트 조회 요청 API")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = "요청에 성공하였습니다.",
+					content = {@Content(schema = @Schema(implementation = UserReviewResponse.class),mediaType = "application/json")})
+	})
+	public ResponseEntity<ResponseBody<List<UserReviewResponse>>> getUserReviews(@UserPrincipal CustomUserPrincipal userPrincipal);
+
 }

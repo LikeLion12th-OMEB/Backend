@@ -1,5 +1,7 @@
 package com.example.OMEB.global.oauth.handler;
 
+import com.example.OMEB.domain.user.application.IncreaseExpType;
+import com.example.OMEB.domain.user.application.service.UserService;
 import com.example.OMEB.domain.user.persistence.entity.User;
 import com.example.OMEB.domain.user.persistence.repository.UserRepository;
 import com.example.OMEB.global.jwt.JwtUtils;
@@ -17,9 +19,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.io.IOException;
+import java.time.LocalDate;
 
 import static com.example.OMEB.global.oauth.HttpCookiesOAuth2AuthorizationRequestRepository.redirectUriCookieName;
 
@@ -30,10 +34,13 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
     private final JwtUtils jwtUtils;
     private final HttpCookiesOAuth2AuthorizationRequestRepository httpCookiesOAuth2AuthorizationRequestRepository;
     private final RefreshTokenRepository refreshTokenRepository;
+
+    private final UserService userService;
     private boolean isLogin;
     public final static String USER_COOKIE_NAME = "user";
     public final int COOKIE_EXPIRE_SECONDS = 300;
     @Override
+    @Transactional
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
                                         Authentication authentication) throws IOException, ServletException {
         // principal 객체 꺼내기 -> providerId를 가지고 회원가입 여부 체크 및 save
@@ -65,6 +72,12 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
                     .queryParam("accessToken", accessToken)
                     .queryParam("refreshToken", refreshToken)
                     .build().toUriString();
+
+            LocalDate lastLoginDate = user.getLastLoginAt();
+            user.updateLastLoginAt();
+            if(lastLoginDate.isBefore(LocalDate.now())){
+                userService.increaseExp(user, IncreaseExpType.DAY_LOGIN);
+            }
         } else{
             signUp(providerId, principal.getUserInfo().getProvider(), response);
             redirectUri = UriComponentsBuilder.fromUriString(redirectCookie.getValue())

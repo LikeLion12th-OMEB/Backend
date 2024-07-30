@@ -3,30 +3,21 @@ package com.example.OMEB.domain.review.presentation.controller;
 import com.example.OMEB.domain.review.api.ReviewControllerApi;
 import com.example.OMEB.domain.review.application.service.ReviewService;
 import com.example.OMEB.domain.review.presentation.dto.request.ReviewCreateRequest;
-import com.example.OMEB.domain.review.presentation.dto.request.ReviewPagingFormRequest;
 import com.example.OMEB.domain.review.presentation.dto.request.ReviewUpdateRequest;
 import com.example.OMEB.domain.review.presentation.dto.response.ReviewInfoResponse;
 import com.example.OMEB.domain.review.presentation.dto.response.ReviewPageResponse;
-import com.example.OMEB.global.aop.AssignUserId;
+import com.example.OMEB.domain.review.presentation.dto.response.UserReviewResponse;
 import com.example.OMEB.global.aop.UserPrincipal;
 import com.example.OMEB.global.base.dto.ResponseBody;
-import com.example.OMEB.global.base.dto.SuccessResponseBody;
 import com.example.OMEB.global.jwt.CustomUserPrincipal;
 
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.Parameters;
-import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 import static com.example.OMEB.global.base.dto.SuccessResponseBody.createSuccessResponse;
 
@@ -77,5 +68,11 @@ public class ReviewController implements ReviewControllerApi {
                                                            @PathVariable @Schema(description = "리뷰 id", example = "1")Long reviewId) {
         reviewService.deleteReview(userPrincipal.userId(),reviewId);
         return ResponseEntity.ok(createSuccessResponse());
+    }
+
+    @GetMapping("/my-reviews")
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<ResponseBody<List<UserReviewResponse>>> getUserReviews(@UserPrincipal CustomUserPrincipal userPrincipal){
+        return ResponseEntity.ok(createSuccessResponse(reviewService.getUserReviews(userPrincipal.userId())));
     }
 }

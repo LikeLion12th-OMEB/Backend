@@ -15,6 +15,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
@@ -28,6 +29,7 @@ public class AuthController implements AuthControllerAPI {
     private final AuthService authService;
 
     @PostMapping("/sign-up")
+    @PreAuthorize("permitAll()")
     public ResponseEntity<ResponseBody<SignUpResponse>> signUp(
             HttpServletRequest request,
             HttpServletResponse response,
@@ -37,15 +39,25 @@ public class AuthController implements AuthControllerAPI {
     }
 
     @PostMapping("/reissue")
+    @PreAuthorize("permitAll()")
     public ResponseEntity<ResponseBody<TokenResponse>> reissue(
             @RequestBody @Valid TokenRequest tokenRequest){
         return ResponseEntity.ok(createSuccessResponse(authService.reissueToken(tokenRequest)));
     }
 
     @PostMapping("/logout")
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<ResponseBody<Void>> logout(
             @RequestBody @Valid LogoutRequest logoutRequest){
         authService.logout(logoutRequest.getRefreshToken());
+        return ResponseEntity.ok(createSuccessResponse());
+    }
+
+    @PostMapping("/check-nickname-duplication")
+    @PreAuthorize("permitAll()")
+    public ResponseEntity<ResponseBody<Void>> check(
+            @RequestParam @Schema(description = "닉네임", example = "멋쟁이사자") String nickname){
+        authService.checkNicknameDuplicate(nickname);
         return ResponseEntity.ok(createSuccessResponse());
     }
 }
