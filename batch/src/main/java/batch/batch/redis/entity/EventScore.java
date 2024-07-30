@@ -1,4 +1,4 @@
-package batch.batch.redis;
+package batch.batch.redis.entity;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

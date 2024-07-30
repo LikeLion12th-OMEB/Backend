@@ -1,4 +1,4 @@
-package batch.batch.redis;
+package batch.batch.redis.entity;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,14 +9,16 @@ import lombok.ToString;
 @Setter
 @NoArgsConstructor
 @ToString
-public class EventView {
+public class EventReview {
 	private Long userId;
 	private Long bookId;
+	private String emotion;
 	private String time;
 
-	public EventView(Long userId, Long bookId,  String time) {
+	public EventReview(Long userId, Long bookId, String emotion, String time) {
 		this.userId = userId;
 		this.bookId = bookId;
+		this.emotion = emotion;
 		this.time = time;
 	}
 }
