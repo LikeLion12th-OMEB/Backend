@@ -5,7 +5,7 @@ FROM eclipse-temurin:21-jdk-alpine
 VOLUME /tmp
 
 # JAR 파일을 컨테이너 내의 /app.jar로 복사
-COPY ./batch/build/libs/*.jar /app.jar
+COPY ./build/libs/*.jar /app.jar
  
 # JAR 파일을 실행하기 위한 기본 명령어 설정
 ENTRYPOINT ["java", "-jar", "/app.jar"]
