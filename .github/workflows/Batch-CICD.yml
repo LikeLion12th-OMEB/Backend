@@ -3,9 +3,8 @@ name: Java CI/CD with Gradle and S3
 on:
   push:
     branches: [ "main" ]
-    paths-ignore:
+    paths:
       - "batch/**"
-
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -29,10 +28,10 @@ jobs:
         uses: gradle/actions/setup-gradle@417ae3ccd767c252f5661f1ace9f835f9654f2b5
 
       - name: Grant execute permission for gradlew
-        run: chmod +x gradlew
+        run: chmod +x batch/gradlew
 
       - name: Build with Gradle Wrapper
-        run: ./gradlew build
+        run: ./batch/gradlew build
 
   delivery:
     runs-on: ubuntu-latest
@@ -51,39 +50,24 @@ jobs:
           distribution: 'temurin'
 
       - name: Grant execute permission for gradlew
-        run: chmod +x gradlew
+        run: chmod +x batch/gradlew
 
       - name: Build with Gradle Wrapper
-        run: ./gradlew build
+        run: ./batch/gradlew build
 
       - name: Build Docker image
-        run: docker build -t likelion .
+        run: docker build -t likelion-batch batch
 
       - name: Save Docker image as tar
-        run: docker save likelion -o likelion.tar
+        run: docker save likelion-batch -o likelion-batch.tar
 
       - name: Upload to S3
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_S3_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_S3_SECRET_KEY_ID }}
           AWS_REGION: ${{ secrets.AWS_REGION }}
-        run: aws s3 cp likelion.tar s3://${{ secrets.S3_BUCKET_NAME }}/likelion.tar
+        run: aws s3 cp likelion-batch.tar s3://${{ secrets.S3_BUCKET_NAME }}/likelion-batch.tar
 
-      - name: Pull Redis Docker image
-        run: docker pull redis
-
-      - name: Save Docker image as tar
-        run: docker save redis -o redis.tar
-
-      - name : add permision to redis.tar
-        run : sudo chmod 777 redis.tar
-
-      - name: Upload to S3
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_S3_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_S3_SECRET_KEY_ID }}
-          AWS_REGION: ${{ secrets.AWS_REGION }}
-        run: aws s3 cp redis.tar s3://${{ secrets.S3_BUCKET_NAME }}/redis.tar
 
   deploy:
     runs-on: ubuntu-latest
@@ -92,16 +76,13 @@ jobs:
       - name: Deploy
         uses: appleboy/ssh-action@master
         with:
-          host: ${{ secrets.HOST }}
+          host: ${{ secrets.BATCH_HOST }}
           username: ec2-user
           key: ${{ secrets.AWS_PRIVATE_KEY }}
           script: |
-            aws s3 cp s3://${{ secrets.S3_BUCKET_NAME }}/redis.tar redis.tar
-            sudo docker load -i redis.tar
             sudo docker stop $(sudo docker ps -a -q) || true
             sudo docker rm $(sudo docker ps -a -q) || true
-            sudo docker run -d --log-driver=syslog --name redis --net mybridge -p 6379:6379 redis --requirepass "omeb4417"
-            aws s3 cp s3://${{ secrets.S3_BUCKET_NAME }}/likelion.tar likelion.tar
-            sudo docker load -i likelion.tar
-            sudo docker run -d --log-driver=syslog --net mybridge -p 8080:8080 likelion
+            aws s3 cp s3://${{ secrets.S3_BUCKET_NAME }}/likelion-batch.tar likelion-batch.tar
+            sudo docker load -i likelion-batch.tar
+            sudo docker run -d --log-driver=syslog --net mybridge -p 8080:8080 likelion-batch
             sudo docker image prune -a -f
