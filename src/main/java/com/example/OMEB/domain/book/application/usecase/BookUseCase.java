@@ -60,7 +60,9 @@ public class BookUseCase {
 
     public BookInfoResponse getBook(CustomUserPrincipal userPrincipal,Long bookId) {
         log.info("[BookUseCase] (getBook) get book request: {}", bookId);
-        publisher.publishEvent(new EventView(userPrincipal.userId(), bookId, LocalDateTime.now().toString()));
+        Long userId = null;
+        if (userPrincipal != null) userId = userPrincipal.userId();
+        publisher.publishEvent(new EventView(userId, bookId, LocalDateTime.now().toString()));
         return bookQueryService.findByBookId(userPrincipal,bookId);
     }
 

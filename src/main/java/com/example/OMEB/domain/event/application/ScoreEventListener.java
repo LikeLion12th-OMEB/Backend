@@ -7,6 +7,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
 import com.example.OMEB.domain.event.persistence.entity.EventReview;
+import com.example.OMEB.domain.event.persistence.entity.EventView;
 
 import lombok.RequiredArgsConstructor;
 
@@ -14,7 +15,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ScoreEventListener {
 	private final RedisTemplate<String, EventReview> redisTemplateReview;
-	private final RedisTemplate<String, EventReview> redisTemplateView;
+	private final RedisTemplate<String, EventView> redisTemplateView;
 
 	@EventListener
 	public void reviewEventListen(EventReview eventReview) {
@@ -23,8 +24,8 @@ public class ScoreEventListener {
 	}
 
 	@EventListener
-	public void viewEventListen(EventReview eventReview) {
-		redisTemplateView.opsForList().rightPush("event_view", eventReview);
+	public void viewEventListen(EventView eventView) {
+		redisTemplateView.opsForList().rightPush("event_view", eventView);
 		redisTemplateReview.expire("event_view", 60*60*24, TimeUnit.SECONDS); // 24시간 후 만료
 
 	}
