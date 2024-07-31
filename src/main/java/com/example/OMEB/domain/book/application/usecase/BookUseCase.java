@@ -9,6 +9,7 @@ import com.example.OMEB.domain.book.presentation.dto.request.BookSearchRequest;
 import com.example.OMEB.domain.book.presentation.dto.response.BookInfoResponse;
 import com.example.OMEB.domain.book.presentation.dto.response.BookTitleListResponse;
 import com.example.OMEB.domain.book.presentation.dto.response.NaverBookListResponse;
+import com.example.OMEB.domain.event.persistence.entity.EventView;
 import com.example.OMEB.global.aop.UserPrincipal;
 import com.example.OMEB.global.base.exception.ErrorCode;
 import com.example.OMEB.global.base.exception.ServiceException;
@@ -16,9 +17,12 @@ import com.example.OMEB.global.jwt.CustomUserPrincipal;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -28,6 +32,7 @@ public class BookUseCase {
     private final NaverBookSearchClient naverBookSearchClient;
     private final BookQueryService bookQueryService;
     private final BookCommandService bookCommandService;
+    private final ApplicationEventPublisher publisher;
 
     //TODO : 검색 title 할 때 띄어쓰기 아예 없어야 검색 결과가 좋아짐!!
     public NaverBookListResponse searchTitleBooks(BookSearchRequest bookSearchRequest) {
@@ -55,6 +60,7 @@ public class BookUseCase {
 
     public BookInfoResponse getBook(CustomUserPrincipal userPrincipal,Long bookId) {
         log.info("[BookUseCase] (getBook) get book request: {}", bookId);
+        publisher.publishEvent(new EventView(userPrincipal.userId(), bookId, LocalDateTime.now().toString()));
         return bookQueryService.findByBookId(userPrincipal,bookId);
     }
 
