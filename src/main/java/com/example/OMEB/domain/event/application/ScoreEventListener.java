@@ -26,7 +26,7 @@ public class ScoreEventListener {
 	@EventListener
 	public void viewEventListen(EventView eventView) {
 		redisTemplateView.opsForList().rightPush("event_view", eventView);
-		redisTemplateReview.expire("event_view", 60*60*24, TimeUnit.SECONDS); // 24시간 후 만료
+		redisTemplateView.expire("event_view", 60*60*24, TimeUnit.SECONDS); // 24시간 후 만료
 
 	}
 }
