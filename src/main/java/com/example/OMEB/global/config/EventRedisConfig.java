@@ -27,15 +27,6 @@ public class EventRedisConfig {
 		return new LettuceConnectionFactory(host, port);
 	}
 
-	@Bean
-	public RedisTemplate<String, String> redisTemplate(RedisConnectionFactory eventRedisConnectionFactory) {
-		RedisTemplate<String, String> template = new RedisTemplate<>();
-		template.setConnectionFactory(eventRedisConnectionFactory); // connectionFactory 를 설정해줘야 함
-		template.setKeySerializer(new StringRedisSerializer()); // key 는 String 으로
-		template.setValueSerializer(new GenericJackson2JsonRedisSerializer()); // value 는 Json 으로
-		return template;
-	}
-
 	@Bean RedisTemplate<String, EventReview> redisTemplateReview(RedisConnectionFactory eventRedisConnectionFactory){
 		// GenericJackson2JsonRedisSerializer 설정
 		RedisTemplate<String, EventReview> redisTemplate = new RedisTemplate<>();
@@ -48,7 +39,7 @@ public class EventRedisConfig {
 	@Bean RedisTemplate<String, EventView> redisTemplateView(RedisConnectionFactory eventRedisConnectionFactory){
 		// GenericJackson2JsonRedisSerializer 설정
 		RedisTemplate<String, EventView> redisTemplate = new RedisTemplate<>();
-		redisTemplate.setConnectionFactory(eventRedisConnectionFactory());
+		redisTemplate.setConnectionFactory(eventRedisConnectionFactory);
 		redisTemplate.setKeySerializer(new StringRedisSerializer());   // Key: String
 		redisTemplate.setValueSerializer(new Jackson2JsonRedisSerializer<>(EventView.class));  // Value: 직렬화에 사용할 Object 사용하기
 		return redisTemplate;
