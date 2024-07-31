@@ -52,7 +52,7 @@ public class EmotionRankTasklet implements Tasklet {
 				.collect(Collectors.toList());
 
 			EmotionRank emotionRank = new EmotionRank();
-			emotionRank.setEmotion(emotion);
+			emotionRank.setEmotion(emotion.toUpperCase());
 			emotionRank.setBookTitleInfos(bookTitleInfos);
 
 			mongoTemplate.save(emotionRank);

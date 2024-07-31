@@ -8,9 +8,10 @@ import com.example.OMEB.domain.book.presentation.dto.request.BookApplicationRequ
 import com.example.OMEB.domain.book.presentation.dto.request.BookSearchRequest;
 import com.example.OMEB.domain.book.presentation.dto.response.BookInfoResponse;
 import com.example.OMEB.domain.book.presentation.dto.response.BookTitleListResponse;
+import com.example.OMEB.domain.book.presentation.dto.response.EmotionBookTitleInfoListResponse;
 import com.example.OMEB.domain.book.presentation.dto.response.NaverBookListResponse;
 import com.example.OMEB.domain.event.persistence.entity.EventView;
-import com.example.OMEB.global.aop.UserPrincipal;
+import com.example.OMEB.domain.review.persistence.vo.TagName;
 import com.example.OMEB.global.base.exception.ErrorCode;
 import com.example.OMEB.global.base.exception.ServiceException;
 import com.example.OMEB.global.jwt.CustomUserPrincipal;
@@ -70,5 +71,11 @@ public class BookUseCase {
     public BookTitleListResponse getBookReviewRank() {
         log.info("[BookUseCase] (getBookReviewRank) get book review rank request");
         return bookQueryService.findBookListOrderByReviewRank();
+    }
+
+    @Transactional(readOnly = true)
+    public EmotionBookTitleInfoListResponse getEmotionRank(TagName emotion) {
+        log.info("[BookUseCase] (getEmotionRank) get emotion rank request");
+        return bookQueryService.findEmotionRank(emotion);
     }
 }

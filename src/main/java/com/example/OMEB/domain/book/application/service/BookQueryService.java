@@ -1,11 +1,16 @@
 package com.example.OMEB.domain.book.application.service;
 
 import com.example.OMEB.domain.book.persistence.entity.Book;
+import com.example.OMEB.domain.book.persistence.entity.EmotionRank;
 import com.example.OMEB.domain.book.persistence.repository.BookMarkRepository;
 import com.example.OMEB.domain.book.persistence.repository.BookRepository;
+import com.example.OMEB.domain.book.persistence.repository.EmotionRankRepository;
+import com.example.OMEB.domain.book.presentation.dto.BookTitleInfo;
 import com.example.OMEB.domain.book.presentation.dto.response.BookInfoResponse;
 import com.example.OMEB.domain.book.presentation.dto.response.BookTitleInfoResponse;
 import com.example.OMEB.domain.book.presentation.dto.response.BookTitleListResponse;
+import com.example.OMEB.domain.book.presentation.dto.response.EmotionBookTitleInfoListResponse;
+import com.example.OMEB.domain.review.persistence.vo.TagName;
 import com.example.OMEB.global.base.exception.ErrorCode;
 import com.example.OMEB.global.base.exception.ServiceException;
 import com.example.OMEB.global.jwt.CustomUserPrincipal;
@@ -13,11 +18,9 @@ import com.example.OMEB.global.jwt.CustomUserPrincipal;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.awt.print.Pageable;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,6 +32,7 @@ public class BookQueryService {
 
     private final BookRepository bookRepository;
     private final BookMarkRepository bookMarkRepository;
+    private final EmotionRankRepository emotionRankRepository;
 
     public Optional<Book> findByISBN(String ISBN) {
         return bookRepository.findByIsbn(ISBN);
@@ -51,5 +55,13 @@ public class BookQueryService {
 
         log.info("[BookQueryService] (findBookListOrderByReviewRank) success get book review rank: {}", list.size());
         return new BookTitleListResponse(list);
+    }
+
+    public EmotionBookTitleInfoListResponse findEmotionRank(TagName emotion) {
+        log.info("[BookQueryService] (findEmotionRank) get emotion rank request");
+        EmotionRank byEmotion = emotionRankRepository.findByEmotion(emotion.toString());
+        List<BookTitleInfo> bookTitleInfos = byEmotion.getBookTitleInfos();
+
+        return new EmotionBookTitleInfoListResponse(byEmotion.getEmotion(), bookTitleInfos);
     }
 }
