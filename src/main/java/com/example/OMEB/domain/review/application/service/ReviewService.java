@@ -1,6 +1,7 @@
 package com.example.OMEB.domain.review.application.service;
 
 import com.example.OMEB.domain.book.persistence.entity.Book;
+import com.example.OMEB.domain.event.persistence.entity.EventReview;
 import com.example.OMEB.domain.review.persistence.entity.Tag;
 import com.example.OMEB.domain.book.persistence.repository.BookRepository;
 import com.example.OMEB.domain.book.persistence.repository.TagRepository;
@@ -20,12 +21,15 @@ import com.example.OMEB.domain.review.presentation.dto.response.UserReviewRespon
 import com.example.OMEB.global.base.exception.ErrorCode;
 import com.example.OMEB.global.base.exception.ServiceException;
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -36,7 +40,7 @@ public class ReviewService {
     private final BookRepository bookRepository;
     private final TagRepository tagRepository;
     private final LikeRepository likeRepository;
-
+    private final ApplicationEventPublisher publisher;
     private final UserService userService;
 
     @Transactional
@@ -50,6 +54,7 @@ public class ReviewService {
         Review review = Review.fromReviewRequest(user, book, reviewCreateRequest,tag);
         reviewRepository.save(review);
 
+        publisher.publishEvent(new EventReview(userId,bookId,tag.getTagName().toString(), LocalDateTime.now().toString()));
         userService.increaseExp(user, IncreaseExpType.WRITE_REVIEW);
         return ReviewInfoResponse.builder()
                 .bookId(bookId)

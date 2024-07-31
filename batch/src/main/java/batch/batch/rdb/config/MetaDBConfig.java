@@ -1,4 +1,4 @@
-package batch.batch.config;
+package batch.batch.rdb.config;
 
 import javax.sql.DataSource;
 
