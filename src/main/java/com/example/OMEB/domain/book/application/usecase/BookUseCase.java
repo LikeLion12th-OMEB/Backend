@@ -7,6 +7,8 @@ import com.example.OMEB.domain.book.application.service.NaverBookSearchClient;
 import com.example.OMEB.domain.book.presentation.dto.request.BookApplicationRequest;
 import com.example.OMEB.domain.book.presentation.dto.request.BookSearchRequest;
 import com.example.OMEB.domain.book.presentation.dto.response.BookInfoResponse;
+import com.example.OMEB.domain.book.presentation.dto.response.BookPageResponse;
+import com.example.OMEB.domain.book.presentation.dto.response.BookTitleInfoResponse;
 import com.example.OMEB.domain.book.presentation.dto.response.BookTitleListResponse;
 import com.example.OMEB.domain.book.presentation.dto.response.EmotionBookTitleInfoListResponse;
 import com.example.OMEB.domain.book.presentation.dto.response.NaverBookListResponse;
@@ -20,6 +22,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -78,4 +81,10 @@ public class BookUseCase {
         log.info("[BookUseCase] (getEmotionRank) get emotion rank request");
         return bookQueryService.findEmotionRank(emotion);
     }
+
+    @Transactional(readOnly = true)
+	public BookPageResponse getBookSearch(String title, Pageable pageable) {
+        log.info("[BookUseCase] (getBookSearch) get book search request");
+        return bookQueryService.findBookSearch(title, pageable);
+	}
 }

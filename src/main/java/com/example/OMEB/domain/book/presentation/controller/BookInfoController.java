@@ -3,6 +3,8 @@ package com.example.OMEB.domain.book.presentation.controller;
 import com.example.OMEB.domain.book.api.BookInfoControllerApi;
 import com.example.OMEB.domain.book.application.usecase.BookUseCase;
 import com.example.OMEB.domain.book.presentation.dto.response.BookInfoResponse;
+import com.example.OMEB.domain.book.presentation.dto.response.BookPageResponse;
+import com.example.OMEB.domain.book.presentation.dto.response.BookTitleInfoResponse;
 import com.example.OMEB.domain.book.presentation.dto.response.BookTitleListResponse;
 import com.example.OMEB.domain.book.presentation.dto.response.EmotionBookTitleInfoListResponse;
 import com.example.OMEB.domain.review.persistence.vo.TagName;
@@ -17,9 +19,13 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.constraints.Size;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -59,6 +65,19 @@ public class BookInfoController implements BookInfoControllerApi {
     public ResponseEntity<ResponseBody<EmotionBookTitleInfoListResponse>> getEmotionRank(@RequestParam("emotion") @Schema(description = "감정", example = "ANGER") TagName emotion) {
         log.info("[BookInfoController] (getEmotionRank) get emotion rank request");
         return ResponseEntity.ok(createSuccessResponse(bookUseCase.getEmotionRank(emotion)));
+    }
+
+    @PreAuthorize("permitAll()")
+    @GetMapping("/v1/book/search")
+    public ResponseEntity<ResponseBody<BookPageResponse>> getBookSearch(@RequestParam("title") @Schema(description = "책 제목", example = "자바의 정석") String title,
+        @RequestParam(defaultValue = "1") @Schema(description = "조회할 페이지 넘버(가장 작은 수 1)", example = "1") @Size(min=1) int page,
+        @RequestParam(defaultValue = "10") @Schema(description = "한 페이지의 조회 될 책 수",example = "10") int size,
+        @RequestParam(defaultValue = "DESC") @Schema(description = "정렬 방법" , example = "DESC") String sortDirection,
+        @RequestParam(defaultValue = "createdAt") @Schema(description = "정렬 기준",example = "createdAt") String sortBy) {
+
+        Pageable pageable = PageRequest.of(page-1, size, Sort.Direction.fromString(sortDirection), sortBy);
+        log.info("[BookInfoController] (getBookSearch) get book search request");
+        return ResponseEntity.ok(createSuccessResponse(bookUseCase.getBookSearch(title,pageable)));
     }
 
 

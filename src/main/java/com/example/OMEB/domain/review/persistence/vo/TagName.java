@@ -17,6 +17,7 @@ public enum TagName {
     ACCOMPLISHMENT,
     ;
 
+    // TODO : data binder 추후 추가하여 validation 진행 해야함
     @JsonCreator
     public static TagName fromString(String value) {
         for(TagName tagName : TagName.values()) {
