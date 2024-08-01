@@ -10,6 +10,7 @@ import com.example.OMEB.domain.review.persistence.vo.TagName;
 import com.example.OMEB.global.aop.UserPrincipal;
 import com.example.OMEB.global.base.dto.ResponseBody;
 import com.example.OMEB.global.jwt.CustomUserPrincipal;
+import com.example.OMEB.global.utils.StringBlankUtils;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Size;
@@ -69,7 +70,7 @@ public class BookInfoController implements BookInfoControllerApi {
 
         Pageable pageable = PageRequest.of(page-1, size, Sort.Direction.fromString(sortDirection), sortBy);
         log.info("[BookInfoController] (getBookSearch) get book search request");
-        return ResponseEntity.ok(createSuccessResponse(bookUseCase.getBookSearch(title,pageable)));
+        return ResponseEntity.ok(createSuccessResponse(bookUseCase.getBookSearch(StringBlankUtils.stringSideNotBlank(title),pageable)));
     }
 
 
