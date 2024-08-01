@@ -7,6 +7,8 @@ import com.example.OMEB.domain.book.application.service.NaverBookSearchClient;
 import com.example.OMEB.domain.book.presentation.dto.request.BookApplicationRequest;
 import com.example.OMEB.domain.book.presentation.dto.request.BookSearchRequest;
 import com.example.OMEB.domain.book.presentation.dto.response.BookInfoResponse;
+import com.example.OMEB.domain.book.presentation.dto.response.BookPageResponse;
+import com.example.OMEB.domain.book.presentation.dto.response.BookTitleInfoResponse;
 import com.example.OMEB.domain.book.presentation.dto.response.BookTitleListResponse;
 import com.example.OMEB.domain.book.presentation.dto.response.EmotionBookTitleInfoListResponse;
 import com.example.OMEB.domain.book.presentation.dto.response.NaverBookListResponse;
@@ -15,11 +17,13 @@ import com.example.OMEB.domain.review.persistence.vo.TagName;
 import com.example.OMEB.global.base.exception.ErrorCode;
 import com.example.OMEB.global.base.exception.ServiceException;
 import com.example.OMEB.global.jwt.CustomUserPrincipal;
+import com.example.OMEB.global.utils.StringBlankUtils;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -37,7 +41,7 @@ public class BookUseCase {
 
     //TODO : 검색 title 할 때 띄어쓰기 아예 없어야 검색 결과가 좋아짐!!
     public NaverBookListResponse searchTitleBooks(BookSearchRequest bookSearchRequest) {
-        List<NaverBookDTO> naverBookDTOS = naverBookSearchClient.searchBooks(bookSearchRequest.getTitle().replace(" ", ""), null);
+        List<NaverBookDTO> naverBookDTOS = naverBookSearchClient.searchBooks(StringBlankUtils.stringAllNotBlank(bookSearchRequest.getTitle()), null);
         if(naverBookDTOS.size() == 0) {
             throw new ServiceException(ErrorCode.APPLICATION_NOT_FOUND_BOOK);
         }else if(naverBookDTOS.size() >= 10) {
@@ -78,4 +82,10 @@ public class BookUseCase {
         log.info("[BookUseCase] (getEmotionRank) get emotion rank request");
         return bookQueryService.findEmotionRank(emotion);
     }
+
+    @Transactional(readOnly = true)
+	public BookPageResponse getBookSearch(String title, Pageable pageable) {
+        log.info("[BookUseCase] (getBookSearch) get book search request");
+        return bookQueryService.findBookSearch(title, pageable);
+	}
 }

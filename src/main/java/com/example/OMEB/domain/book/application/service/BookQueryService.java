@@ -7,6 +7,7 @@ import com.example.OMEB.domain.book.persistence.repository.BookRepository;
 import com.example.OMEB.domain.book.persistence.repository.EmotionRankRepository;
 import com.example.OMEB.domain.book.presentation.dto.BookTitleInfo;
 import com.example.OMEB.domain.book.presentation.dto.response.BookInfoResponse;
+import com.example.OMEB.domain.book.presentation.dto.response.BookPageResponse;
 import com.example.OMEB.domain.book.presentation.dto.response.BookTitleInfoResponse;
 import com.example.OMEB.domain.book.presentation.dto.response.BookTitleListResponse;
 import com.example.OMEB.domain.book.presentation.dto.response.EmotionBookTitleInfoListResponse;
@@ -18,6 +19,7 @@ import com.example.OMEB.global.jwt.CustomUserPrincipal;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -63,5 +65,9 @@ public class BookQueryService {
         List<BookTitleInfo> bookTitleInfos = byEmotion.getBookTitleInfos();
 
         return new EmotionBookTitleInfoListResponse(byEmotion.getEmotion(), bookTitleInfos);
+    }
+
+    public BookPageResponse findBookSearch(String title, Pageable pageable) {
+        return new BookPageResponse(bookRepository.findByTitleContaining(title, pageable));
     }
 }
