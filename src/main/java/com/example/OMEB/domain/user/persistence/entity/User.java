@@ -84,11 +84,11 @@ public class User extends BaseEntity implements Serializable {
         this.nickname = nickname;
         this.provider = provider;
         this.level = level;
-        this.profileImageUrl = ProfileUrlUtill.getDefaultUrl();
+        this.profileImageUrl = "https://omeb-image.s3.ap-northeast-2.amazonaws.com/default_profile.png";
     }
     public User(OAuth2Provider provider, String providerId) {
         this.provider = provider;
         this.providerId = providerId;
-        this.profileImageUrl = ProfileUrlUtill.getDefaultUrl();
+        this.profileImageUrl = "https://omeb-image.s3.ap-northeast-2.amazonaws.com/default_profile.png";
     }
 }
