@@ -60,6 +60,10 @@ public class BookUseCase {
         NaverBookDTO naverBookDTO = naverBookSearchClient.searchBooks(null, bookApplicationRequest.getIsbn()).stream()
                 .findFirst()
                 .orElseThrow(() -> new ServiceException(ErrorCode.APPLICATION_NOT_FOUND_BOOK));
+        if(naverBookDTO.getIsbn()==null){
+            throw new ServiceException(ErrorCode.INVALID_BOOK);
+        }
+
         bookCommandService.saveBook(naverBookDTO);
     }
 
