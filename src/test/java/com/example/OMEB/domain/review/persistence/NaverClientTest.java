@@ -7,6 +7,8 @@ import com.example.OMEB.domain.book.application.service.NaverBookSearchClient;
 import com.example.OMEB.domain.event.persistence.entity.EventReview;
 
 import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -15,10 +17,12 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 
 @SpringBootTest
 // @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 public class NaverClientTest {
+    // private static final Logger log = LoggerFactory.getLogger(NaverClientTest.class);
     // @Autowired
     // private NaverBookSearchClient client;
     //
@@ -75,18 +79,46 @@ public class NaverClientTest {
     // void Book_랭크() {
     //     int start = 1232;
     //     int size = 795;
-    //     for (int i = 0; i < size; i++) {
-    //         if (i > 696 && i <= 726) {
-    //             Book book = bookRepository.findById((long)(start + i)).get();
-    //             publisher.publishEvent(new EventReview(1L, book.getId(), "ACCOMPLISHMENT","2023-01-01"));
+    //
+    //     // 감정 키워드와 해당 데이터 범위 설정
+    //     Map<String, Integer[]> keywordRanges = Map.of(
+    //         "DEPRESSION", new Integer[] {0, 94},   // 예시: 95권
+    //         "ANGER", new Integer[] {95, 194},  // 예시: 100권
+    //         "ANXIETY", new Integer[] {195, 294}, // 예시: 100권
+    //         "LONELINESS", new Integer[] {295, 394}, // 예시: 100권
+    //         "JEALOUSY", new Integer[] {395, 461}, // 예시: 67권
+    //         "HAPPINESS", new Integer[] {462, 561}, // 예시: 100권
+    //         "LETHARGY", new Integer[] {562, 594}, // 예시: 33권
+    //         "LOVE", new Integer[] {595, 694}, // 예시: 100권
+    //         "ACCOMPLISHMENT", new Integer[] {695, 794} // 예시: 100권
+    //     );
+    //
+    //     // 각 감정 키워드에 대해 30개의 데이터만 처리
+    //     for (Map.Entry<String, Integer[]> entry : keywordRanges.entrySet()) {
+    //         String keyword = entry.getKey();
+    //         Integer[] range = entry.getValue();
+    //
+    //         int startRange = range[0];
+    //         int endRange = range[1];
+    //
+    //         // 데이터 수를 초과하지 않도록 조정
+    //         int limit = Math.min(30, endRange - startRange + 1);
+    //
+    //         for (int i = startRange; i < startRange + limit; i++) {
+    //             if (i > endRange) break;
+    //             Book book = bookRepository.findById((long)(start + i)).orElse(null);
+    //             if (book != null) {
+    //                 log.info("book = {}", book);
+    //                 publisher.publishEvent(new EventReview(1L, book.getId(), keyword, "2023-01-01"));
+    //             }
     //         }
     //     }
     // }
-
-    @Test
-    void 책_클라이언트_에러() {
-        //        List<NaverBookDTO> naverBookDTOS = client.searchBooks("qnpfr", null);
-        //        System.out.println("bookDTOS.size() = " + naverBookDTOS.size());
-    }
+    //
+    // @Test
+    // void 책_클라이언트_에러() {
+    //     //        List<NaverBookDTO> naverBookDTOS = client.searchBooks("qnpfr", null);
+    //     //        System.out.println("bookDTOS.size() = " + naverBookDTOS.size());
+    // }
 
 }
