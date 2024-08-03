@@ -12,10 +12,11 @@ import com.example.OMEB.domain.user.persistence.repository.UserRepository;
 import com.example.OMEB.global.base.exception.ErrorCode;
 import com.example.OMEB.global.base.exception.ServiceException;
 import com.example.OMEB.global.jwt.JwtUtils;
+import com.example.OMEB.global.jwt.exception.JwtExpiredException;
+import com.example.OMEB.global.jwt.exception.JwtVerifyException;
 import com.example.OMEB.global.jwt.refreshToken.RefreshToken;
 import com.example.OMEB.global.jwt.refreshToken.RefreshTokenRepository;
 import com.example.OMEB.global.utils.CookieUtils;
-import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -42,10 +43,14 @@ public class AuthService {
         if (cookie == null)
             throw new ServiceException(ErrorCode.NOT_FOUND_COOKIE);
         User user = CookieUtils.StringToObject(cookie.getValue(), User.class);
+
         user.setNickname(nickname);
         user.updateLastLoginAt();
+        user.updateExp(0);
+        user.updateLevel(1);
         userRepository.save(user);
         userRepository.flush();
+
         userService.increaseExp(user, IncreaseExpType.DAY_LOGIN);
 
         CookieUtils.deleteCookie(request, response, USER_COOKIE_NAME);
@@ -72,20 +77,20 @@ public class AuthService {
         jwtUtils.validateToken(request.getRefreshToken());
         try{
             jwtUtils.validateToken(request.getAccessToken());
-        } catch (ExpiredJwtException e){
-            String accessToken = jwtUtils.createAccessToken(redisRefreshToken.getUserId());
-            String refreshToken = jwtUtils.createRefreshToken(redisRefreshToken.getUserId());
-            refreshTokenRepository.save(new RefreshToken(refreshToken, redisRefreshToken.getUserId()));
-
-            return TokenResponse.builder()
-                    .accessToken(accessToken)
-                    .refreshToken(refreshToken)
-                    .build();
+        } catch (JwtExpiredException e){}
+        catch (JwtVerifyException e){
+            // AccessToken이 유효하지 않음
+            logout(redisRefreshToken.getRefreshToken());
+            throw new ServiceException(ErrorCode.INVALID_ACCESS);
         }
+        String accessToken = jwtUtils.createAccessToken(redisRefreshToken.getUserId());
+        String refreshToken = jwtUtils.createRefreshToken(redisRefreshToken.getUserId());
+        refreshTokenRepository.save(new RefreshToken(refreshToken, redisRefreshToken.getUserId()));
 
-        // AccessToken이 유효하지 않거나 만료되지 않았음
-        logout(redisRefreshToken.getRefreshToken());
-        throw new ServiceException(ErrorCode.INVALID_ACCESS);
+        return TokenResponse.builder()
+                .accessToken(accessToken)
+                .refreshToken(refreshToken)
+                .build();
     }
 
     public void logout(String refreshToken){

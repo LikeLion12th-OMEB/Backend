@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.http.ResponseCookie;
 import org.springframework.util.SerializationUtils;
 
 import java.util.Base64;
@@ -13,12 +14,15 @@ public class CookieUtils {
 
     public static void createCookie(HttpServletResponse httpServletResponse,
                                       String name, String value, int maxAge){
-        Cookie cookie = new Cookie(name, value);
-        cookie.setMaxAge(maxAge);
-        cookie.setPath("/");
-        cookie.setHttpOnly(true);
-        cookie.setSecure(false); // TODO : https 적용 후 제거
-        httpServletResponse.addCookie(cookie);
+        String cookieString = ResponseCookie.from(name, value)
+                .maxAge(maxAge)
+                .path("/")
+                .httpOnly(true)
+                .secure(true)
+                .sameSite("None")
+                .build()
+                .toString();
+        httpServletResponse.addHeader("Set-Cookie", cookieString);
     }
     public static Cookie getCookie(HttpServletRequest httpServletRequest, String name){
         Cookie[] cookies = httpServletRequest.getCookies();

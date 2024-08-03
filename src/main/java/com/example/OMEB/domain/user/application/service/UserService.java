@@ -54,6 +54,7 @@ public class UserService {
         return UserRankPageResponse.pageToResponse(userRankListResponsePage);
     }
 
+    @Transactional
     public void increaseExp(User user, IncreaseExpType type){
         int increasedExp = user.getExp() + type.getExp();
         int level = user.getLevel();
