@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class ProfileService {
     private final UserRepository userRepository;
-
+    private final ProfileUrlUtill profileUrlUtill;
 
     public User validateUser(Long userId) {
         return userRepository.findById(userId)
@@ -23,14 +23,14 @@ public class ProfileService {
     @Transactional
     public Void saveProfile(Long userId, String url) {
         User user = validateUser(userId);
-        user.updateProfileImageUrl(ProfileUrlUtill.validateUrl(url,user.getNickname()));
+        user.updateProfileImageUrl(profileUrlUtill.validateUrl(url,user.getNickname()));
         return null;
     }
 
     @Transactional
     public Void updateDefaultProfile(Long userId) {
         User user = validateUser(userId);
-        user.updateProfileImageUrl(ProfileUrlUtill.getDefaultUrl());
+        user.updateProfileImageUrl(profileUrlUtill.getDefaultUrl());
         return null;
     }
 }

@@ -36,6 +36,7 @@ public enum ErrorCode {
     APPLICATION_ALREADY_EXIST_BOOK(HttpStatus.CONFLICT, "BOOK_0004", "이미 등록된 책입니다."),
     APPLICATION_ALREADY_EXIST_BOOKMARK(HttpStatus.CONFLICT, "BOOK_0005", "해당 책은 이미 북마크 되어있습니다."),
     NOT_FOUND_BOOKMARK(HttpStatus.NOT_FOUND, "Book_0006", "해당 책은 북마크 되어있지 않습니다."),
+    INVALID_BOOK(HttpStatus.BAD_REQUEST, "BOOK_0007", "해당 책을 등록할 수 없는 책입니다. 따로 운영자에게 문의해주세요"),
 
 
     // Tag
@@ -52,8 +53,8 @@ public enum ErrorCode {
     INVALID_S3_URL(HttpStatus.BAD_REQUEST, "FILE_0003", "S3 URL이 올바르지 않습니다."),
     INVALID_FILE_USER(HttpStatus.UNAUTHORIZED, "FILE_0004", "해당 파일은 사용자의 파일이 아닙니다."),
 
-
     ;
+
     private final HttpStatus status;
     private final String code;
     private final String message;

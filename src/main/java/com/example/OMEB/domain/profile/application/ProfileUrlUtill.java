@@ -14,10 +14,12 @@ import java.util.UUID;
 @PropertySource("classpath:/security/application-s3.yml")
 public class ProfileUrlUtill {
     @Value("${cloud.profile.s3.default.url}")
-    private static String defaultUrl;
+    private String defaultUrl;
     @Value("${cloud.s3.bucket}")
-    private static String bucket;
-    public static String getDefaultUrl() {
+    private String bucket;
+
+
+    public  String getDefaultUrl() {
         return defaultUrl;
     }
 
@@ -56,7 +58,7 @@ public class ProfileUrlUtill {
         }
     }
 
-    public static Map<String, String> parseURL(String url) {
+    public Map<String, String> parseURL(String url) {
         String[] parts = url.split("https://");
         String domainAndPath = parts[1]; // "bucket.s3.ap-northeast-2.amazonaws.com/prefix/fileId" 형태로 남음
 
@@ -82,7 +84,7 @@ public class ProfileUrlUtill {
         return resultMap;
     }
 
-    public static String validateUrl(String url,String userName) {
+    public String validateUrl(String url,String userName) {
         Map<String, String> parsedUrl = parseURL(url);
         String bucketName = parsedUrl.get("bucketName");
         String remainingDomain = parsedUrl.get("domain");

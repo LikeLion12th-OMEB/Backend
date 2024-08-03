@@ -27,7 +27,8 @@ public class EventRedisConfig {
 		return new LettuceConnectionFactory(host, port);
 	}
 
-	@Bean RedisTemplate<String, EventReview> redisTemplateReview(RedisConnectionFactory eventRedisConnectionFactory){
+	@Bean
+	public RedisTemplate<String, EventReview> redisTemplateReview(RedisConnectionFactory eventRedisConnectionFactory){
 		// GenericJackson2JsonRedisSerializer 설정
 		RedisTemplate<String, EventReview> redisTemplate = new RedisTemplate<>();
 		redisTemplate.setConnectionFactory(eventRedisConnectionFactory);
@@ -36,7 +37,8 @@ public class EventRedisConfig {
 		return redisTemplate;
 	}
 
-	@Bean RedisTemplate<String, EventView> redisTemplateView(RedisConnectionFactory eventRedisConnectionFactory){
+	@Bean
+	public RedisTemplate<String, EventView> redisTemplateView(RedisConnectionFactory eventRedisConnectionFactory){
 		// GenericJackson2JsonRedisSerializer 설정
 		RedisTemplate<String, EventView> redisTemplate = new RedisTemplate<>();
 		redisTemplate.setConnectionFactory(eventRedisConnectionFactory);
