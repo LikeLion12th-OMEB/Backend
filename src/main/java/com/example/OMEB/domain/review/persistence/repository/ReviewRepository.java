@@ -14,7 +14,7 @@ import java.util.List;
 @Repository
 public interface ReviewRepository extends JpaRepository<Review,Long> {
 
-    @Query("SELECT new com.example.OMEB.domain.review.presentation.dto.response.ReviewInfoResponse(r.book.id, r.id, r.user.nickname, r.content, r.tag.tagName, COUNT(l.id), r.user.level, r.createdAt, r.updatedAt) " +
+    @Query("SELECT new com.example.OMEB.domain.review.presentation.dto.response.ReviewInfoResponse(r.book.id, r.id, r.user.nickname, r.content, r.tag.tagName, COUNT(l.id), r.user.level, r.createdAt, r.updatedAt,r.user.profileImageUrl) " +
             "FROM Review r LEFT JOIN Like l ON l.review.id = r.id " +
             "WHERE r.book.id = :bookId " +
             "GROUP BY r.id, r.book.id, r.user.nickname, r.content, r.tag.tagName, r.user.level, r.createdAt, r.updatedAt")
@@ -30,7 +30,7 @@ public interface ReviewRepository extends JpaRepository<Review,Long> {
 
 
     @Query("SELECT new com.example.OMEB.domain.review.presentation.dto.response.ReviewInfoResponse(" +
-        "r.book.id, r.id, r.user.nickname, r.content, r.tag.tagName, COUNT(l.id), r.user.level, r.createdAt, r.updatedAt) " +
+        "r.book.id, r.id, r.user.nickname, r.content, r.tag.tagName, COUNT(l.id), r.user.level, r.createdAt, r.updatedAt,r.user.profileImageUrl) " +
         "FROM Review r LEFT JOIN Like l ON l.review.id = r.id " +
         "WHERE r.book.id = :bookId " +
         "GROUP BY r.id, r.book.id, r.user.nickname, r.content, r.tag.tagName, r.user.level, r.createdAt, r.updatedAt " +
