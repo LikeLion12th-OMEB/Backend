@@ -39,7 +39,6 @@ public class BookUseCase {
     private final BookCommandService bookCommandService;
     private final ApplicationEventPublisher publisher;
 
-    //TODO : 검색 title 할 때 띄어쓰기 아예 없어야 검색 결과가 좋아짐!!
     public NaverBookListResponse searchTitleBooks(BookSearchRequest bookSearchRequest) {
         List<NaverBookDTO> naverBookDTOS = naverBookSearchClient.searchBooks(StringBlankUtils.stringAllNotBlank(bookSearchRequest.getTitle()), null);
         if(naverBookDTOS.size() == 0) {
