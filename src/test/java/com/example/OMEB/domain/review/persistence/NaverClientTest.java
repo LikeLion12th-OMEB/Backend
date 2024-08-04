@@ -1,23 +1,6 @@
 package com.example.OMEB.domain.review.persistence;
 
-import com.example.OMEB.domain.book.persistence.entity.Book;
-import com.example.OMEB.domain.book.persistence.repository.BookRepository;
-import com.example.OMEB.domain.book.presentation.dto.NaverBookDTO;
-import com.example.OMEB.domain.book.application.service.NaverBookSearchClient;
-import com.example.OMEB.domain.event.persistence.entity.EventReview;
-
-import org.junit.jupiter.api.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.test.annotation.Rollback;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
-import java.util.Map;
 
 @SpringBootTest
 // @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)

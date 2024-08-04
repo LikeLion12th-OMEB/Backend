@@ -8,11 +8,10 @@ import com.example.OMEB.domain.book.presentation.dto.request.BookApplicationRequ
 import com.example.OMEB.domain.book.presentation.dto.request.BookSearchRequest;
 import com.example.OMEB.domain.book.presentation.dto.response.BookInfoResponse;
 import com.example.OMEB.domain.book.presentation.dto.response.BookPageResponse;
-import com.example.OMEB.domain.book.presentation.dto.response.BookTitleInfoResponse;
 import com.example.OMEB.domain.book.presentation.dto.response.BookTitleListResponse;
 import com.example.OMEB.domain.book.presentation.dto.response.EmotionBookTitleInfoListResponse;
 import com.example.OMEB.domain.book.presentation.dto.response.NaverBookListResponse;
-import com.example.OMEB.domain.event.persistence.entity.EventView;
+import com.example.OMEB.global.event.persistence.entity.EventView;
 import com.example.OMEB.domain.review.persistence.vo.TagName;
 import com.example.OMEB.global.base.exception.ErrorCode;
 import com.example.OMEB.global.base.exception.ServiceException;
@@ -39,7 +38,6 @@ public class BookUseCase {
     private final BookCommandService bookCommandService;
     private final ApplicationEventPublisher publisher;
 
-    //TODO : 검색 title 할 때 띄어쓰기 아예 없어야 검색 결과가 좋아짐!!
     public NaverBookListResponse searchTitleBooks(BookSearchRequest bookSearchRequest) {
         List<NaverBookDTO> naverBookDTOS = naverBookSearchClient.searchBooks(StringBlankUtils.stringAllNotBlank(bookSearchRequest.getTitle()), null);
         if(naverBookDTOS.size() == 0) {

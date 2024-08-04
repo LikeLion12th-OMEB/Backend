@@ -16,10 +16,11 @@ import java.util.Optional;
 public interface BookRepository extends JpaRepository<Book,Long> {
     Optional<Book> findByIsbn(String isbn);
 
+	// TODO : [대회 후TODO] 걍 대충 구현함 나중에 수정해야함
     @Query(value = "SELECT b.* FROM book b LEFT JOIN review r ON r.book_id = b.id GROUP BY b.id ORDER BY COUNT(r.id) DESC LIMIT 10", nativeQuery = true)
     List<Book> findTopBooksByReviewRank();
 
-	// TODO : 걍 대충 구현함 나중에 수정해야함
+	// TODO : [대회 후TODO] 걍 대충 구현함 나중에 수정해야함
 	@Query("SELECT new com.example.OMEB.domain.book.presentation.dto.response.BookTitleInfoResponse(b.id, b.title, b.author, b.bookImage, b.price) "
 		+ "FROM Book b "
 		+ "WHERE b.title LIKE CONCAT('%', :title, '%')")
