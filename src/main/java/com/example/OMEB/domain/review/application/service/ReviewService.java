@@ -49,7 +49,7 @@ public class ReviewService {
                 .orElseThrow(() -> new ServiceException(ErrorCode.NOT_FOUND_USER));
         Book book = bookRepository.findById(bookId)
                 .orElseThrow(() -> new ServiceException(ErrorCode.NOT_FOUND_BOOK));
-        Tag tag = tagRepository.findByTagName(reviewCreateRequest.getTag().toString())
+        Tag tag = tagRepository.findByTagName(reviewCreateRequest.getTag())
                 .orElseThrow(() -> new ServiceException(ErrorCode.NOT_FOUND_TAG));
         Review review = Review.fromReviewRequest(user, book, reviewCreateRequest,tag);
         reviewRepository.save(review);
@@ -80,8 +80,8 @@ public class ReviewService {
         }
         Tag preTag = review.getTag();
 
-        if(!preTag.toString().equals(reviewUpdateRequest.getTag())) {
-            Tag newTag = tagRepository.findByTagName(reviewUpdateRequest.getTag().toString())
+        if(!preTag.getTagName().toString().equals(reviewUpdateRequest.getTag().toString())) {
+            Tag newTag = tagRepository.findByTagName(reviewUpdateRequest.getTag())
                     .orElseThrow(() -> new ServiceException(ErrorCode.NOT_FOUND_TAG));
             preTag.getReviews().remove(review);
             preTag = newTag;
@@ -103,7 +103,7 @@ public class ReviewService {
 
     @Transactional(readOnly = true)
     public ReviewPageResponse getReviews(Long bookId, int page, int size, String sortDirection, String sortBy) {
-        Book book = bookRepository.findById(bookId)
+        bookRepository.findById(bookId)
                 .orElseThrow(() -> new ServiceException(ErrorCode.NOT_FOUND_BOOK));
         Pageable pageable = PageRequest.of(page, size, Sort.Direction.fromString(sortDirection), sortBy);
         return new ReviewPageResponse(reviewRepository.findAllByBookId(bookId, pageable));
@@ -135,7 +135,7 @@ public class ReviewService {
         if(!review.getUser().getId().equals(userId)) {
             throw new ServiceException(ErrorCode.REVIEW_NOT_MATCH_USER);
         }
-        User user = userRepository.findById(userId)
+        userRepository.findById(userId)
                 .orElseThrow(() -> new ServiceException(ErrorCode.NOT_FOUND_USER));
         review.getUser().getReviews().remove(review);
         reviewRepository.delete(review);
