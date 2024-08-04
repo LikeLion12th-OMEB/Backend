@@ -1,19 +1,16 @@
-package com.example.OMEB.domain.book.application.service;
+package com.example.OMEB.domain.bookmark.application.service;
 
 import com.example.OMEB.domain.book.persistence.entity.Book;
-import com.example.OMEB.domain.book.persistence.entity.BookMark;
-import com.example.OMEB.domain.book.persistence.repository.BookMarkRepository;
+import com.example.OMEB.domain.bookmark.persistence.entity.BookMark;
+import com.example.OMEB.domain.bookmark.persistence.repository.BookMarkRepository;
 import com.example.OMEB.domain.book.persistence.repository.BookRepository;
-import com.example.OMEB.domain.book.presentation.dto.response.BookTitleInfoResponse;
-import com.example.OMEB.domain.book.presentation.dto.response.BookTitleListResponse;
+import com.example.OMEB.domain.bookmark.presentation.dto.response.BookMarkBookTitleListResponse;
 import com.example.OMEB.domain.user.persistence.entity.User;
 import com.example.OMEB.domain.user.persistence.repository.UserRepository;
 import com.example.OMEB.global.base.exception.ErrorCode;
 import com.example.OMEB.global.base.exception.ServiceException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -32,9 +29,9 @@ public class BookMarkServiceImpl {
         bookMarkRepository.save(bookMark);
     }
 
-    public BookTitleListResponse findUserBookMark(Long userId) {
+    public BookMarkBookTitleListResponse findUserBookMark(Long userId) {
         User user = userRepository.findById(userId).orElseThrow(() -> new ServiceException(ErrorCode.NOT_FOUND_USER));
-        return new BookTitleListResponse(bookMarkRepository.findBookTitleInfoResponseByUserId(user.getId()));
+        return new BookMarkBookTitleListResponse(bookMarkRepository.findBookTitleInfoResponseByUserId(user.getId()));
     }
 
     public void deleteBookMark(Long userId, Long bookId) {

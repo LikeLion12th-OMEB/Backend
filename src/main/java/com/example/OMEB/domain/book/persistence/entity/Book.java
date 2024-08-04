@@ -2,6 +2,7 @@ package com.example.OMEB.domain.book.persistence.entity;
 
 import com.example.OMEB.domain.book.presentation.dto.NaverBookDTO;
 import com.example.OMEB.domain.book.presentation.dto.response.BookInfoResponse;
+import com.example.OMEB.domain.bookmark.persistence.entity.BookMark;
 import com.example.OMEB.domain.review.persistence.entity.Review;
 import com.example.OMEB.global.base.domain.BaseEntity;
 import jakarta.persistence.*;

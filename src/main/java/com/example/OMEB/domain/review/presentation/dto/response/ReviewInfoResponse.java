@@ -18,6 +18,8 @@ public class ReviewInfoResponse {
     private Long reviewId;
     @Schema(description = "유저 닉네임", example = "강민기")
     private String userNickname;
+    @Schema(description = "유저 프로필 이미지" , example = "https://s3.ap-northeast-2.amazonaws.com/omeb/profile/1.jpg")
+    private String userProfileImage;
     @Schema(description = "리뷰 내용", example = "이 책은 정말 재밌어요!")
     private String content;
     @Schema(description = "리뷰 감정 태그", example = "HAPPINESS")
@@ -32,7 +34,7 @@ public class ReviewInfoResponse {
     private String updatedAt;
 
     @Builder
-    public ReviewInfoResponse(Long bookId, Long reviewId, String userNickname, String content, TagName tag, Long likeCount, Integer level, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    public ReviewInfoResponse(Long bookId, Long reviewId, String userNickname, String content, TagName tag, Long likeCount, Integer level, LocalDateTime createdAt, LocalDateTime updatedAt,String url) {
         this.bookId = bookId;
         this.reviewId = reviewId;
         this.userNickname = userNickname;
@@ -42,5 +44,6 @@ public class ReviewInfoResponse {
         this.level = level;
         this.createdAt = createdAt != null ? createdAt.toString() : null;
         this.updatedAt = updatedAt != null ? updatedAt.toString() : null;
+        this.userProfileImage = url;
     }
 }
