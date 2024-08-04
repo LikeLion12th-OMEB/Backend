@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface LikeRepository extends JpaRepository<Like, Long> {
-    @Query("SELECT EXISTS(l) FROM Like l WHERE l.review.id = :reviewId AND l.user.id = :userId")
+    @Query("SELECT CASE WHEN COUNT(l) > 0 THEN TRUE ELSE FALSE END FROM Like l WHERE l.review.id = :reviewId AND l.user.id = :userId")
     boolean existsByReviewIdAndUserId(@Param("reviewId") Long reviewId, @Param("userId") Long userId);
+
 }
