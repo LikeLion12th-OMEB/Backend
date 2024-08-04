@@ -1,5 +1,8 @@
 package com.example.OMEB.domain.review.api;
 
+
+
+import com.example.OMEB.domain.review.presentation.dto.response.UserReviewPageResponse;
 import com.example.OMEB.domain.review.presentation.dto.response.UserReviewResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -92,8 +95,13 @@ public interface ReviewControllerApi {
 	@Operation(summary = "유저 리뷰 리스트 조회 API", description = "유저가 작성한 리뷰 리스트 조회 요청 API")
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", description = "요청에 성공하였습니다.",
-					content = {@Content(schema = @Schema(implementation = UserReviewResponse.class),mediaType = "application/json")})
+					content = {@Content(schema = @Schema(implementation = UserReviewResponse.class),mediaType = "application/json")}),
+		@ApiResponse(responseCode = "USER_0001", description = "사용자를 찾을 수 없습니다.", content = @Content(mediaType = "application/json"))
 	})
-	public ResponseEntity<ResponseBody<List<UserReviewResponse>>> getUserReviews(@UserPrincipal CustomUserPrincipal userPrincipal);
+	ResponseEntity<ResponseBody<UserReviewPageResponse>> getUserReviews(@UserPrincipal CustomUserPrincipal userPrincipal,
+		@RequestParam(defaultValue = "1") @Schema(description = "조회할 페이지 넘버(가장 작은 수 1)", example = "1") int page,
+		@RequestParam(defaultValue = "10") @Schema(description = "한 페이지의 조회 될 책 수",example = "10") int size,
+		@RequestParam(defaultValue = "DESC") @Schema(description = "정렬 방법" , example = "DESC") String sortDirection,
+		@RequestParam(defaultValue = "createdAt") @Schema(description = "정렬 기준",example = "createdAt") String sortBy);
 
 }

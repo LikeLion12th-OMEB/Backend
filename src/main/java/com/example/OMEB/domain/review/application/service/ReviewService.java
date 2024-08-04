@@ -1,6 +1,7 @@
 package com.example.OMEB.domain.review.application.service;
 
 import com.example.OMEB.domain.book.persistence.entity.Book;
+import com.example.OMEB.domain.review.presentation.dto.response.UserReviewPageResponse;
 import com.example.OMEB.global.event.persistence.entity.EventReview;
 import com.example.OMEB.domain.review.persistence.entity.Tag;
 import com.example.OMEB.domain.book.persistence.repository.BookRepository;
@@ -23,6 +24,7 @@ import com.example.OMEB.global.base.exception.ServiceException;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -30,7 +32,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -143,10 +144,12 @@ public class ReviewService {
         reviewRepository.delete(review);
     }
 
-    public List<UserReviewResponse> getUserReviews(Long userId){
-        List<Review> reviewList = reviewRepository.findByUser_id(userId);
-
-        return reviewList.stream()
-                .map(UserReviewResponse::entityToResponse).toList();
+    @Transactional(readOnly = true)
+    public UserReviewPageResponse getUserReviews(Long userId, int page, int size, String sortDirection,String sortBy){
+        userRepository.findById(userId)
+                .orElseThrow(() -> new ServiceException(ErrorCode.NOT_FOUND_USER));
+        Pageable pageable = PageRequest.of(page, size, Sort.Direction.fromString(sortDirection), sortBy);
+        Page<UserReviewResponse> reviewPageByUserId = reviewRepository.findReviewPageByUserId(userId, pageable);
+        return UserReviewPageResponse.of(reviewPageByUserId);
     }
 }

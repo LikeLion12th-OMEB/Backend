@@ -6,7 +6,7 @@ import com.example.OMEB.domain.review.presentation.dto.request.ReviewCreateReque
 import com.example.OMEB.domain.review.presentation.dto.request.ReviewUpdateRequest;
 import com.example.OMEB.domain.review.presentation.dto.response.ReviewInfoResponse;
 import com.example.OMEB.domain.review.presentation.dto.response.ReviewPageResponse;
-import com.example.OMEB.domain.review.presentation.dto.response.UserReviewResponse;
+import com.example.OMEB.domain.review.presentation.dto.response.UserReviewPageResponse;
 import com.example.OMEB.global.aop.UserPrincipal;
 import com.example.OMEB.global.base.dto.ResponseBody;
 import com.example.OMEB.global.jwt.CustomUserPrincipal;
@@ -71,9 +71,14 @@ public class ReviewController implements ReviewControllerApi {
         return ResponseEntity.ok(createSuccessResponse());
     }
 
-    @GetMapping("/my-reviews")
-    @PreAuthorize("isAuthenticated()")
-    public ResponseEntity<ResponseBody<List<UserReviewResponse>>> getUserReviews(@UserPrincipal CustomUserPrincipal userPrincipal){
-        return ResponseEntity.ok(createSuccessResponse(reviewService.getUserReviews(userPrincipal.userId())));
+    @GetMapping("/v1/my-reviews")
+    @PreAuthorize("permitAll()")
+    public ResponseEntity<ResponseBody<UserReviewPageResponse>> getUserReviews(@UserPrincipal CustomUserPrincipal userPrincipal,
+        @RequestParam(defaultValue = "1") @Schema(description = "조회할 페이지 넘버(가장 작은 수 1)", example = "1") int page,
+        @RequestParam(defaultValue = "10") @Schema(description = "한 페이지의 조회 될 책 수",example = "10") int size,
+        @RequestParam(defaultValue = "DESC") @Schema(description = "정렬 방법" , example = "DESC") String sortDirection,
+        @RequestParam(defaultValue = "createdAt") @Schema(description = "정렬 기준",example = "createdAt") String sortBy){
+
+        return ResponseEntity.ok(createSuccessResponse(reviewService.getUserReviews(userPrincipal.userId(), page-1, size, sortDirection,sortBy)));
     }
 }
