@@ -27,4 +27,14 @@ public interface ReviewRepository extends JpaRepository<Review,Long> {
             "LEFT JOIN FETCH r.likes " +
             "WHERE r.user.id = :userId")
     List<Review> findByUser_id(Long userId);
+
+
+    @Query("SELECT new com.example.OMEB.domain.review.presentation.dto.response.ReviewInfoResponse(" +
+        "r.book.id, r.id, r.user.nickname, r.content, r.tag.tagName, COUNT(l.id), r.user.level, r.createdAt, r.updatedAt) " +
+        "FROM Review r LEFT JOIN Like l ON l.review.id = r.id " +
+        "WHERE r.book.id = :bookId " +
+        "GROUP BY r.id, r.book.id, r.user.nickname, r.content, r.tag.tagName, r.user.level, r.createdAt, r.updatedAt " +
+        "ORDER BY COUNT(l.id) DESC")
+    Page<ReviewInfoResponse> findAllByBookIdOrderByLikesDesc(@Param("bookId") Long bookId, Pageable pageable);
+
 }

@@ -21,11 +21,13 @@ public class ReviewPageResponse  {
     private int totalPage;
     @Schema(description = "리뷰 정보 리스트")
     private List<ReviewInfoResponse> reviewInfoResponseList;
-
-    public ReviewPageResponse(Page<ReviewInfoResponse> reviewInfoResponsePage) {
-        this.pageOffset = reviewInfoResponsePage.getNumber()+1;
+    @Schema(description = "좋아요 순서 조회 여부")
+    private boolean isLiked;
+    public ReviewPageResponse(Page<ReviewInfoResponse> reviewInfoResponsePage,boolean isLiked) {
+        this.pageOffset = reviewInfoResponsePage.getNumber() + 1;
         this.pageSize = reviewInfoResponsePage.getContent().size();
         this.totalPage = reviewInfoResponsePage.getTotalPages();
         this.reviewInfoResponseList = reviewInfoResponsePage.getContent();
+        this.isLiked = isLiked;
     }
 }
