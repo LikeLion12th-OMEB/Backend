@@ -1,6 +1,6 @@
-package com.example.OMEB.domain.book.persistence.repository;
+package com.example.OMEB.domain.bookmark.persistence.repository;
 
-import com.example.OMEB.domain.book.persistence.entity.BookMark;
+import com.example.OMEB.domain.bookmark.persistence.entity.BookMark;
 import com.example.OMEB.domain.book.presentation.dto.response.BookTitleInfoResponse;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

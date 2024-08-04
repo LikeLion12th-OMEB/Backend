@@ -1,10 +1,9 @@
-package com.example.OMEB.domain.book.persistence.entity;
+package com.example.OMEB.domain.bookmark.persistence.entity;
 
 import com.example.OMEB.domain.book.persistence.entity.Book;
 import com.example.OMEB.domain.user.persistence.entity.User;
 import com.example.OMEB.global.base.domain.BaseEntity;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 

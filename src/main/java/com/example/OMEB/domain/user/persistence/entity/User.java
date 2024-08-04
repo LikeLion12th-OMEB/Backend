@@ -1,13 +1,9 @@
 package com.example.OMEB.domain.user.persistence.entity;
 
-import com.example.OMEB.domain.book.persistence.entity.BookMark;
-import com.example.OMEB.domain.profile.application.ProfileUrlUtill;
+import com.example.OMEB.domain.bookmark.persistence.entity.BookMark;
 import com.example.OMEB.domain.review.persistence.entity.Like;
 import com.example.OMEB.domain.review.persistence.entity.Review;
-import com.example.OMEB.domain.user.application.IncreaseExpType;
 import com.example.OMEB.global.base.domain.BaseEntity;
-import com.example.OMEB.global.base.exception.ErrorCode;
-import com.example.OMEB.global.base.exception.ServiceException;
 import com.example.OMEB.global.oauth.user.OAuth2Provider;
 import jakarta.persistence.*;
 import lombok.*;
@@ -15,11 +11,9 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 

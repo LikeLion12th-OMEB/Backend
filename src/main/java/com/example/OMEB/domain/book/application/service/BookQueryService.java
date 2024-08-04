@@ -2,7 +2,7 @@ package com.example.OMEB.domain.book.application.service;
 
 import com.example.OMEB.domain.book.persistence.entity.Book;
 import com.example.OMEB.domain.book.persistence.entity.EmotionRank;
-import com.example.OMEB.domain.book.persistence.repository.BookMarkRepository;
+import com.example.OMEB.domain.bookmark.persistence.repository.BookMarkRepository;
 import com.example.OMEB.domain.book.persistence.repository.BookRepository;
 import com.example.OMEB.domain.book.persistence.repository.EmotionRankRepository;
 import com.example.OMEB.domain.book.presentation.dto.BookTitleInfo;

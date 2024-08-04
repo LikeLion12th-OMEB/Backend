@@ -1,15 +1,10 @@
-package com.example.OMEB.domain.book.api;
-
-import static com.example.OMEB.global.base.dto.SuccessResponseBody.*;
+package com.example.OMEB.domain.bookmark.api;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 
 import com.example.OMEB.domain.book.presentation.dto.response.BookTitleListResponse;
-import com.example.OMEB.global.aop.AssignUserId;
+import com.example.OMEB.domain.bookmark.presentation.dto.response.BookMarkBookTitleListResponse;
 import com.example.OMEB.global.aop.UserPrincipal;
 import com.example.OMEB.global.base.dto.ResponseBody;
 import com.example.OMEB.global.jwt.CustomUserPrincipal;
@@ -37,10 +32,10 @@ public interface BookMarkControllerApi {
 	@Operation(summary = "특정 회원의 북마크 리스트 조회 API", description = "특정 회원의 북마크 리스트를 조회하는 API.")
 	@ApiResponses(value = {
 		@ApiResponse(responseCode = "200", description = "요청에 성공하였습니다.",
-			content = {@Content(schema = @Schema(implementation = BookTitleListResponse.class),mediaType = "application/json")}),
+			content = {@Content(schema = @Schema(implementation = BookMarkBookTitleListResponse.class),mediaType = "application/json")}),
 		@ApiResponse(responseCode = "USER_0001", description = "사용자를 찾을 수 없습니다.", content = @Content(mediaType = "application/json"))
 	})
-	ResponseEntity<ResponseBody<BookTitleListResponse>> getBookMark(@UserPrincipal CustomUserPrincipal userPrincipal);
+	ResponseEntity<ResponseBody<BookMarkBookTitleListResponse>> getBookMark(@UserPrincipal CustomUserPrincipal userPrincipal);
 
 	@Operation(summary = "북마크 해제 API", description = "북마크를 해제하는 API.")
 	@ApiResponses(value = {
