@@ -1,6 +1,6 @@
 # Team. 일심동체
 #### 프로젝트 상세 문서 링크
-<a href="https://outgoing-gravity-13d.notion.site/11-f49499388b444edcb115ceb9929ee8ea?pvs=4"><img src="https://img.shields.io/badge/Project Notion-000000?style=flat&logo=Notion&logoColor=ffffff"/></a>
+<a href="https://silk-vanilla-48e.notion.site/27cb718191314bc7a9b09a6de0d7554a?pvs=25"><img src="https://img.shields.io/badge/Project Notion-000000?style=flat&logo=Notion&logoColor=ffffff"/></a>
 #### API 명세 링크
 <a href="https://omeb.shop:8080/swagger-ui/index.html">![Swagger](https://img.shields.io/badge/-Swagger-%23Clojure?style=for-the-badge&logo=swagger&logoColor=white)</a>
 
