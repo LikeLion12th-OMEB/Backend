@@ -102,12 +102,14 @@ public class ReviewService {
 
 
     @Transactional(readOnly = true)
-    public ReviewPageResponse getReviews(Long bookId, int page, int size, String sortDirection, String sortBy) {
+    public ReviewPageResponse getReviews(Long bookId, int page, int size, String sortDirection, String sortBy,Boolean isLiked) {
         bookRepository.findById(bookId)
                 .orElseThrow(() -> new ServiceException(ErrorCode.NOT_FOUND_BOOK));
         Pageable pageable = PageRequest.of(page, size, Sort.Direction.fromString(sortDirection), sortBy);
-        return new ReviewPageResponse(reviewRepository.findAllByBookId(bookId, pageable));
-
+        if(isLiked) {
+            return new ReviewPageResponse(reviewRepository.findAllByBookIdOrderByLikesDesc(bookId, pageable),true);
+        }
+        return new ReviewPageResponse(reviewRepository.findAllByBookId(bookId, pageable),false);
     }
 
     @Transactional

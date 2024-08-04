@@ -45,13 +45,14 @@ public class ReviewController implements ReviewControllerApi {
     }
 
     @PreAuthorize("permitAll()")
-    @GetMapping("/v1/reviews/{bookId}")
+    @GetMapping("/v2/reviews/{bookId}")
     public ResponseEntity<ResponseBody<ReviewPageResponse>> getReviews(@PathVariable @Schema(description = "책 id", example = "1") Long bookId,
                                                                        @RequestParam(defaultValue = "1") @Schema(description = "조회할 페이지 넘버(가장 작은 수 1)", example = "1") int page,
                                                                        @RequestParam(defaultValue = "10") @Schema(description = "한 페이지의 조회 될 책 수",example = "10") int size,
                                                                        @RequestParam(defaultValue = "DESC") @Schema(description = "정렬 방법" , example = "DESC") String sortDirection,
-                                                                       @RequestParam(defaultValue = "createdAt") @Schema(description = "정렬 기준",example = "createdAt") String sortBy) {
-        return ResponseEntity.ok(createSuccessResponse(reviewService.getReviews(bookId, page-1, size, sortDirection, sortBy)));
+                                                                       @RequestParam(defaultValue = "createdAt") @Schema(description = "정렬 기준",example = "createdAt") String sortBy,
+        @RequestParam(defaultValue = "false") @Schema(description = "내가 좋아요한 리뷰만 보기", example = "false") Boolean isLiked) {
+        return ResponseEntity.ok(createSuccessResponse(reviewService.getReviews(bookId, page-1, size, sortDirection, sortBy,isLiked)));
     }
 
     @PreAuthorize("isAuthenticated()")
