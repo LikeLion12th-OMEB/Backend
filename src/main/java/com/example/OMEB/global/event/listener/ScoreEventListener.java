@@ -1,4 +1,4 @@
-package com.example.OMEB.domain.event.application;
+package com.example.OMEB.global.event.listener;
 
 import java.util.concurrent.TimeUnit;
 
@@ -6,8 +6,8 @@ import org.springframework.context.event.EventListener;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
-import com.example.OMEB.domain.event.persistence.entity.EventReview;
-import com.example.OMEB.domain.event.persistence.entity.EventView;
+import com.example.OMEB.global.event.persistence.entity.EventReview;
+import com.example.OMEB.global.event.persistence.entity.EventView;
 
 import lombok.RequiredArgsConstructor;
 

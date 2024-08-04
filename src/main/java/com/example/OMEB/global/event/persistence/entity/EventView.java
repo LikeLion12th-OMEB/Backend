@@ -1,4 +1,4 @@
-package com.example.OMEB.domain.event.persistence.entity;
+package com.example.OMEB.global.event.persistence.entity;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

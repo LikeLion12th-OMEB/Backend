@@ -1,7 +1,7 @@
 package com.example.OMEB.domain.review.application.service;
 
 import com.example.OMEB.domain.book.persistence.entity.Book;
-import com.example.OMEB.domain.event.persistence.entity.EventReview;
+import com.example.OMEB.global.event.persistence.entity.EventReview;
 import com.example.OMEB.domain.review.persistence.entity.Tag;
 import com.example.OMEB.domain.book.persistence.repository.BookRepository;
 import com.example.OMEB.domain.book.persistence.repository.TagRepository;

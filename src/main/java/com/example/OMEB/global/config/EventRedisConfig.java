@@ -6,12 +6,11 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
-import com.example.OMEB.domain.event.persistence.entity.EventReview;
-import com.example.OMEB.domain.event.persistence.entity.EventView;
+import com.example.OMEB.global.event.persistence.entity.EventReview;
+import com.example.OMEB.global.event.persistence.entity.EventView;
 
 @Configuration
 public class EventRedisConfig {
