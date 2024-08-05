@@ -1,10 +1,9 @@
 package com.example.OMEB.domain.user.persistence.entity;
 
+import com.example.OMEB.domain.book.persistence.entity.Book;
 import com.example.OMEB.global.base.domain.BaseEntity;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
 @Table(name = "history")
@@ -15,16 +14,21 @@ public class History extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(columnDefinition = "TEXT", nullable = false)
     private String text;
-
-    @Column(nullable = false)
-    private String tag_name;
-
-    @Column(nullable = false)
-    private Integer star;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name ="user_id", nullable = false)
     private User user;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name ="book_id", nullable = false)
+    private Book book;
+
+    @Builder
+    public History(String text, Book book, User user) {
+        this.text = text;
+        this.book = book;
+        this.user = user;
+    }
 }
