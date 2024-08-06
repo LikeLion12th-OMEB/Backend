@@ -94,9 +94,6 @@ public class ProfileUrlUtill {
         if(!remainingDomain.equals("s3.ap-northeast-2.amazonaws.com") || !bucketName.equals(bucket)) {
             throw new ServiceException(ErrorCode.INVALID_S3_URL);
         }
-        if(!prefix.equals(userName)) {
-            throw new ServiceException(ErrorCode.INVALID_FILE_USER);
-        }
         return url;
     }
 
