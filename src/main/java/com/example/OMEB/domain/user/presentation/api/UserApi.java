@@ -1,7 +1,10 @@
 package com.example.OMEB.domain.user.presentation.api;
 
+import com.example.OMEB.domain.user.presentation.dto.request.HistoryRequest;
 import com.example.OMEB.domain.user.presentation.dto.request.UpdateUserInfoRequest;
+import com.example.OMEB.domain.user.presentation.dto.response.HistoryResponse;
 import com.example.OMEB.domain.user.presentation.dto.response.UserExpLogResponse;
+import com.example.OMEB.domain.user.presentation.dto.response.UserHistoryPageResponse;
 import com.example.OMEB.domain.user.presentation.dto.response.UserInfoResponse;
 import com.example.OMEB.domain.user.presentation.dto.response.rank.UserRankPageResponse;
 import com.example.OMEB.global.aop.UserPrincipal;
@@ -55,4 +58,27 @@ public interface UserApi {
     public ResponseEntity<ResponseBody<UserRankPageResponse>> getUserRankList(
             @RequestParam(defaultValue = "1") @Schema(description = "조회할 페이지 번호", example = "1") int page,
             @RequestParam(defaultValue = "10") @Schema(description = "페이지 당 유저 수",example = "10") int size);
+
+    @Operation(summary = "사용자 히스토리 저장 API", description = "사용자 히스토리 저장 요청 API")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "요청에 성공하였습니다.",
+                    content = {@Content(schema = @Schema(implementation = Void.class),mediaType = "application/json")}),
+            @ApiResponse(responseCode = "USER_0001", description = "사용자를 찾을 수 없습니다", content = @Content(mediaType = "application/json")),
+            @ApiResponse(responseCode = "BOOK_0001", description = "책을 찾을 수 없습니다.", content = @Content(mediaType = "application/json"))
+    })
+    public ResponseEntity<ResponseBody<Void>> createHistory(
+            @UserPrincipal CustomUserPrincipal userPrincipal,
+            @RequestBody HistoryRequest historyRequest);
+
+    @Operation(summary = "사용자 히스토리 조회 API", description = "사용자 히스토리 조회 요청 API")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "요청에 성공하였습니다.",
+                    content = {@Content(schema = @Schema(implementation = UserHistoryPageResponse.class),mediaType = "application/json")})
+    })
+    public ResponseEntity<ResponseBody<UserHistoryPageResponse>>  getHistory(
+            @UserPrincipal CustomUserPrincipal userPrincipal,
+            @RequestParam(defaultValue = "1") @Schema(description = "조회할 페이지 넘버(가장 작은 수 1)", example = "1") int page,
+            @RequestParam(defaultValue = "10") @Schema(description = "한 페이지의 조회 될 책 수",example = "10") int size,
+            @RequestParam(defaultValue = "DESC") @Schema(description = "정렬 방법" , example = "DESC") String sortDirection,
+            @RequestParam(defaultValue = "createdAt") @Schema(description = "정렬 기준",example = "createdAt") String sortBy);
 }
