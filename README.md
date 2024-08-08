@@ -37,7 +37,7 @@
       </td>
       <td align="center" width="150">BE Developer</td>
       <td>
-        API 구현 (OAuth 서비스 및 네트워크 흐름 구현, ChatGPT를 사용한 태그 응답)
+        API 구현 (OAuth 서비스 및 네트워크 흐름 구현, 랭킹 시스템, ChatGPT를 사용한 태그 응답)
       </td>
     </tr>
   </table>
